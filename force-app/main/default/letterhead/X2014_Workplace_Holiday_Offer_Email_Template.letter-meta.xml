@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Letterhead xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <backgroundColor>#CCCCCC</backgroundColor>
+    <bodyColor>#FFFFFF</bodyColor>
+    <bottomLine>
+        <color>#FF0000</color>
+        <height>5</height>
+    </bottomLine>
+    <description>For use with the 2014 Workplace Holiday Offer Email</description>
+    <footer>
+        <backgroundColor>#FFFFFF</backgroundColor>
+        <height>100</height>
+        <horizontalAlignment>Center</horizontalAlignment>
+        <verticalAlignment>Middle</verticalAlignment>
+    </footer>
+    <header>
+        <backgroundColor>#FFFFFF</backgroundColor>
+        <height>100</height>
+        <horizontalAlignment>Left</horizontalAlignment>
+        <verticalAlignment>Top</verticalAlignment>
+    </header>
+    <middleLine>
+        <color>#FF0000</color>
+        <height>5</height>
+    </middleLine>
+    <name>2014 Workplace Holiday Offer Email Template</name>
+    <topLine>
+        <color>#FF0000</color>
+        <height>5</height>
+    </topLine>
+</Letterhead>

@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRE_Contact</fullName>
+    <active>true</active>
+    <description>Used to for testing CRE Created Contacts</description>
+    <label>CRE Contact</label>
+    <picklistValues>
+        <picklist>Annual_income_after_training_employmen__c</picklist>
+        <values>
+            <fullName>%2412%2C000 - %2420%2C780</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%2420%2C781 - %2425%2C000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%3C%2412%2C000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%3E%2425%2C001</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Annual_income_before_training__c</picklist>
+        <values>
+            <fullName>%2412%2C000 - %2420%2C780</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%2420%2C781 - %2425%2C000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%3C%2412%2C000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%3E%2425%2C001</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Are_you_still_in_school__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Benefits_health_insurance_included__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Community_User_Status__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inactive</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Contact_Status__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Moved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Longer With</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Contact_Type__c</picklist>
+        <values>
+            <fullName>Admin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Billing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Caregiver%2FGuardian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chapter representative</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual Learner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Instructor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Learning</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Members</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NAT Student %28Confirmed%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NAT Student %28Prospect%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PHSS Field personnel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RCS Billing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RCS Shipping</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Deactivation_Reason__c</picklist>
+        <values>
+            <fullName>Blocked</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Class Minimum Contact Hours Not Met</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Issuing Certificates w%2Fo Class Being Taught</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Teaching Without Certification</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Eligibility_for_economic_need_Student__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Employed_full_time_or_part_time__c</picklist>
+        <values>
+            <fullName>FT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PT</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Employed_in_healthcare_field__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Ethnicity__c</picklist>
+        <values>
+            <fullName>Hispanic or Latino</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Hispanic or Latino</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>FN__Mapping_Address__c</picklist>
+        <values>
+            <fullName>Do Not Map</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mailing</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>FN__Mapping_Status__c</picklist>
+        <values>
+            <fullName>Bad Google Key</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Google Exhausted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Located</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Located Yet</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Problem with Address</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Gender__c</picklist>
+        <values>
+            <fullName>F</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>If_part_time_is_this_by_choice__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>If_yes_pursuing_higher_licensur__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>LeadSource</picklist>
+        <values>
+            <fullName>AED Partner Referral - Cardiac Science</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AED Partner Referral - Philips</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AED Partner Referral - Physio-Control</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AED Partner Referral - Zoll</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Advertisement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BGST</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BioMed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chapter Exec</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cold Call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Warehouse</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email Jump Page</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employee Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>External Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FY2015 BLS Launch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Financial Development</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Google Search</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Janet%27s Law</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OTC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Participant Survey</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Public Relations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RCO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RCO Wufoo Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ready Rating</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Seminar - Internal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Seminar - Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TSC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trade Show</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Word of mouth</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Military_Status__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dependent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Veteran</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NSSCCConnector__Contact_Status__c</picklist>
+        <values>
+            <fullName>Created</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Synchronised</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Updated</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Name</picklist>
+        <values>
+            <fullName>Dr%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mrs%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ms%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prof%2E</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Preferred_Method_of_Contact__c</picklist>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Text</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Primary_Product__c</picklist>
+        <values>
+            <fullName>AED</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aquatics Learn to Swim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aquatics Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BLS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Babysitting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Basic Water Rescue</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CPR for the Professional Rescuer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Citizen CPR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Continuing Education Units</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Emergency Medical Response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Emergency Preparedness</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>First Aid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>First Aid Emergency Drills</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>First Aid%2FCPR%2FAED Training</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lifeguarding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lifeline</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MERT Drills</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nurse Assistant Training</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OSHA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ready Rating</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Safety Training for Swim Coaches</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Training Supplies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Water Safety Instructor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Water Safety Outreach</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Race__c</picklist>
+        <values>
+            <fullName>American Indian or Alaska Native</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Asian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Black or African American</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Native Hawaiian or Other Pacific Islander</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>White</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Role__c</picklist>
+        <values>
+            <fullName>Head of Household</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resident of Household</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Time_Zone__c</picklist>
+        <values>
+            <fullName>Central Time Zone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Eastern Time Zone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mountain Time Zone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pacific Time Zone</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ccrz__CompanyType__c</picklist>
+        <values>
+            <fullName>Type1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Type2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Type3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Type4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Type5</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

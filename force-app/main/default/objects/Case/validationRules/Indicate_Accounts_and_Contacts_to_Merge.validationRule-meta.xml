@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Indicate_Accounts_and_Contacts_to_Merge</fullName>
+    <active>true</active>
+    <description>Validation rule to require user to fill out the fields that will be needed to specify which accounts/contacts should be merged, kept and deleted.</description>
+    <errorConditionFormula>AND((ISPICKVAL( Data_Quality_Case_Type__c , &quot;Merge Accounts&quot;)),
+(OR(ISBLANK( Account_to_Keep__c ),
+ISBLANK( Account_to_Delete__c ))))</errorConditionFormula>
+    <errorDisplayField>Account_to_Keep__c</errorDisplayField>
+    <errorMessage>Please make sure to include the Account(s)/Contact(s) that you are looking to merge or delete.</errorMessage>
+</ValidationRule>

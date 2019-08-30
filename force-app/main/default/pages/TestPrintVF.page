@@ -1,0 +1,19 @@
+<apex:page standardController="redwing__ILT_Class__c" renderAs="pdf" applyBodyTag="false">
+    <head>
+        <style> 
+            body { font-family: 'Arial Unicode MS'; }
+            .titleName { font: bold 30px; color: red; }  
+        </style>
+    </head>
+    <body>
+        <center>
+        <h1>ILT Class Name!</h1>
+     
+        <apex:panelGrid columns="1" width="100%">
+            <apex:outputText value="{!redwing__ILT_Class__c.Name}" styleClass="titleName"/>
+            <!-- <apex:outputText value="{!NOW()}"></apex:outputText>-->
+            <apex:relatedList list="redwing__ILT_Rosters__r" />
+        </apex:panelGrid>
+        </center>
+    </body>
+</apex:page>

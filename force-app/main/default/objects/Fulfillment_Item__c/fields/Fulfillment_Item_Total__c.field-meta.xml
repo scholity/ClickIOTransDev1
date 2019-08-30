@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fulfillment_Item_Total__c</fullName>
+    <description>Order Item Price * Fulfillment Item Quantity
+If Quantity=null, then Price value will be returned
+If Price=null, then 0.00 will be returned</description>
+    <externalId>false</externalId>
+    <formula>IF(AND(NOT(ISBLANK(Order_Item__r.ccrz__Price__c)),NOT(ISBLANK(Quantity__c))), 
+ Order_Item__r.ccrz__Price__c  *  Quantity__c, 
+ IF(ISBLANK(Quantity__c), Order_Item__r.ccrz__Price__c, 0.00) 
+)</formula>
+    <label>Fulfillment Item Total</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

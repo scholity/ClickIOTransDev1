@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Third_Response_Time_minutes__c</fullName>
+    <externalId>false</externalId>
+    <formula>/** Third_Customer_Post_Date_Time__c - Third_ARC_Response_Date_Time__c **/
+
+
+
+
+IF(LEFT(TEXT( Third_Customer_Post_Date_Time__c - (5/24)),10) = LEFT(TEXT( Third_ARC_Response_Date_Time__c - (5/24)),10), 
+
+IF(OR( 
+Third_Customer_Post_Date_Time__c &lt; DATETIMEVALUE(LEFT(TEXT( Third_Customer_Post_Date_Time__c - (5/24)),11) &amp; &quot;14:00:00&quot;), 
+Third_ARC_Response_Date_Time__c &gt; DATETIMEVALUE(LEFT(TEXT( Third_ARC_Response_Date_Time__c - (5/24)),11) &amp; &quot;22:00:00&quot;) 
+), 0, 
+
+MIN(17, (Third_Customer_Post_Date_Time__c - DATETIMEVALUE(LEFT(TEXT( Third_ARC_Response_Date_Time__c - (5/24)),11) &amp; &quot;05:00:00&quot;)) * 24) - 
+MAX(8, (Third_ARC_Response_Date_Time__c - DATETIMEVALUE(LEFT(TEXT( Third_ARC_Response_Date_Time__c - (5/24)),11) &amp; &quot;05:00:00&quot;)) * 24)) 
+
+/** SAME DAY **/ 
+
+, 
+( 
+((CASE(MOD( DATEVALUE(Third_ARC_Response_Date_Time__c) - DATE(1900,1,8),7), 
+0 , CASE( MOD( DATEVALUE(Third_Customer_Post_Date_Time__c)- DATEVALUE(Third_ARC_Response_Date_Time__c) ,7),1,2,2,3,3,4,4,5,5,5,6,5,1), 
+1 , CASE( MOD( DATEVALUE(Third_Customer_Post_Date_Time__c)- DATEVALUE(Third_ARC_Response_Date_Time__c) ,7),1,2,2,3,3,4,4,4,5,4,6,5,1), 
+2 , CASE( MOD( DATEVALUE(Third_Customer_Post_Date_Time__c)- DATEVALUE(Third_ARC_Response_Date_Time__c) ,7),1,2,2,3,3,3,4,3,5,4,6,5,1), 
+3 , CASE( MOD( DATEVALUE(Third_Customer_Post_Date_Time__c)- DATEVALUE(Third_ARC_Response_Date_Time__c) ,7),1,2,2,2,3,2,4,3,5,4,6,5,1), 
+4 , CASE( MOD( DATEVALUE(Third_Customer_Post_Date_Time__c)- DATEVALUE(Third_ARC_Response_Date_Time__c) 
+,7),1,1,2,1,3,2,4,3,5,4,6,5,1), 
+5 , CASE( MOD( DATEVALUE(Third_Customer_Post_Date_Time__c)- DATEVALUE(Third_ARC_Response_Date_Time__c) 
+,7),1,0,2,1,3,2,4,3,5,4,6,5,0), 
+CASE( MOD( DATEVALUE(Third_Customer_Post_Date_Time__c) - DATEVALUE(Third_ARC_Response_Date_Time__c) ,7),1,1,2,2,3,3,4,4,5,5,6,5,0)) 
++ 
+( FLOOR( (DATEVALUE(Third_Customer_Post_Date_Time__c) - DATEVALUE(Third_ARC_Response_Date_Time__c))/7 )*5) ) -2 ) 
+
+/** BUSINESS DAYS **/ 
+
++ 
+
+(IF ( Third_ARC_Response_Date_Time__c &gt; DATETIMEVALUE(LEFT(TEXT( Third_ARC_Response_Date_Time__c - (5/24)),11) &amp; &quot;22:00:00&quot;), Third_ARC_Response_Date_Time__c, DATETIMEVALUE(LEFT(TEXT( Third_ARC_Response_Date_Time__c - (5/24)),11) &amp; &quot;22:00:00&quot;)) - 
+
+IF(Third_ARC_Response_Date_Time__c &lt; DATETIMEVALUE(LEFT(TEXT( Third_ARC_Response_Date_Time__c - (5/24)),11) &amp; &quot;14:00:00&quot;), DATETIMEVALUE(LEFT(TEXT( Third_ARC_Response_Date_Time__c - (5/24)),11) &amp; &quot;14:00:00&quot;),Third_ARC_Response_Date_Time__c 
+) 
+) 
+
++ 
+
+IF( Third_Customer_Post_Date_Time__c &lt;= DATETIMEVALUE(LEFT(TEXT( Third_Customer_Post_Date_Time__c - (5/24)),11) &amp; &quot;14:00:00&quot;), 0, 
+IF( Third_Customer_Post_Date_Time__c &gt;= DATETIMEVALUE(LEFT(TEXT( Third_Customer_Post_Date_Time__c - (5/24)),11) &amp; &quot;22:00:00&quot;), 9/24, 
+Third_Customer_Post_Date_Time__c - DATETIMEVALUE(LEFT(TEXT( Third_Customer_Post_Date_Time__c - (5/24)),11) &amp; &quot;14:00:00&quot;))) 
+)*24 
+)*60</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Third Response Time (minutes)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

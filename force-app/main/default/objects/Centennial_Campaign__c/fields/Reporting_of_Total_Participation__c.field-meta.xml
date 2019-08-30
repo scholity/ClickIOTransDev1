@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reporting_of_Total_Participation__c</fullName>
+    <defaultValue>(&quot;Please report the number of enrollees in each of the courses below. Be certain to include all enrollments that resulted directly from the Centennial Campaign (i.e., courses taught by WSIs trained through the Centennial, courses added to the schedule due to Centennial or for whom staff costs are reimbursed), for coupon codes used to waive AP fees or scholarships that were provided.&quot;)</defaultValue>
+    <externalId>false</externalId>
+    <label>Reporting of Total Participation</label>
+    <length>32768</length>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>7</visibleLines>
+</CustomField>

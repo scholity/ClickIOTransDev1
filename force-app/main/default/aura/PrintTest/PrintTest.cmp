@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <div id="print">Print this</div>
+    <div>Don't print this</div>
+        <lightning:button 	label	= "Print"
+                          title		= "Print"
+                          onclick	= "{!c.printContent}"
+                          class		= "slds-button_brand"/>
+</aura:component>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>DoNothing</name>
+        <label>DoNothing</label>
+        <locationX>510</locationX>
+        <locationY>376</locationY>
+        <actionName>Donothing</actionName>
+        <actionType>apex</actionType>
+    </actionCalls>
+    <assignments>
+        <name>Set_Account_for_Write</name>
+        <label>Set Account for Write</label>
+        <locationX>697</locationX>
+        <locationY>232</locationY>
+        <assignmentItems>
+            <assignToReference>sAccount.ccrz__E_AccountGroup__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sAccountGroup.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Account</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Reset_to_Retail_Account_Group</name>
+        <label>Reset to Retail Account Group</label>
+        <locationX>494</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>DoNothing</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Account_Group_Is_FS_Retail_Account_Group</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>frmAccountGroup</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Retail Account Group</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sAccount.ccrz__E_AccountGroup__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>sFSAccountGroup.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Account_for_Write</targetReference>
+            </connector>
+            <label>Account Group Is FS Retail Account Group</label>
+        </rules>
+        <rules>
+            <name>Set_to_FS_Retail_Account_Group</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>frmAccountGroup</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>FS Retail Account Group</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Account_for_Write</targetReference>
+            </connector>
+            <label>Set to FS Retail Account Group</label>
+        </rules>
+    </decisions>
+    <description>Update the Account Groups</description>
+    <interviewLabel>Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Account Groups</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get Account Record</description>
+        <name>Get_Account</name>
+        <label>Get Account</label>
+        <locationX>333</locationX>
+        <locationY>50</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_FS_Retail_Account_Group</targetReference>
+        </connector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>frmAccount</elementReference>
+            </value>
+        </filters>
+        <object>Account</object>
+        <outputReference>sAccount</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>ccrz__E_AccountGroup__c</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Account_Group_ID</name>
+        <label>Get Account Group ID</label>
+        <locationX>187</locationX>
+        <locationY>49</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Account</targetReference>
+        </connector>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>frmAccountGroup</elementReference>
+            </value>
+        </filters>
+        <object>ccrz__E_AccountGroup__c</object>
+        <outputReference>sAccountGroup</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>ccrz__AccountGroupID__c</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_FS_Retail_Account_Group</name>
+        <label>Get FS Retail Account Group</label>
+        <locationX>332</locationX>
+        <locationY>238</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Reset_to_Retail_Account_Group</targetReference>
+        </connector>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>FS Retail Account Group</stringValue>
+            </value>
+        </filters>
+        <object>ccrz__E_AccountGroup__c</object>
+        <outputReference>sFSAccountGroup</outputReference>
+        <queriedFields>Id</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Account</name>
+        <label>Update Account</label>
+        <locationX>843</locationX>
+        <locationY>231</locationY>
+        <inputReference>sAccount</inputReference>
+    </recordUpdates>
+    <startElementReference>Get_Account_Group_ID</startElementReference>
+    <status>Obsolete</status>
+    <variables>
+        <description>Account ID</description>
+        <name>frmAccount</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>frmAccountGroup</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>sAccount</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>sAccountGroup</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ccrz__E_AccountGroup__c</objectType>
+    </variables>
+    <variables>
+        <name>sFSAccountGroup</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ccrz__E_AccountGroup__c</objectType>
+    </variables>
+</Flow>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Network xmlns="http://soap.sforce.com/2006/04/metadata">
+    <allowInternalUserLogin>true</allowInternalUserLogin>
+    <allowMembersToFlag>false</allowMembersToFlag>
+    <changePasswordTemplate>All/CommunityChangePasswordEmailTemplate</changePasswordTemplate>
+    <communityRoles/>
+    <disableReputationRecordConversations>true</disableReputationRecordConversations>
+    <emailSenderAddress>swarshawsky@salesforce.com</emailSenderAddress>
+    <emailSenderName>PHSS B2B Storefront</emailSenderName>
+    <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
+    <enableDirectMessages>true</enableDirectMessages>
+    <enableGuestChatter>false</enableGuestChatter>
+    <enableGuestFileAccess>false</enableGuestFileAccess>
+    <enableInvitation>false</enableInvitation>
+    <enableKnowledgeable>false</enableKnowledgeable>
+    <enableMemberVisibility>true</enableMemberVisibility>
+    <enableNicknameDisplay>false</enableNicknameDisplay>
+    <enablePrivateMessages>false</enablePrivateMessages>
+    <enableReputation>false</enableReputation>
+    <enableShowAllNetworkSettings>false</enableShowAllNetworkSettings>
+    <enableSiteAsContainer>false</enableSiteAsContainer>
+    <enableTalkingAboutStats>true</enableTalkingAboutStats>
+    <enableTopicAssignmentRules>true</enableTopicAssignmentRules>
+    <enableTopicSuggestions>false</enableTopicSuggestions>
+    <enableUpDownVote>true</enableUpDownVote>
+    <forgotPasswordTemplate>All/CommunityForgotPasswordEmailTemplate</forgotPasswordTemplate>
+    <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
+    <navigationLinkSet>
+        <navigationMenuItem>
+            <label>Topics</label>
+            <position>1</position>
+            <publiclyAvailable>true</publiclyAvailable>
+            <target>ShowMoreTopics</target>
+            <type>NavigationalTopic</type>
+        </navigationMenuItem>
+    </navigationLinkSet>
+    <networkMemberGroups>
+        <profile>Admin</profile>
+        <profile>CC Customer Comm Plus Login User</profile>
+        <profile>Customer Community Plus User</profile>
+        <profile>Partner Community Profile</profile>
+        <profile>Learner Community Profile</profile>
+        <profile>Customer Community Plus Login User</profile>
+        <profile>Instructor Community Profile</profile>
+        <profile>Customer Community Login User</profile>
+        <profile>CloudCraze Customer Community User</profile>
+        <profile>Customer Community User</profile>
+    </networkMemberGroups>
+    <networkPageOverrides>
+        <changePasswordPageOverrideSetting>VisualForce</changePasswordPageOverrideSetting>
+        <forgotPasswordPageOverrideSetting>VisualForce</forgotPasswordPageOverrideSetting>
+        <homePageOverrideSetting>VisualForce</homePageOverrideSetting>
+        <loginPageOverrideSetting>VisualForce</loginPageOverrideSetting>
+        <selfRegProfilePageOverrideSetting>VisualForce</selfRegProfilePageOverrideSetting>
+    </networkPageOverrides>
+    <picassoSite>PHSS_B2B_Storefront1</picassoSite>
+    <selfRegProfile>cc customer comm plus login user</selfRegProfile>
+    <selfRegistration>true</selfRegistration>
+    <sendWelcomeEmail>true</sendWelcomeEmail>
+    <site>PHSS_B2B_Storefront</site>
+    <status>Live</status>
+    <tabs>
+        <customTab>ccrz__E_Product__c</customTab>
+        <defaultTab>Chatter</defaultTab>
+        <standardTab>Chatter</standardTab>
+    </tabs>
+    <urlPathPrefix>GeneralStore</urlPathPrefix>
+    <welcomeTemplate>All/CommunityWelcomeEmailTemplate</welcomeTemplate>
+</Network>

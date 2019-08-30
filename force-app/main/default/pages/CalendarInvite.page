@@ -1,0 +1,16 @@
+<apex:page controller="CalendarInviteController">
+    BEGIN:VCALENDAR
+    VERSION:2.0
+    PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+    BEGIN:VEVENT
+    UID:uid1@example.com
+    DTSTAMP:20170426T203000
+    ORGANIZER;CN=ABC CO:MAILTO:education@ABCCo.com
+    DTSTART:{!startDate}
+    DTEND:{!endDate}
+    SUMMARY:{!summary}
+    STATUS:CONFIRMED
+    LOCATION: {!location}
+    END:VEVENT
+    END:VCALENDAR
+</apex:page>

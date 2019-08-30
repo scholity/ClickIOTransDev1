@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Case</entityName>
+    <fieldName>Status</fieldName>
+    <masterLabel>ARC Service Path</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;For a new case, please review and assign.&lt;/p&gt;</info>
+        <picklistValueName>New</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;Please review the Case that has been assigned to you to see how to best manage it and progress the Case towards resolution.&lt;/p&gt;</info>
+        <picklistValueName>New - Assigned</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;Please reach out to the customer to let them know what we are waiting on.&lt;/p&gt;</info>
+        <picklistValueName>On Hold - Customer</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;Please reach out to any internal resources that may help move the Case towards Resolution.&lt;/p&gt;</info>
+        <picklistValueName>On Hold - Internal</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Service_Cases</recordTypeName>
+</PathAssistant>

@@ -1,0 +1,7 @@
+<aura:event type="COMPONENT" description="ModifyOrderEvent">
+    <aura:attribute name = "evtOrderAdjustmentType"	type = "String" required="true"/>
+    <aura:attribute name = "evtReasonCodes"			type = "String" required="true"/>
+    <aura:attribute name = "evtQty"					type = "String" required="true"/>
+    <aura:attribute name = "evtPrice"				type = "String" required="true"/>
+    <aura:attribute name = "evtSubAmount"			type = "String" required="true"/>
+</aura:event>

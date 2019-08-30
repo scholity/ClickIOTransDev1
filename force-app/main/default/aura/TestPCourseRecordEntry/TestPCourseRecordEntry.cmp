@@ -1,0 +1,469 @@
+<aura:component controller = "ILTInstructorCommunity" implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global" >
+    
+    <!-- <aura:handler name = "init" value="{!this}" action = "{!c.doInit}" /> -->
+    
+    <aura:attribute name = "stepNumber"				type = "String" 	default = "Zero" />
+    
+    <aura:attribute name = "instructor"				type = "User"  		default = "{'sObjectType' : 'User',
+                                                                                   'Id':'0050V000006ld8r',
+                                                                                   'Name':'Jatin Acharya'}"/>
+    <!--Modified the type to as specified in server for using the student list -->     
+    <aura:attribute name = "numberOfStudentsList" 	type = "JSONWrapper.Students[]" default = "[]"/>
+    <aura:attribute name = "Student" type = "sObject" default = "{}"/>
+    <aura:attribute name = "selectedLookUpRecord1" 	type = "sObject" 	default = "{}"/>
+    <aura:attribute name = "selectedLookUpRecord2" 	type = "sObject" 	default = "{}"/>
+    <aura:attribute name = "selectedLookUpRecord3" 	type = "sObject" 	default = "{}"/>
+    
+    <aura:attribute name = "Account" 				type = "String"  	default = ""/>
+    <aura:attribute name = "Course" 				type = "String"  	default = ""/>
+    <aura:attribute name = "EndDate" 				type = "String"  	default = ""/>
+    <aura:attribute name = "Students" 				type = "Integer"  	default = ""/>
+    <aura:attribute name = "Instructor1" 			type = "String"  	default = ""/>
+    <aura:attribute name = "Instructor2" 			type = "String"  	default = ""/>
+    <aura:attribute name = "Location" 				type = "String"  	default = ""/>
+    <aura:attribute name = "myBool"				    type = "Boolean"    default = "false"/>
+    <aura:attribute name = "accId" 					type = "String"  	default = ""/>
+    <aura:attribute name = "accName" 				type = "String"  	default = ""/>
+    
+    <aura:attribute name = "courseId" 				type = "String"  	default = ""/>
+    <aura:attribute name = "courseName" 			type = "String"  	default = ""/>
+    
+    <aura:attribute name = "userId2" 				type = "String"  	default = ""/>
+    <aura:attribute name = "userName2" 				type = "String"  	default = ""/>
+    <aura:attribute name="message" type="String" default=""/>
+    <aura:attribute name="messageType" type="String" default=""/>
+    
+        
+    <aura:if isTrue="{!v.stepNumber == 'Zero'}" >
+        <div> 
+    		<lightning:button label		= "Course Record Entry"
+                              title		= "Course Record Entry"
+                              onclick	= "{!c.showStep1}"
+                              class		= "slds-button_neutral customButton width"/>
+        </div>
+    </aura:if>
+    
+    <div>
+        <aura:if isTrue = "{!v.stepNumber != 'Zero'}" >
+            
+        <section role			  = "dialog"
+                 tabindex		  = "-1"
+                 class			  = "slds-modal slds-fade-in-open slds-modal_large"
+                 aria-labelledby  = "header43" 
+                 aria-modal		  = "true"
+                 aria-describedby = "modal-content-id-1">
+            
+            <div class = "slds-modal__container">
+                
+                <!--Header - Start -->
+                
+                <header class="slds-modal__header">
+                    <button class	= "slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title	= "Close"
+                            onclick = "{!c.cancel}">
+                        
+                        <lightning:icon iconName="utility:close">
+                        </lightning:icon>
+                        
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id		= "header43"
+                        class	= "slds-text-heading_medium">
+                        Course Record Entry
+                    </h2>
+                </header>
+                
+                <!--Header - End -->
+                
+                <!-- Body - Start -->
+                
+                <!-- Step 1 - Start -->
+                <aura:if isTrue="{!v.stepNumber == 'One'}" >
+                    
+                    <div class	= "slds-modal__content slds-grow slds-p-around_medium "
+                         id		= "modal-content-id-1">
+                        
+                        <p class="slds-text-heading_medium">
+                            STEP 1: Class Details
+                        </p>
+                        
+                        <br/>
+                        
+                        <div class = "slds-box slds-theme_shade">
+                            Organization
+                        </div>
+                        
+                        <br/>
+                        
+                        <div class = "slds-size_3-of-8">
+                            <!--<div>
+                                 <lightning:input value		= "{!v.Account}"
+                                                 aura:id	= "orgId"
+                                                 label		= "Organization"
+                                                 required	= "true"
+                                                 class		= "slds-combobox__input"/>
+                            </div> -->
+                            <div>
+                                <c:CustomLookup objectAPIName	=	"account"
+                                                label			=	"* Organization"
+                                                selectedRecord	=	"{!v.selectedLookUpRecord1}"/>
+                            </div>
+                        </div>
+                        
+                        <br/>
+                   
+                        <div class = "slds-box slds-theme_shade">
+                            Course Information
+                        </div>
+                        
+                        <br/>
+                        
+                        <div class = "slds-size_3-of-8">
+                            <div>
+                                <!-- <lightning:input value		= "{!v.Course}"
+                                                 aura:id	= "courseId"
+                                                 label		= "Course"
+                                                 required	= "true" /> -->
+                                
+                                <c:CustomLookup objectAPIName	=	"redwing__Training_Plan__c"
+                                                label			=	"* Course"
+                                                selectedRecord	=	"{!v.selectedLookUpRecord2}"/> 
+                            	
+                                <br/>
+                            </div>
+                            <div>
+                                <lightning:input value="{!v.EndDate}" label="Course Ending Date" required = "true" type = "date"/> <br/>                                                
+                            </div>
+                            <div>
+                                <lightning:input value="{!v.Students}" label="Total Number of Students" required = "true" type="Number"/> <br/>                                                
+                            </div>
+                        </div>
+                        <div class = "slds-box slds-theme_shade">Instructors</div><br/>
+                        <div class = "slds-size_3-of-8">
+                            <div>
+                                <lightning:input value="{!v.instructor.Name}" label="Instructor" required = "true" readonly="true"/> <br/>                                                
+                            </div>
+                            <div>
+                                <c:CustomLookup objectAPIName	=	"User"
+                                                label			=	"Additional Instructors"
+                                                selectedRecord	=	"{!v.selectedLookUpRecord3}"/>                                             
+                            </div>
+                        </div><br/>
+                        <div class = "slds-box slds-theme_shade">Training Site</div><br/>
+                        <div class = "slds-size_3-of-8">
+                            <div>
+                                <lightning:input value="{!v.Location}" label="Training Site"/> <br/>                                                                              
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </aura:if>
+                
+                <!-- Step 1 - End -->
+                
+                <!-- Step 2 - Start -->
+                <aura:if isTrue="{!v.stepNumber == 'Two'}" >
+                    
+                    <div class="slds-modal__content slds-grow slds-p-around_medium" id="modal-content-id-1">
+                        <p class="slds-text-heading_medium">STEP 2: STUDENTS</p> <br/>
+                        <div class = "slds-box slds-theme_shade">Student Information and Grading</div><br/>
+                        
+                        <lightning:input aura:id = "numberId" value="{!v.Students}" label="Number of Students" readonly="true"/>
+                        
+                        <p>STUDENT INFORMATION </p>
+                        
+                        <aura:iteration items="{!v.numberOfStudentsList}" var="item" indexVar="index">
+  
+                        <div class= "slds-grid slds-wrap">
+                            <!-- <div class="slds-size_1-of-12"> -->
+                            <div class="slds-m-around_x-small">
+                                <b>{!index+1}</b>
+                            </div>
+                            
+                            <div class="slds-size_3-of-12 slds-m-around_x-small">
+                                <lightning:input aura:id="firstName" value="{!
+                                                        item.FirstName}" label="First Name" required = "true"/>
+                            </div>
+                            
+                            <div class="slds-size_3-of-12 slds-m-around_x-small">
+                                <lightning:input aura:id="LastName" value="{!item.LastName}" label="Last Name" required = "true" />
+                            </div>
+                            
+                            <div class="slds-size_4-of-12 slds-m-around_x-small">
+                                <lightning:input aura:id="Emailid" value="{!item.Email}" label="Email" type = "email"/>
+                            </div>
+                            <div class="slds-size_1-of-12 slds-m-around_x-small">
+                                <lightning:input aura:id="Phoneno" value="{!item.Phone}" label="Phone Number" type = "tel" pattern="[0-9]{10}"/>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class= "slds-grid slds-wrap left ">
+                            <div class="slds-m-around_x-small">
+                                <b></b>
+                            </div>
+                            <div class="slds-size_3-of-12 slds-m-around_x-small">
+                                <lightning:select aura:id="Gradeid" value="{!item.Grade}" label="Grade" required = "true" >
+                                    <option>Select an Option</option>
+                                    <option>Passed</option>
+                                    <option>Failed</option>
+                                    <option>Not Evaluated</option>                               
+                                </lightning:select>
+                                
+                            </div>
+                            
+                            <div class="slds-size_3-of-12 slds-m-around_x-small">
+                                <lightning:select aura:id="Failrs" value="{!item.Fail_Reason }" label="Failed / Not Evaluated Reason" required = "true" >
+                                    <option>Select an Option</option>
+                                    <option>Reason 1</option>
+                                    <option>Reason 2</option>
+                                    <option>Reason 3</option>
+                                    <option>Reason 4</option>
+                                </lightning:select>
+                            </div>
+                            
+                            <div class="slds-size_5-of-12 slds-m-around_x-small">
+                                <lightning:input aura:id="afi" value="{!item.AdditionalInfo}" label="Additional Information" type = "String"/>
+                            </div>
+                        </div>
+                        </aura:iteration>
+                        
+                    </div>
+                </aura:if>
+                
+                <!-- Step 2 - End -->
+                
+                <!-- Step 3 - Start -->
+                
+                <aura:if isTrue="{!v.stepNumber == 'Three'}" >
+                    <div class="slds-modal__content slds-grow slds-p-around_medium" id="modal-content-id-1">
+                        <p class="slds-text-heading_medium">STEP 3: PAYMENT</p> <br/>
+                    </div>
+                </aura:if>
+                
+                <!-- Step 3 - End -->
+                
+                <!-- Step 4 - Start -->
+                
+                <aura:if isTrue="{!v.stepNumber == 'Four'}" >
+                    <div class="slds-modal__content slds-grow slds-p-around_medium" id="modal-content-id-1">
+                        <p class="slds-text-heading_medium">STEP 4: Review</p><br/>
+                        <p>Review that all information has been entered correctly and opt-in to the legal agreement before submitting.</p><br/>
+                        
+                        <div class= "slds-grid slds-grid_align-spread slds-box slds-theme_shade">
+                            <div class = "top">
+                                Class Details
+                            </div>
+                            <div >
+                                <b>
+                                    <lightning:button variant="base" label="EDIT" class = "customButtonRed" onclick="{!c.showStep1 }"/>
+                                </b>
+                            </div>
+                        </div><br/>
+                        
+                        <div class= "slds-grid slds-wrap">
+                            
+                            <div class = "slds-size_2-of-4">
+                                <!-- <lightning:input value	  = "{!v.courseName}"
+                                                 label	  = "Course"
+                                                 readonly = "true"
+                                                 class	  = "slds-size_1-of-2"/> -->
+                                <label style="color:gray; font-size: .75rem;">Course</label><br/>
+                                {!v.courseName}
+                            </div>
+                            
+                            <div class = "slds-size_2-of-4">
+                                <lightning:input value	  = "{!v.accName}"
+                                                 label 	  = "Organization"
+                                                 readonly = "true"
+                                                 class	  = "slds-size_1-of-2"/>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class= "slds-grid slds-wrap">
+                            <div class = "slds-size_1-of-2">
+                                <lightning:input value = "{!v.EndDate}" label = "Course Ending Date" readonly="true" class = "slds-size_1-of-2"/>
+                            </div>
+                            
+                            <div class = "slds-size_1-of-2">
+                                <!-- <lightning:input value = "{!v.instructor.Name}" label = "Instructor" readonly="true" class = "slds-size_1-of-2"/> -->
+                                <label style="color:gray; font-size: .75rem;">Instructor</label><br/>
+                                {!v.instructor.Name} <br/>
+                                {!v.userName2}
+                            </div>
+                        </div>
+                        <div class= "slds-grid slds-wrap">
+                            <div class = "slds-size_1-of-2">
+                                <lightning:input value = "{!v.Location}" label = "Training Site" readonly="true" />
+                            </div>
+                        </div><br/>
+                        
+                        <div class= "slds-grid slds-grid_align-spread slds-box slds-theme_shade">
+                            <div class = "top">
+                                Students and Grading
+                            </div>
+                            <div >
+                                <b>
+                                    <lightning:button variant="base" label="EDIT" class = "customButtonRed" onclick="{!c.showStep2 }"/>
+                                </b>
+                            </div>
+                        </div>
+                        
+                        <div >
+                            <div>
+                                <lightning:input value="{!v.Students}" label="Number of Students" readonly="true"/> 
+                            </div>
+                            <div>
+                                STUDENTS
+                            </div><br/>
+                            
+                        </div>
+                        <div class = "slds-grid slds-grid_align-spread">
+                            <div class = ".slds-size_1-of-7 left">
+                            </div>
+                            <div class = ".slds-size_1-of-7">
+                                NAME
+                            </div >
+                            <div class = ".slds-size_1-of-7">
+                                EMAIL
+                            </div>
+                            <div>
+                                PHONE #
+                            </div >
+                            <div class = ".slds-size_1-of-7">
+                                GRADE
+                            </div>
+                            <div class = ".slds-size_1-of-7">
+                                FAIL REASON
+                            </div>
+                            <div class = ".slds-size_1-of-7">
+                                ADDITIONAL INFO
+                            </div>
+                        </div>
+                        <aura:iteration items="{!v.numberOfStudentsList}" var="item" indexVar="index">
+                            <div class = "slds-grid slds-grid_align-spread">
+                            <div class = ".slds-size_1-of-7">
+                                <b>{!index+1}</b>
+                            </div>
+                            <div class = ".slds-size_1-of-7">
+                                {!item.FirstName} {!item.LastName}
+                            </div >
+                            <div class = ".slds-size_1-of-7">
+                                EMAIL : {!item.Email}
+                            </div>
+                            <div>
+                                PHONE # : {!item.Phone}
+                            </div >
+                            <div class = ".slds-size_1-of-7">
+                                GRADE : {!item.Grade}
+                            </div>
+                            <div class = ".slds-size_1-of-7">
+                                FAIL REASON : {!item.Fail_Reason}
+                            </div>
+                            <div class = ".slds-size_1-of-7">
+                                ADDITIONAL INFO : {!item.AdditionalInfo}
+                            </div>
+                        </div>
+  
+                        
+                        </aura:iteration><br/>
+                        <div class= "slds-grid slds-grid_align-spread slds-box slds-theme_shade">
+                            <div class = "top">
+                                Payment
+                            </div>
+                            	
+                            <div >
+                                <b>
+                                    <lightning:button variant="base" label="EDIT" class = "customButtonRed" onclick="{!c.showStep3 }"/>
+                                </b>
+                            </div>
+                        </div><br/>
+                        <div class= "slds-box slds-theme_shade">
+                            <div >
+                                Legal Agreement
+                            </div>
+                            
+                        </div><br/>
+                        
+                        <div class= "slds-grid slds-wrap">
+                            <div><lightning:input type="checkbox" /></div>
+                            <div >
+                                <b> I certify this training session has been conducted in accordance with the requirements of the American Red Cross.</b>
+                            </div>
+                        </div>
+                        
+                        <br/><br/>
+                        <c:MessageComponent type="{!v.messageType}" message="{!v.message}" />
+                        <br/><br/><br/>
+                    </div>
+                    
+                </aura:if>
+                
+                <!-- Step 4 - End -->
+                
+                <!-- Body - End -->
+                
+                <!-- Footer - Start -->
+                
+                <footer class="slds-modal__footer slds-grid slds-grid_align-spread progIndicator">
+                    
+                    <div class="slds-col">
+                        <button class="slds-button slds-button_neutral customButtonRed" onclick="{!c.cancel}">Cancel</button>
+                    </div>
+                    
+                    <div class="slds-col slds-size_2-of-3 " >
+                        <lightning:progressIndicator currentStep="{!v.stepNumber}" type="base"
+                                                     >
+                            
+                            <lightning:progressStep label="Step 1"
+                                                    value="One"
+                                                    onclick="{!c.showStep1}"/>
+                            
+                            <lightning:progressStep label="Step 2"
+                                                    value="Two"
+                                                    onclick="{!c.showStep2}"
+                                                    />
+                            
+                            <lightning:progressStep label="Step 3"
+                                                    value="Three"
+                                                    onclick="{!c.showStep3}"
+                                                    />
+                            
+                            <lightning:progressStep label="Step 4"
+                                                    value="Four"
+                                                    onclick="{!c.showStep4}"
+                                                    />
+                            
+                        </lightning:progressIndicator>
+                    </div> 
+                    
+                    
+                    <aura:if isTrue="{!v.stepNumber == 'Four'}">
+                        
+                        <div class="slds-col">
+                            <button class="slds-button slds-button_neutral customButton"
+                                    onclick="{!c.processCRE}" >
+                                Submit
+                            </button>
+                        </div>
+                        
+                        <aura:set attribute="else">                        
+                            
+                            <div class="slds-col">
+                                <button class="slds-button slds-button_neutral customButton"
+                                        onclick="{!c.onclickNext}" >
+                                    Next
+                                </button> 
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                    
+                </footer>
+                <!-- Footer - End -->
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div></aura:if>
+    </div>
+</aura:component>

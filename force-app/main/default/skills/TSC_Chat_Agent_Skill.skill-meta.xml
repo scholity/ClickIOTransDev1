@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Skill xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <users>
+            <user>amelia.seibel1@redcross.org</user>
+            <user>amie.wilson@redcross.org</user>
+            <user>christa.angelo@redcross.org</user>
+            <user>debra.archibeque@redcross.org</user>
+            <user>elizabeth.butt@redcross.org</user>
+            <user>gehovonna.morris@redcross.org</user>
+            <user>gloria.taylor@redcross.org</user>
+            <user>gregory.fulton@redcross.org</user>
+            <user>heather.ware@redcross.org</user>
+            <user>jamie.myers@redcross.org</user>
+            <user>julee.johnson@redcross.org</user>
+            <user>karen.minor@redcross.org</user>
+            <user>khari.alfatah@redcross.org</user>
+            <user>lisa.daugherty@redcross.org</user>
+            <user>maricris.smith@redcross.org</user>
+            <user>mark.pyles@redcross.org</user>
+            <user>raelynn.buncic@redcross.org</user>
+            <user>tanya.franklin@redcross.org</user>
+            <user>taylor.koontz@redcross.org</user>
+            <user>trina.levy@redcross.org</user>
+        </users>
+    </assignments>
+    <label>TSC Chat Agent Skill</label>
+</Skill>

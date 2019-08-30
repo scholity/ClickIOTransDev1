@@ -1,0 +1,84 @@
+<aura:component controller = "CancelOrderItemController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+    <aura:attribute name = "orderItemList"			type = "ccrz__E_OrderItem__c[]"/>
+    <aura:attribute name = "reason"					type = "String"/>
+    <aura:attribute name = "objDetail"				type = "ccrz__E_OrderItem__c"	default = "{sobjectType:'ccrz__E_OrderItem__c'}" />
+    <aura:attribute name = "listControllingValues"	type = "list"					default = "[]"/>
+    <aura:attribute name = "listDependingValues"	type = "list"					default = "['--- None ---']"/>
+    <aura:attribute name = "depnedentFieldMap"		type = "map"/>
+    <aura:attribute name = "bDisabledDependentFld"	type = "boolean"				default = "true"/> 
+    <aura:attribute name = "controllingFieldAPI"	type = "string"					default = "Adjustment_Types__c"/>
+    <aura:attribute name = "dependingFieldAPI"		type = "string"					default = "Reason_Codes__c"/>
+    <aura:attribute name = "explnation"				type = "String"/>
+    <aura:attribute name = "hasReadOnlyQuantity"	type = "boolean"				default = "true"/>
+    <aura:attribute name = "hasReadOnlyPrice"		type = "boolean"				default = "true"/>
+    <aura:attribute name = "qty"					type = "String"/>
+    <aura:attribute name = "price"					type = "String"/>
+    <aura:attribute name = "subAmount"				type = "String"/>
+    <aura:attribute name = "isCancel"				type = "boolean"				default = "false"/>
+    <aura:attribute name = "isRefund"				type = "boolean"				default = "false"/>
+    <aura:attribute name = "isReplace"				type = "boolean"				default = "false"/>
+    
+	
+    <aura:handler 	name = "init" 					value="{!this}" 				action = "{!c.doInit}"/>
+    
+    <aura:registerEvent name = "orderDetails" 		type = "c:ModifyOrderEvent" />
+    
+    <div>
+        <div class="slds-grid slds-border_top slds-border_bottom" >
+            <div class="slds-size_2-of-12 slds-m-around_x-small columnHeaders">Product SKU</div>
+            <div class="slds-size_4-of-12 slds-m-around_x-small columnHeaders">Name</div>
+            <div class="slds-size_1-of-12 slds-m-around_x-small columnHeaders">Qty</div> 
+            <div class="slds-size_2-of-12 slds-m-around_x-small columnHeaders">Price</div>
+            <div class="slds-size_3-of-12 slds-m-around_x-small columnHeaders">Sub Amount</div>
+        </div>
+        <aura:iteration items="{!v.orderItemList}" var="oItem">
+            <div class="slds-grid slds-border_bottom">
+                <div class="slds-size_2-of-12 slds-m-around_x-small">
+                    <lightning:input value="{!oItem.ccrz__Product__r.ccrz__SKU__c}" readonly="true" />
+                </div>
+                <div class="slds-size_4-of-12 slds-m-around_x-small">
+                    <lightning:input value="{!oItem.ccrz__Product_Name__c}" readonly="true" />
+                </div>
+                <div class="slds-size_1-of-12 slds-m-around_x-small">
+                    <lightning:input value="{!v.qty}" />
+                </div> 
+                <div class="slds-size_2-of-12 slds-m-around_x-small">
+                    <lightning:input value="{!v.price}" readonly="{!v.hasReadOnlyPrice}" type="number" formatter="currency" step="0.01"/>
+                </div>
+                <div class="slds-size_3-of-12 slds-m-around_x-small">
+                    <lightning:input value="{!v.subAmount}" readonly="true" type="number" formatter="currency" step="0.01"/>
+                </div>
+            </div>
+        </aura:iteration>
+        <div class = "slds-align_absolute-left">
+            <lightning:layoutItem size="12" padding="around-small">    
+                <lightning:select name	 	= "controllerFld"
+                                  value	 	= "{!v.objDetail.Adjustment_Types__c}"
+                                  label	 	= "Order Adjustment Type"
+                                  onchange	= "{!c.onControllerFieldChange}">
+                    <aura:iteration items="{!v.listControllingValues}" var="val">
+                        <option value="{!val}">{!val}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:select name		= "dependentFld"
+                                  value		= "{!v.objDetail.Reason_Codes__c}"
+                                  label		= "Reason Codes"
+                                  disabled	= "{!v.bDisabledDependentFld}">
+                    <aura:iteration items="{!v.listDependingValues}" var="val">
+                        <option value="{!val}">{!val}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:input value		 =	"{!v.explnation}"
+                                 label		 =	"Explanation"
+                                 placeholder =	"Other Only"/>
+            </lightning:layoutItem>
+            <br/> 
+        </div>
+    </div>
+</aura:component>
