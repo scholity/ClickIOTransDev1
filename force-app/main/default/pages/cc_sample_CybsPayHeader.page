@@ -1,0 +1,7 @@
+<apex:page >
+  <script type="text/javascript">
+      Modernizr = {};
+      Modernizr.input = Modernizr.input || {};
+      Modernizr.input.placeholder = Modernizr.input.placeholder || {};
+ </script>
+</apex:page>

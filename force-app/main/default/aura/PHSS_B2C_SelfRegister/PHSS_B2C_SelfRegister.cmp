@@ -1,0 +1,49 @@
+<!--
+ - Created by bjarmolinski on 2019-05-27.
+ -->
+
+<aura:component description="PHSS_B2C_SelfRegister" controller="sometestingClass">
+	
+    <aura:attribute name="email" type="String" access="public"/>
+    <aura:attribute name="passwdRules" type="String" />
+    <aura:attribute name="startUrl" type="String" required="false" description="The url you go to after a successful login" />
+    <aura:attribute name="regConfirmUrl" type="String" required="true" default=""/>
+    <aura:attribute name="valid" type="Boolean" default="true"/>
+    <aura:attribute name="extraFields" type="List" required="false"/>
+    <aura:attribute name="accountId" type="Id" />
+
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+    <aura:attribute name="errorMessage" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    
+    <div class="container">
+        <aura:renderIf isTrue="{!v.showError}">
+            <div id="error" class="slds-p-vertical_x-large">
+                <ui:outputRichText value="{!v.errorMessage}"/>
+            </div>
+        </aura:renderIf>
+
+        <div class="sfdc">
+        	<lightning:input aura:id="firstname" name="firstName" placeholder="FIRST NAME" class="input sfdc_usernameinput sfdc"/>
+        </div>
+        <div class="sfdc">
+        	<lightning:input aura:id="lastname" name="lastName" placeholder="LAST NAME" class="input sfdc_usernameinput sfdc"/>
+        </div>
+        <div class="sfdc">
+            <lightning:input aura:id="email" name="email" value="{!v.email}" class="input sfdc_usernameinput sfdc" placeholder="EMAIL"/>
+        </div>
+        <div class="sfdc">
+        	<lightning:input aura:id="passwd" type="password" name="password" placeholder="CREATE PASSWORD" />
+        </div>
+        <div class="sfdc">
+        	<lightning:input aura:id="passwdconf" type="password" name="confirmPasswd" placeholder="CONFIRM PASSWORD" />
+        </div>
+       	<div class="sfdc">
+			<lightning:button label="CREATE ACCOUNT" onclick="{!c.inputCheck}" class="sfdc_button"/>
+        </div>
+    </div>
+    
+
+</aura:component>

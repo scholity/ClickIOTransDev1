@@ -1,0 +1,238 @@
+<apex:page controller="CTIScreenPopCtlr" tabStyle="Account" showHeader="true" sidebar="false" >
+<apex:includeScript value="/support/console/28.0/integration.js"/>
+
+<apex:includeScript value="{!$Resource.jquery191}" />
+<apex:includeScript value="{!$Resource.CTIScreenPopJS}"/>
+<script>
+var selectedTab = 'SearchTab';
+var j$ = jQuery.noConflict();
+
+j$(document).ready(function() {   
+    checkPhoneField();
+    // close the Command Center when page opens
+    // not working --               sforce.console.setCustomConsoleComponentWindowVisible(false);
+    
+
+    // set title of tab to caller phone number
+    if ('{!phone}' != '') {
+        sforce.console.setTabTitle('{!formattedPhone}');
+    }
+    
+    searchForPhone();
+
+
+    j$(document).keypress(function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            if (selectedTab == 'SearchTab') {
+                j$('[id*=searchButton]').click();
+            } else {
+            }
+        }
+    });
+    
+});    
+</script>
+
+<apex:form >
+
+
+<style>
+#application {
+   font-size: 1.1em;
+   padding: 2em;
+}
+
+#application h1 {
+        font-size: 1.5em;
+}
+#application h2 {
+        font-style: italic;
+        font-size: 1.2em;
+}
+
+.app-phone-search-table {
+    
+}
+.app-tab {
+    font-size: inherit;
+}
+.app-phone-search-table-column {
+    
+}
+.app-tab-panel{
+ 
+}
+.app-activeTab {
+    background-color: #90D3EB; 
+    color: white; 
+    background-image: none;
+    font-size: inherit;
+}
+    
+.app-inactiveTab { 
+    background-color: rgb(241,241,241); 
+    color: black; 
+    background-image: none;
+    font-size: inherit;
+
+}
+
+<!-- override label width on forms -->
+.bPageBlock .detailList .labelCol {
+    width: 5%;
+}
+
+
+.page-icon {
+        float: left;
+        width: 55px;
+        height: 55px;
+        margin-right: 1.5em;
+        
+}
+
+
+        
+</style>
+<div id="application">
+
+<c:PleaseWaitOverlay message=""/>
+
+<div style="margin-bottom: 2em;">
+        <apex:image value="{!URLFOR( $Resource.CTIScreenPopResources, 'phone-icon.png'  )}" styleClass="page-icon" rendered="{!showPhoneIcon}"  ></apex:image>
+        <apex:image value="{!URLFOR( $Resource.CTIScreenPopResources, 'search-icon.png'  )}" styleClass="page-icon" rendered="{!NOT(showPhoneIcon)}"  ></apex:image>
+
+        <h1>{!pageTitle}</h1>
+        <div><h2>{!formattedPhone}</h2></div>           
+</div>   
+   
+<apex:pageMessages id="msgs" />      
+
+<apex:pageBlock >
+
+    <apex:tabPanel switchType="client" activeTabClass="app-activeTab" inactiveTabClass="app-inactiveTab" styleClass="app-tab-panel" >
+       <apex:tab label="Search" name="advancedSearchTab"  styleClass="app-tab" ontabenter="evtTabChanged('SearchTab');">
+          
+            <apex:actionRegion >
+                <apex:pageBlockSection id="formSection" columns="2" >
+                    <apex:inputText value="{!constituentSearchForm.firstName}" label="First Name" id="searchFieldFirstName"/>
+                    <apex:inputText value="{!constituentSearchForm.lastName}" label="Last Name" id="searchFieldLastName"/>
+                    <apex:inputText value="{!constituentSearchForm.phone}" label="Phone" id="searchFieldPhone" onkeyup="checkPhoneField()" onblur="formatPhone(this)"/>
+                    <apex:inputText value="{!constituentSearchForm.emailAddress}" label="Email" id="searchFieldEmail"/>
+                    <apex:inputText value="{!constituentSearchForm.city}" label="City" id="searchFieldCity"/>
+                    <apex:inputText value="{!constituentSearchForm.state}" label="State" id="searchFieldState"/>
+                    <apex:inputText value="{!constituentSearchForm.zip}" label="Zip" id="searchFieldZip"/>
+                
+                    
+                </apex:pageBlockSection>  
+                  
+                <apex:pageBlockSection columns="1">
+                    <apex:commandButton id="searchButton" value="Search" action="{!searchForConstituent}" immediate="false" rerender="searchResultTable, msgs" status="pleaseWaitOverlay" />
+                    <apex:commandButton id="ghostButton" value="Log Ghost Call" action="{!logGhostCall}" immediate="false" rerender="searchResultTable, msgs, formSection" oncomplete="checkPhoneField()" status="pleaseWaitOverlay" />
+                </apex:pageBlockSection>
+
+             </apex:actionRegion>
+            
+
+
+            <apex:pageBlockTable id="searchResultTable" value="{!constituentSearchResults }" var="searchResultItem" styleClass="app-phone-search-table" >
+                <apex:column width="5%" styleClass="app-phone-search-table-column" >
+                    <apex:facet name="header">Action</apex:facet>
+                    <apex:commandLink value="Select" immediate="true" action="{!selectConstituent}" status="pleaseWaitOverlay" >
+                        <apex:param name="selectedConstituentId" value="{!searchResultItem.ConstituentId}" assignTo="{!selectedConstituentId}"/>
+                        <apex:param name="selectedManagedLearningFlag" value="{!searchResultItem.ManagedLearningContactFlag}" assignTo="{!selectedManagedLearningFlag}"/>
+                        <apex:param name="selectedContactId" value="{!searchResultItem.SFContactId}" assignTo="{!selectedContactId}"/> 
+                    </apex:commandLink>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">First Name</apex:facet>
+                    {!searchResultItem.FirstName}
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Last Name</apex:facet>
+                    {!searchResultItem.LastName}
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Phone</apex:facet>
+                    {!searchResultItem.Phone}
+                </apex:column>
+                
+                 <apex:column >
+                    <apex:facet name="header">Address</apex:facet>
+                    {!searchResultItem.AddressLine1}
+                </apex:column>
+                
+                 <apex:column >
+                    <apex:facet name="header">City</apex:facet>
+                    {!searchResultItem.City}
+                </apex:column>
+                 <apex:column >
+                    <apex:facet name="header">State</apex:facet>
+                    {!searchResultItem.State}
+                </apex:column>
+                 <apex:column >
+                    <apex:facet name="header">Zip</apex:facet>
+                    {!searchResultItem.Zip}
+                </apex:column>
+                 <apex:column >
+                    <apex:facet name="header">Email</apex:facet>
+                    {!searchResultItem.EmailAddress}
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Learning Center Id</apex:facet>
+                    {!searchResultItem.SabaPersonId}
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Instructor?</apex:facet>
+                    {!searchResultItem.InstructorFlag}
+                </apex:column> 
+                <apex:column >
+                    <apex:facet name="header">Managed Learning Contact?</apex:facet>
+                    {!searchResultItem.ManagedLearningContactFlag}
+                </apex:column>    
+        
+            </apex:pageBlockTable>
+            
+        
+
+
+        </apex:tab>
+        
+        
+        <apex:tab label="Quick Create" name="CreateANewContactTab"  styleClass="app-tab" ontabenter="evtTabChanged('QuickCreateTab');">
+            
+            <apex:actionRegion >
+            
+                <apex:pageBlockSection columns="2" >
+                    <apex:inputField value="{!qcContactProxy.firstName}" label="First Name" id="qcFieldFirstName" required="true"/>
+                    <apex:inputField value="{!qcContactProxy.lastName}" label="Last Name" id="qcFieldLastName" required="true"/>
+                    <apex:inputField value="{!qcContactProxy.phone}" label="Phone" id="qcFieldPhone" required="true"/>
+                    <apex:inputField value="{!qcContactProxy.email}" label="Email" id="qcFieldEmail" required="true"/>
+                    <apex:inputField value="{!qcContactProxy.mailingStreet}" id="qcFieldStreet" label="Address" required="false"/>
+                    <apex:inputField value="{!qcContactProxy.mailingCity}" id="qcFieldCity" label="City" required="false"/>
+                    <apex:inputField value="{!qcContactProxy.mailingState}" id="qcFieldState" label="State"  required="false"/>
+                    <apex:inputField value="{!qcContactProxy.mailingPostalCode}" id="qcFieldZip" label="Zip" required="false"/>
+                </apex:pageBlockSection>
+                
+                <apex:commandButton id="createConstituentButton" value="Create Contact" action="{!QuickCreateConstituent}" rerender="msgs" status="pleaseWaitOverlay" />
+            
+            </apex:actionRegion>
+        
+        
+        </apex:tab>
+        
+        
+    </apex:tabPanel>
+
+</apex:pageBlock>
+
+
+</div>
+
+<apex:actionFunction action="{!searchForPhone}" immediate="true" name="searchForPhone" rerender="searchResultTable, msgs" status="pleaseWaitOverlay" >
+</apex:actionFunction>
+
+</apex:form>
+
+</apex:page>

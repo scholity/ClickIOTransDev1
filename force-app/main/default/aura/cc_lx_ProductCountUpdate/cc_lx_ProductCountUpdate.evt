@@ -1,0 +1,7 @@
+<!--
+ - Created by dgajwani on 9/22/18.
+ -->
+
+<aura:event type="COMPONENT" description="cc_lx_ProductCountUpdate">
+    <aura:attribute name="productSfid" type="String" required="true"/>
+</aura:event>

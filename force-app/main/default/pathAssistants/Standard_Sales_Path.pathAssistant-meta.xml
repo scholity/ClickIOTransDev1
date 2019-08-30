@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Standard Sales Path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Contract_Exception__c</fieldNames>
+        <info>&lt;p&gt;&lt;i&gt;Choose only if the Contract is &lt;/i&gt;&lt;b&gt;&lt;i&gt;not&lt;/i&gt;&lt;/b&gt;&lt;i&gt; required to Close an Opportunity. &lt;/i&gt;&lt;/p&gt;</info>
+        <picklistValueName>Negotiation</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Contract</recordTypeName>
+</PathAssistant>

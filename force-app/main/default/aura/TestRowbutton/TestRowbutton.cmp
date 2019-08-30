@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+     <aura:handler name="CloseClassButtonHandler" event="c:CloseClassButton"
+                  action="{!c.CloseClassButtonHandler}"/>
+    
+    
+    h1111
+</aura:component>

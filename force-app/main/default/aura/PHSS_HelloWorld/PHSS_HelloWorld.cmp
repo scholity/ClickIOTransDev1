@@ -1,0 +1,14 @@
+<aura:component controller="PHSS_VoucherListController" implements="force:appHostable,force:hasRecordId,forceCommunity:availableForAllPageTypes">
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+         <thead>
+            <tr class="slds-text-title_caps">
+                <th scope="col" style="width:22%">
+                    <div class="slds-truncate" title="Hello World">Hello World</div>
+                </th>                
+
+            </tr>
+         </thead>
+    </table>
+</aura:component>

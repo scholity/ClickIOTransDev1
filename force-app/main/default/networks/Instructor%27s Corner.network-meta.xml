@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Network xmlns="http://soap.sforce.com/2006/04/metadata">
+    <allowInternalUserLogin>false</allowInternalUserLogin>
+    <allowMembersToFlag>true</allowMembersToFlag>
+    <changePasswordTemplate>All/PHSS_IC_Change_Password</changePasswordTemplate>
+    <communityRoles>
+        <customerUserRole>Instructor</customerUserRole>
+        <employeeUserRole>Employee</employeeUserRole>
+        <partnerUserRole>Partner</partnerUserRole>
+    </communityRoles>
+    <disableReputationRecordConversations>false</disableReputationRecordConversations>
+    <emailFooterText>© 2018 The American National Red Cross</emailFooterText>
+    <emailSenderAddress>InstructorsCorner@redcross.org</emailSenderAddress>
+    <emailSenderName>American Red Cross</emailSenderName>
+    <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
+    <enableDirectMessages>false</enableDirectMessages>
+    <enableGuestChatter>true</enableGuestChatter>
+    <enableGuestFileAccess>true</enableGuestFileAccess>
+    <enableInvitation>false</enableInvitation>
+    <enableKnowledgeable>true</enableKnowledgeable>
+    <enableMemberVisibility>true</enableMemberVisibility>
+    <enableNicknameDisplay>true</enableNicknameDisplay>
+    <enablePrivateMessages>true</enablePrivateMessages>
+    <enableReputation>false</enableReputation>
+    <enableShowAllNetworkSettings>true</enableShowAllNetworkSettings>
+    <enableSiteAsContainer>true</enableSiteAsContainer>
+    <enableTalkingAboutStats>true</enableTalkingAboutStats>
+    <enableTopicAssignmentRules>false</enableTopicAssignmentRules>
+    <enableTopicSuggestions>true</enableTopicSuggestions>
+    <enableUpDownVote>false</enableUpDownVote>
+    <forgotPasswordTemplate>All/PHSS_IC_Forgot_Password</forgotPasswordTemplate>
+    <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
+    <logoutUrl>https://www.instructorscorner.org/s/login</logoutUrl>
+    <navigationLinkSet>
+        <navigationMenuItem>
+            <label>Materials</label>
+            <position>1</position>
+            <publiclyAvailable>true</publiclyAvailable>
+            <target>/phss-programs</target>
+            <type>InternalLink</type>
+        </navigationMenuItem>
+        <navigationMenuItem>
+            <label>Administration</label>
+            <position>2</position>
+            <publiclyAvailable>true</publiclyAvailable>
+            <target>/administration</target>
+            <type>InternalLink</type>
+        </navigationMenuItem>
+        <navigationMenuItem>
+            <label>Instructor Lifecycle</label>
+            <position>3</position>
+            <publiclyAvailable>true</publiclyAvailable>
+            <target>/lifecycle</target>
+            <type>InternalLink</type>
+        </navigationMenuItem>
+        <navigationMenuItem>
+            <label>Forms</label>
+            <position>4</position>
+            <publiclyAvailable>true</publiclyAvailable>
+            <target>/form-links</target>
+            <type>InternalLink</type>
+        </navigationMenuItem>
+        <navigationMenuItem>
+            <label>News</label>
+            <position>5</position>
+            <publiclyAvailable>true</publiclyAvailable>
+            <target>/recent-news</target>
+            <type>InternalLink</type>
+        </navigationMenuItem>
+        <navigationMenuItem>
+            <defaultListViewId>All_ChatterGroups</defaultListViewId>
+            <label>Community</label>
+            <position>6</position>
+            <publiclyAvailable>true</publiclyAvailable>
+            <target>CollaborationGroup</target>
+            <type>SalesforceObject</type>
+        </navigationMenuItem>
+        <navigationMenuItem>
+            <label>Science</label>
+            <position>7</position>
+            <publiclyAvailable>true</publiclyAvailable>
+            <target>/science</target>
+            <type>InternalLink</type>
+        </navigationMenuItem>
+        <navigationMenuItem>
+            <label>Candidates</label>
+            <position>8</position>
+            <publiclyAvailable>true</publiclyAvailable>
+            <target>/welcome</target>
+            <type>InternalLink</type>
+        </navigationMenuItem>
+        <navigationMenuItem>
+            <label>Contact Us</label>
+            <position>9</position>
+            <publiclyAvailable>true</publiclyAvailable>
+            <target>/contact-us</target>
+            <type>InternalLink</type>
+        </navigationMenuItem>
+        <navigationMenuItem>
+            <label>ViewTrac</label>
+            <position>10</position>
+            <publiclyAvailable>false</publiclyAvailable>
+            <subMenu>
+                <navigationMenuItem>
+                    <label>All Videos</label>
+                    <position>0</position>
+                    <publiclyAvailable>false</publiclyAvailable>
+                    <target>/all-videos</target>
+                    <type>InternalLink</type>
+                </navigationMenuItem>
+                <navigationMenuItem>
+                    <label>By Catalogs</label>
+                    <position>1</position>
+                    <publiclyAvailable>false</publiclyAvailable>
+                    <target>/by-catalogs</target>
+                    <type>InternalLink</type>
+                </navigationMenuItem>
+                <navigationMenuItem>
+                    <label>My Videos</label>
+                    <position>2</position>
+                    <publiclyAvailable>false</publiclyAvailable>
+                    <target>/my-media</target>
+                    <type>InternalLink</type>
+                </navigationMenuItem>
+            </subMenu>
+            <type>MenuLabel</type>
+        </navigationMenuItem>
+        <navigationMenuItem>
+            <label>Learning</label>
+            <position>11</position>
+            <publiclyAvailable>false</publiclyAvailable>
+            <subMenu>
+                <navigationMenuItem>
+                    <label>My Learning</label>
+                    <position>0</position>
+                    <publiclyAvailable>false</publiclyAvailable>
+                    <target>/my-learning</target>
+                    <type>InternalLink</type>
+                </navigationMenuItem>
+                <navigationMenuItem>
+                    <label>Learning Catalogs</label>
+                    <position>1</position>
+                    <publiclyAvailable>false</publiclyAvailable>
+                    <target>/learning-catalogs</target>
+                    <type>InternalLink</type>
+                </navigationMenuItem>
+                <navigationMenuItem>
+                    <label>Calendar</label>
+                    <position>2</position>
+                    <publiclyAvailable>false</publiclyAvailable>
+                    <target>/learning-calendar</target>
+                    <type>InternalLink</type>
+                </navigationMenuItem>
+                <navigationMenuItem>
+                    <label>Achievements</label>
+                    <position>3</position>
+                    <publiclyAvailable>false</publiclyAvailable>
+                    <target>/achievements-and-certifications</target>
+                    <type>InternalLink</type>
+                </navigationMenuItem>
+            </subMenu>
+            <type>MenuLabel</type>
+        </navigationMenuItem>
+    </navigationLinkSet>
+    <networkMemberGroups>
+        <permissionSet>PHSS_IC_Community_Access_TEST</permissionSet>
+        <permissionSet>PHSS_IC_Community_Access</permissionSet>
+        <profile>Admin</profile>
+        <profile>SB ARC %2F TSC Manager</profile>
+        <profile>SB ARC %2F TSC Agent</profile>
+        <profile>PHSS-IC-Community Plus Login TEST</profile>
+        <profile>PHSS-IC-Community Plus Login BETA</profile>
+        <profile>SB ARC BGST Sales User</profile>
+        <profile>SB ARC BGST Sales Admin</profile>
+        <profile>SB PHSS-IC-Community Plus Login</profile>
+    </networkMemberGroups>
+    <networkPageOverrides>
+        <changePasswordPageOverrideSetting>VisualForce</changePasswordPageOverrideSetting>
+        <forgotPasswordPageOverrideSetting>Designer</forgotPasswordPageOverrideSetting>
+        <homePageOverrideSetting>Designer</homePageOverrideSetting>
+        <loginPageOverrideSetting>Designer</loginPageOverrideSetting>
+        <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
+    </networkPageOverrides>
+    <picassoSite>Instructor_s_Corner1</picassoSite>
+    <selfRegistration>false</selfRegistration>
+    <sendWelcomeEmail>true</sendWelcomeEmail>
+    <site>Instructor_s_Corner</site>
+    <status>Live</status>
+    <tabs>
+        <defaultTab>home</defaultTab>
+        <standardTab>Chatter</standardTab>
+    </tabs>
+    <urlPathPrefix>instructorscorner</urlPathPrefix>
+    <welcomeTemplate>All/IC_Community_Welcome_Email</welcomeTemplate>
+</Network>

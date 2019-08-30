@@ -1,0 +1,6 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+<lightning:recordForm 
+objectApiName="Free_Class__c"
+    Columns="2"                  
+layoutType="Full" 
+mode="Edit" /></aura:component>

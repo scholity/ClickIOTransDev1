@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Totals the Amount of all CC Transaction Payment for a PO #(Account Number) and calculates the Remaining PO Amount of CC Stored Payment.</description>
+    <interviewLabel>Update Remaining PO Amount of CC Stored Payment {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Remaining PO Amount of CC Stored Payment</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Lookup_all_CC_transaction_Payment_of_Stored_Payment</name>
+        <label>Lookup all CC transaction Payment of Stored Payment</label>
+        <locationX>220</locationX>
+        <locationY>150</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <filters>
+            <field>ccrz__StoredPayment__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>inpStoredPaymentId</elementReference>
+            </value>
+        </filters>
+        <object>ccrz__E_TransactionPayment__c</object>
+        <outputReference>listTransactionPayments</outputReference>
+        <queriedFields>ccrz__Amount__c</queriedFields>
+    </recordLookups>
+    <startElementReference>Lookup_all_CC_transaction_Payment_of_Stored_Payment</startElementReference>
+    <status>Obsolete</status>
+    <variables>
+        <description>The CC Stored Payment Id whose Remaining PO Amount needs to be updated.</description>
+        <name>inpStoredPaymentId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>listTransactionPayments</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ccrz__E_TransactionPayment__c</objectType>
+    </variables>
+</Flow>

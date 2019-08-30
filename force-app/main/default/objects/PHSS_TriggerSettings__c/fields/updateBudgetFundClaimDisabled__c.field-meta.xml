@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>updateBudgetFundClaimDisabled__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When checked, the updateBudget_FundClaim trigger is disabled. NOTE: Only methods using checkbox will be disabled.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>When checked, the updateBudget_FundClaim Trigger is disabled. NOTE: Only methods using checkbox will be disabled.</inlineHelpText>
+    <label>updateBudget_FundClaim Disabled</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
