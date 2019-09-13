@@ -4,7 +4,7 @@
 
 public with sharing class phss_cc_ClassCartUtil {
 
-    private static final String ILT_CLASS_FIELD = 'ILT_Class__c';
+    public static final String ILT_CLASS_FIELD = 'ILT_Class__c';
 
     private static final String CART_ITEM_PRODUCT_SFID_KEY = 'product';
     private static final String CART_ITEM_QUANTITY_KEY = 'quantity';

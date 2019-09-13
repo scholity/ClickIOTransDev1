@@ -26,7 +26,7 @@ public class PHSS_VoucherListControllerTest {
         insert bas;
         
         Profile profileIdnew = [SELECT Id FROM Profile WHERE Name = 'Customer Community User' LIMIT 1];
-        
+
         
         Account a = new Account();
         a.Name='SalesforcetestOrg';
@@ -62,7 +62,7 @@ public class PHSS_VoucherListControllerTest {
         con.Email = 'testCon@gmail.com';
         con.Account = acc;
         insert con;
-        
+
         User usr = new User(LastName = 'LIVESTON',
                             FirstName='JASON',
                             Alias = 'jliv',
@@ -159,7 +159,15 @@ public class PHSS_VoucherListControllerTest {
         region.Name = 'Test Region';
         region.sked__Timezone__c = 'Indian/Coscos';
         insert region;
-        
+
+        // create learning assignment
+        redwing__Learning_Assignment__c learningAssignment = new redwing__Learning_Assignment__c();
+        learningAssignment.redwing__Learning__c = learning.id;
+        learningAssignment.External_Id__c = 'priyalakshmi.pp@gmail.com'; //Can be chaged if needed
+        learningAssignment.redwing__Training_Plan__c = lPlan.Id;
+        insert learningAssignment;
+
+
         //Create ILT Class Record
         Redwing__ILT_Class__c clsRecord = new Redwing__ILT_Class__c();
         clsRecord.Skedulo_Account__c = a.id;
@@ -175,9 +183,18 @@ public class PHSS_VoucherListControllerTest {
         v.ILT_Class__c = clsRecord.id;
         v.Learning_Plan__c = lPlan.Id;
         v.Status__c = 'Claimed';
-        insert v;        
-    
-    	List<Voucher__c> vouch = PHSS_VoucherListController.getVoucherList(clsRecord.Id);
+        insert v;
+
+        redwing__ILT_Roster__c roster = new redwing__ILT_Roster__c();
+        roster.redwing__User__c = usr.Id;
+        roster.Voucher_Id__c = v.Id;
+        roster.redwing__Learning_Assignment__c = learningAssignment.Id;
+        insert roster;
+
+        List<Voucher__c> vouch = PHSS_VoucherListController.getVoucherList(clsRecord.Id);
     	System.assert(vouch.size()>0);
+
+        String result = PHSS_VoucherListController.cancelEnrollment(v.Id);
+        System.assertEquals('Enrollment Cancelled', result);
     }
 }

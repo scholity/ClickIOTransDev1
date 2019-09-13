@@ -427,6 +427,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DataDisplayController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DatabaseOperationResults</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -495,6 +499,22 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>GeneratePDFHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GeneratePDFHandlerInstCert</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GeneratePDFHandlerInstCerttest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GeneratePDFHandlertest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>GetConstituentDetailMockImpl</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -524,6 +544,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ILTInstructorCommunity</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ILTInstructorCommunity_Backup_SJC</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -827,6 +851,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PHSS_LearningTriggerHandler_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PHSS_Logger</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1124,6 +1152,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SDGResult</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SDRelatedListDocumentsController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SDRelatedListDocumentsTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1751,6 +1787,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>phss_cc_VoucherUtilTestSJC</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>phss_cc_ccLogicAccountGetCurrent</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2144,6 +2184,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>skedJobService_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>skedJobToILTClass_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -7813,6 +7857,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contract.Break_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contract.CC_Price_Group__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -13980,6 +14029,11 @@
         <field>sked__Change_Event__e.sked__Data__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>sortablegrid__SDGDefaults__mdt.sortablegrid__Definition__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>Account-Account Layout BI</layout>
     </layoutAssignments>
@@ -16154,6 +16208,14 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>GeneratePDFHandlerInstCert</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>GeneratePDFHelper</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>HomePageRedirect</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -16198,6 +16260,18 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>PDFDownloader</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>PDFDownloaderInstCert</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>PDFGenerator</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>PHSS_ChangePasswordCommunity</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -16211,6 +16285,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>PHSS_RenderPDF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>SDRelatedListDocuments</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
@@ -16246,6 +16324,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>TestCommunity</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>TestPrintVF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -16264,6 +16346,14 @@
     <pageAccesses>
         <apexPage>WebToCasePage</apexPage>
         <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>XLSDownloader</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>XLSDownloaderInstCert</apexPage>
+        <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>cc_ContractSelector</apexPage>

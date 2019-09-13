@@ -17,6 +17,7 @@
     <aura:attribute name = "initialWrap" 		type = "Object" />
     <aura:attribute name = "selectedCourse" 	type = "sObject" 	default = "{}"/>
     <aura:attribute name = "todaysDate"			type = "String" />
+    <aura:attribute name = "todaysDatePlus7"	type = "String" />
     <aura:attribute name = "formattedStartTime" type = "String" />
     <aura:attribute name = "formattedEndTime" 	type = "String" />
     <aura:attribute name = "zoneList" 			type = "List" />
@@ -43,6 +44,7 @@
     <aura:attribute name = "selectedLookUpRecord1" 	type = "sObject" 	default = "{}"/>
     <aura:handler name = "change" value="{!v.selectedLookUpRecord1}" action = "{!c.accountSelected}" />
     <aura:attribute name = "orgError" 				type = "Boolean" 	default = "false"/>
+    
 	<!--
     <ltng:require 
                       styles="" 
@@ -184,7 +186,7 @@
                                                             label="Date"
                                                             required="true"
                                                             type="date"
-                                                            min="{!v.StartDate}"
+                                                            min="{!v.todaysDatePlus7}"
                                                             max="{!v.EndDate}"
                                                             aura:id="field"/>
                                        </div>
@@ -639,14 +641,14 @@
                     <aura:set attribute="else">                        
                             
                                <aura:if isTrue="{!v.stepNumber == 'One'}">
-                        		<!--
+                        		
                                 <div class="slds-col">
                                     <button class="slds-button slds-button_neutral customButton"
                                             onclick="{!c.onclickAddToCart}" >
                                         Add To Cart
                                     </button>
                                 </div>
-								-->
+								
                                     <div class="slds-col">
                                         <button class="slds-button slds-button_neutral customButton"
                                                 onclick="{!c.onclickNext}" >

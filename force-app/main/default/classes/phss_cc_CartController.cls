@@ -26,6 +26,25 @@ public with sharing class phss_cc_CartController {
     }
 
     /**
+     * @description Fetches the active cart and related cart items for the opportunity
+     *
+     * @param opportunityId
+     *
+     * @return
+     */
+    @AuraEnabled
+    public static Map<String, Object> fetchActiveCartAndItems(String opportunityId) {
+        Map<String, Object> fetchCartResponse;
+        try {
+            fetchCartResponse = phss_cc_CartUtil.fetchActiveCartAndItems(opportunityId);
+        } catch (Exception e) {
+            fetchCartResponse = phss_cc_Exception.getErrorMessageMap(e.getMessage());
+        }
+
+        return fetchCartResponse;
+    }
+
+    /**
      * @description Adds the products to the specified cart.
      *
      * @param productQuantityMap
@@ -54,6 +73,54 @@ public with sharing class phss_cc_CartController {
             addToCartResult = phss_cc_Exception.getErrorMessageMap(e.getMessage());
         }
         return addToCartResult;
+    }
+
+    @AuraEnabled
+    public static Map<String, Object> updateCartItemQuantities(String opportunityId, Map<String, Object> cartItemQuantityMap) {
+        Map<String, Object> result;
+
+        try {
+            Map<Id, Id> productClassIdMap = getProductClassIdMap(opportunityId);
+            Map<String, Object> productQuantityMap = buildProductQuantityMap(cartItemQuantityMap);
+            Map<String, List<Voucher__c>> voucherMap = phss_cc_VoucherUtil.requestVouchersForOpportunity(productClassIdMap, productQuantityMap, opportunityId);
+
+            result = phss_cc_CartUtil.updateCartItemQuantities(opportunityId, cartItemQuantityMap); 
+
+            Map<String, String> productCartItemMap = getProductCartItemMap(opportunityId, productClassIdMap);
+            phss_cc_VoucherUtil.reserveVouchersForOpportunity(productClassIdMap, productQuantityMap, voucherMap, opportunityId, productCartItemMap);
+
+        } catch (Exception e) {
+            result = phss_cc_Exception.getErrorMessageMap(e.getMessage());
+        }
+
+        return result;
+    }
+
+    private static Map<String, Object> buildProductQuantityMap(Map<String, Object> cartItemQuantityMap) {
+        Map<String, Integer> productQuantityMap = new Map<String, Integer>();
+        if (cartItemQuantityMap.size() > 0) {
+            List<ccrz__E_CartItem__c> cartItems = [
+                    SELECT
+                            Id,
+                            ccrz__Product__c
+                    FROM
+                            ccrz__E_CartItem__c
+                    WHERE
+                            Id IN :cartItemQuantityMap.keySet()
+            ];
+            for (ccrz__E_CartItem__c cartItem : cartItems) {
+                String productId = cartItem.ccrz__Product__c;
+                if (String.isNotEmpty(productId)) {
+                    Integer quantity = Integer.valueOf(cartItemQuantityMap.get(cartItem.Id));
+                    if (productQuantityMap.containsKey(productId)) {
+                        quantity += productQuantityMap.get(productId);
+                    }
+                    productQuantityMap.put(productId, quantity);
+                }
+            }
+        }
+
+        return productQuantityMap;
     }
 
     private static Map<String, String> getProductCartItemMap(String opportunitySfid, Map<Id, Id> productClassIdMap) {

@@ -235,10 +235,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Application Fee paid</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Application Info sent to customer</fullName>
             <default>false</default>
         </values>
@@ -571,23 +567,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Refund Issue</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Refund Issued</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Refused</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Register Deep Link</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Registration Fee paid</fullName>
             <default>false</default>
         </values>
         <values>
@@ -660,10 +644,6 @@
         </values>
         <values>
             <fullName>Transcript Support</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Transfer</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2955,15 +2935,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Grant Funded</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Incorrect Product%2FAmount</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Individual Pay</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3063,10 +3035,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Sponsored</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Submitted by Email</fullName>
             <default>false</default>
         </values>
@@ -3152,10 +3120,6 @@
         </values>
         <values>
             <fullName>Aquatics</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CEP</fullName>
             <default>false</default>
         </values>
         <values>
