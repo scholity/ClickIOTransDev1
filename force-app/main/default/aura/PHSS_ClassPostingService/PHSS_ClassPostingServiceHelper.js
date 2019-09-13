@@ -140,6 +140,29 @@
             component.set("v.isUrlValid",false);
         } 
         
+        if(component.get("v.cpsWrap").regUrl){
+            var checkUrl = component.get("v.cpsWrap").regUrl;
+            var action = component.get("c.checkURL");  
+            action.setParams({
+                url : checkUrl
+            });
+                              
+            action.setCallback(this, function(response) {
+                var state = response.getState();
+                if (state === "SUCCESS") {
+                    var validURL = response.getReturnValue();
+                    if(!validURL){
+                        component.set("v.showError","true");
+                        var errMsg = "Either \'URL for registration\' field is invalid.";
+                        component.set("v.errorMessage",errMsg);
+                        component.set("v.isUrlValid",false);
+                    }
+                }
+                              
+            });
+            $A.enqueueAction(action);
+        }
+        
     },
     
 formatTime : function(component, event, helper) {

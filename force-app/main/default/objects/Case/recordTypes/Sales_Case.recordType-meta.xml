@@ -160,6 +160,10 @@
     <picklistValues>
         <picklist>Case_Sub_Type__c</picklist>
         <values>
+            <fullName>Application Fee paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Cancel</fullName>
             <default>false</default>
         </values>
@@ -173,6 +177,14 @@
         </values>
         <values>
             <fullName>Course Change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grant Funded</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual Pay</fullName>
             <default>false</default>
         </values>
         <values>
@@ -200,7 +212,27 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Refund</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Registration Fee paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retest</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Shop StayWell</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sponsored</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transfer</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1973,11 +2005,15 @@
     <picklistValues>
         <picklist>Tertiary_Sub_Type__c</picklist>
         <values>
-            <fullName>Multiple</fullName>
+            <fullName>Grant Funded</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Single</fullName>
+            <fullName>Individual Pay</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sponsored</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2033,6 +2069,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CEP</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Community Course Registration</fullName>
             <default>false</default>
         </values>
@@ -2042,6 +2082,10 @@
         </values>
         <values>
             <fullName>Lifeline</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nurse Assistant Training</fullName>
             <default>false</default>
         </values>
         <values>

@@ -59,12 +59,15 @@ public class RBCWrapper {
         public String endTime {get;set;}
         @AuraEnabled
         public String timeZone {get;set;}
+        @AuraEnabled
+        public String timeZoneName {get;set;}
 
         public SessionWrapper() {
             this.classDate = '';
             this.startTime = '';
             this.endTime = '';
             this.timeZone = '';
+            this.timeZoneName = '';
         }
     }
 }

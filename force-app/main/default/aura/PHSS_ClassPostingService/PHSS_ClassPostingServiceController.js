@@ -11,6 +11,7 @@
         var yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd;
         component.set("v.todaysDate",today);
+        component.set("v.todaysDatePlus7",today);
         
         
           
@@ -364,4 +365,34 @@
         console.log('check if payment completed'+component.get("v.paymentComplete"));
 
     },
+    /*
+    checkMyURL : function(component,event,helper){
+        var checkUrl = component.get("v.cpsWrap.regUrl");
+        
+        var action = component.get("c.checkURL");
+        
+        console.log('checkMyURL '+checkUrl);
+            
+        action.setParams({
+            url : checkUrl
+        });
+                          
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+				var validURL = response.getReturnValue();
+                if(!validURL){
+                    component.set("v.showError","true");
+                    var errMsg = "Either \'URL for registration\' field is invalid.";
+                    component.set("v.errorMessage",errMsg);
+                    component.set("v.isUrlValid",false);
+                }
+            }
+                          
+        });
+        $A.enqueueAction(action);
+        
+        
+    },
+	*/
 })

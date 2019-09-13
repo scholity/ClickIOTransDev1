@@ -223,6 +223,17 @@
         <protected>false</protected>
     </fieldUpdates>
     <fieldUpdates>
+        <fullName>CRE</fullName>
+        <description>Moves new CRE cases to FIN Billing queue</description>
+        <field>OwnerId</field>
+        <lookupValue>CCO_Specialist</lookupValue>
+        <lookupValueType>Queue</lookupValueType>
+        <name>CRE</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>Case_Origin_Postal_Mail</fullName>
         <field>Origin</field>
         <literalValue>Postal Mail</literalValue>
@@ -1193,6 +1204,17 @@
         <protected>false</protected>
     </fieldUpdates>
     <fieldUpdates>
+        <fullName>Set_to_Finance_Queue</fullName>
+        <description>Set Finance Queue</description>
+        <field>OwnerId</field>
+        <lookupValue>Finance_COE_Billing</lookupValue>
+        <lookupValueType>Queue</lookupValueType>
+        <name>Set to Finance Queue</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>Shipping_Contact_Last_Name</fullName>
         <description>Update Shipping Contact Last Name</description>
         <field>Shipping_Contact_Last_Name__c</field>
@@ -2099,6 +2121,46 @@ CreatedBy.FirstName = &quot;BillingRequestForm&quot;,
         <active>false</active>
         <description>When Billing Web Request Type =Refund Credit Balance, the WF sets up Invoice Case Sub Type = Duplicate Invice, Case Owner = Finance COE/Billing</description>
         <formula>AND( ISPICKVAL( Billing_Web_Request_Type__c ,&quot;Refund Credit Balance&quot;),  CreatedBy.FirstName = &quot;BillingRequestForm&quot;, ISPICKVAL(Origin, &quot;Web to Case&quot;),  $Setup.Workflow_Rules__c.Bypass_Rules__c = False )</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRE</fullName>
+        <actions>
+            <name>CRE</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Origin</field>
+            <operation>equals</operation>
+            <value>CRE</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Type_of_Price_Dispute__c</field>
+            <operation>notEqual</operation>
+            <value>Review Available Credit</value>
+        </criteriaItems>
+        <description>Moves CRE cases to CCO Specialist queue</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRE Finance</fullName>
+        <actions>
+            <name>Set_to_Finance_Queue</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Case.Origin</field>
+            <operation>equals</operation>
+            <value>CRE</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Type_of_Price_Dispute__c</field>
+            <operation>equals</operation>
+            <value>Review Available Credit</value>
+        </criteriaItems>
+        <description>Moves CRE cases to Fin Queue</description>
         <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>

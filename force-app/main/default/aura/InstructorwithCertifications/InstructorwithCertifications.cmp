@@ -1,6 +1,6 @@
 <aura:component controller="CommunitypageInstructors" implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" >
     <aura:handler name = "init" value="{!this}" action = "{!c.doInit}" /> 
-    <aura:attribute name = "Listss" type = "CommunitypageInstructors.InstructorWrapper[]" default = "[]"/>
+    <aura:attribute name = "Listss" type = "List" default = "[]"/>
     <aura:attribute name = "instList"               type = "sObject"    default = "{}"/>
     <aura:attribute name = "accountList"            type = "sObject"    default = "{}"/>
     <aura:attribute name = "objAccName"              type = "String"     default = "" />
@@ -12,10 +12,12 @@
     <aura:attribute name = "Buttonclicked" 		    type = "Boolean" 	default = "false"/>
     <aura:attribute name = "sortField"              type = "String"     default = "Email" />
     <aura:attribute name = "sortOrder"              type = "String"     default = "asc" />
-     <aura:attribute name="arrowDirection" type="string" default="arrowup" description="Use for change arrow sign direction on header based on click"/>
+    <aura:attribute name="arrowDirection" type="string" default="arrowup" description="Use for change arrow sign direction on header based on click"/>
     <aura:attribute name="isAsc" type="boolean" default="true" description="boolean flag for pass sorting condition to apex class"/> 
     <aura:attribute name="selectedTabsoft" type="string" default="OrganisationName" description="Use for show/hide arraow sign on header based on conditions"/>
- 
+    
+    <!-- attribute to accept Visualforce page's javascript method -->
+    <aura:attribute name="sendData" type="object"/>
     
     
     <aura:if isTrue="{!v.accountList.Accountdetails.length > 0}">
@@ -23,6 +25,7 @@
             <h1>Organization</h1>
             <lightning:select value="{!v.selectedAccount}" label=" " onchange="{!c.fetchIns}">
                 <option value="" text="Select an Organization"/>
+                <option value="All">All</option>
                 <aura:iteration items="{!v.accountList.Accountdetails}" var="acc">
                     <option value="{!acc.Id}" text="{!acc.Name}" />   
                 </aura:iteration>
@@ -34,21 +37,25 @@
             <h1>Instructor</h1>
             <lightning:select value="{!v.selectedInstructor}" label=" " onchange="{!c.fetchIns}">
                 <option value="" text="Select an Instructor"/>
+                <option value="All">All</option>
                 <aura:iteration items="{!v.instList.Userdetails}" var="inst">
                     <option value="{!inst.Id}" text="{!inst.Name}" />   
                 </aura:iteration>
             </lightning:select>   
         </div>
+        <div class="slds-float_right slds-p-around_small">
+            <aura:if isTrue="{!not(empty(v.Listss))}">
+                <lightning:button label="Export" onclick="{!c.exportDocument}" />
+                <lightning:button label="Print" onclick="{!c.downloadDocument}" />
+            </aura:if> 
+        </div>
     </aura:if>   
-    
-    
-    
     
     <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout">
         <thead class="slds-color__background_gray-4">
             <tr class="slds-text-title_caps">
-                 <th scope="col">
-                <td ><div class="slds-truncate slds-cell-wrap">Organisation Name</div></td>
+                <th scope="col">
+                    <td ><div class="slds-truncate slds-cell-wrap">Organization Name</div></td>
                 </th>
                 <th scope="col">
                     <td onclick="{!c.sortByKey}"><div class="slds-truncate slds-cell-wrap">Instructor Name</div></td>
@@ -73,14 +80,14 @@
                 <aura:iteration items="{!v.Listss}" var="a">
                     <tr>
                         <td data-label="Organization Name">
-                            <aura:if isTrue="{!a.ExistAccount}">
-                                <div class="slds-truncate" title="">{!a.OrganizationName}</div>
-                            </aura:if>
+                            <!-- <aura:if isTrue="{!a.ExistAccount}"> -->
+                            <div class="slds-truncate" title="">{!a.OrganizationName}</div>
+                            <!-- </aura:if> -->
                         </td>
                         <td data-label="Instructor Name">
-                            <aura:if isTrue="{!a.ExistAccount}">
-                                <div class="slds-truncate" title="">{!a.Key}</div>
-                            </aura:if>
+                            <!-- <aura:if isTrue="{!a.ExistAccount}">  -->
+                            <div class="slds-truncate" title="">{!a.Key}</div>
+                            <!-- </aura:if> -->
                         </td>
                         <aura:if isTrue="{!a.Expireflag}">
                             <td data-label="Certificate Name" style="color:red;" class="slds-cell-wrap">

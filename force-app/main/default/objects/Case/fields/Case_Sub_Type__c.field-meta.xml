@@ -278,6 +278,11 @@
                 <label>Granted Grace Period for Expired Base Level Cert</label>
             </value>
             <value>
+                <fullName>Grant Funded</fullName>
+                <default>false</default>
+                <label>Grant Funded</label>
+            </value>
+            <value>
                 <fullName>Health Fairs</fullName>
                 <default>false</default>
                 <label>Health Fairs</label>
@@ -917,12 +922,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Nurse Assistant Training</controllingFieldValue>
-            <controllingFieldValue>Non PHSS Referral</controllingFieldValue>
-            <controllingFieldValue>Product Sales Referral</controllingFieldValue>
-            <controllingFieldValue>Community Course Support</controllingFieldValue>
-            <controllingFieldValue>Course Records</controllingFieldValue>
-            <controllingFieldValue>Non-Training</controllingFieldValue>
-            <valueName>Other</valueName>
+            <valueName>Grant Funded</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Nurse Assistant Training</controllingFieldValue>
@@ -973,14 +973,6 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>CEP</controllingFieldValue>
-            <valueName>Initial Inquiry</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>CEP</controllingFieldValue>
-            <valueName>Questions</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>CEP</controllingFieldValue>
             <valueName>Refund</valueName>
         </valueSettings>
         <valueSettings>
@@ -1005,6 +997,14 @@
             <controllingFieldValue>Non PHSS Referral</controllingFieldValue>
             <controllingFieldValue>Non-Training</controllingFieldValue>
             <valueName>Donations</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non PHSS Referral</controllingFieldValue>
+            <controllingFieldValue>Product Sales Referral</controllingFieldValue>
+            <controllingFieldValue>Community Course Support</controllingFieldValue>
+            <controllingFieldValue>Course Records</controllingFieldValue>
+            <controllingFieldValue>Non-Training</controllingFieldValue>
+            <valueName>Other</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Non PHSS Referral</controllingFieldValue>

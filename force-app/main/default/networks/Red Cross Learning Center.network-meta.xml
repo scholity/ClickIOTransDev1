@@ -43,7 +43,7 @@
                     <label>Classes I&#39;m Teaching</label>
                     <position>1</position>
                     <publiclyAvailable>false</publiclyAvailable>
-                    <target>/classes-im-teaching-new</target>
+                    <target>/classes-im-teaching-vfpage</target>
                     <type>InternalLink</type>
                 </navigationMenuItem>
                 <navigationMenuItem>
@@ -118,7 +118,7 @@
                     <type>InternalLink</type>
                 </navigationMenuItem>
                 <navigationMenuItem>
-                    <defaultListViewId>Instructor_Accounts</defaultListViewId>
+                    <defaultListViewId>AllAccounts</defaultListViewId>
                     <label>Account Administration</label>
                     <position>3</position>
                     <publiclyAvailable>false</publiclyAvailable>
@@ -129,7 +129,7 @@
                     <label>Accounts I Administer</label>
                     <position>4</position>
                     <publiclyAvailable>false</publiclyAvailable>
-                    <target>/account-administration</target>
+                    <target>/contact/0035B00000LaJKXQA3</target>
                     <type>InternalLink</type>
                 </navigationMenuItem>
                 <navigationMenuItem>
@@ -144,7 +144,7 @@
                     <label>Verify Certifications</label>
                     <position>6</position>
                     <publiclyAvailable>false</publiclyAvailable>
-                    <target>/verify-certifications</target>
+                    <target>/verify-certifications-vfpage</target>
                     <type>InternalLink</type>
                 </navigationMenuItem>
                 <navigationMenuItem>

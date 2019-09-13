@@ -208,9 +208,9 @@ public without sharing class PHSS_CpsController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-	/*
+
+    /*
     @AuraEnabled
-   
 	public static Id createOppForCC(String AccountId) {
         
         Opportunity o = new Opportunity();
@@ -243,6 +243,7 @@ public without sharing class PHSS_CpsController {
         o.Source_System__c = storeFront;
         
         insert o;
+        
         if(opptyId !=null && opptyId !=''){
             list<ccrz__E_Cart__c> lstCarts = new list<ccrz__E_Cart__c>();
             for(ccrz__E_Cart__c ccart : [select id,Opportunity__c from ccrz__E_Cart__c where Opportunity__c=:opptyId]){
@@ -357,6 +358,22 @@ public without sharing class PHSS_CpsController {
     	}        
     	
         return addToCartResult;
+    }
+    
+    @AuraEnabled 
+    public static Boolean checkURL(String url) { 
+    
+            Http http = new Http();
+            HttpRequest request = new HttpRequest();
+            request.setEndpoint(url);
+            request.setMethod('GET');
+            HttpResponse response = http.send(request);
+    
+            if (response.getStatusCode() != 200) {
+    			return false;
+            } 
+        
+        	return true;
     }
 
 }

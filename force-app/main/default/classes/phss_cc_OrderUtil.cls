@@ -296,6 +296,12 @@ public with sharing class phss_cc_OrderUtil {
      */
     public static Map<String, Object> placeOrderOnCartCC(String opportunitySfid, String encryptedCartId, String cyberSourcePaymentResponse, List<String> storedPayments) {
 
+        System.debug('JASON: phss_cc_OrderUtil.placeOrderOnCartCC()');
+        System.debug(' -- opportunitySfid: ' + opportunitySfid);
+        System.debug(' -- encryptedCartId: ' + encryptedCartId);
+        System.debug(' -- cyberSourcePaymentResponse: ' + cyberSourcePaymentResponse);
+        System.debug(' -- storedPayments: ' + storedPayments);
+        
         phss_cc_Context.setContext(opportunitySfid);
         Map<String, Object> response;
         try {

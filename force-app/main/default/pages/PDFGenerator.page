@@ -1,0 +1,4 @@
+<apex:page controller="DataDisplayController" renderAs="pdf">
+    <apex:image id="theImage" value="/resource/Logo" width="120" height="60" alt="Description of image here"/>
+    {!classWrapperList}
+</apex:page>
