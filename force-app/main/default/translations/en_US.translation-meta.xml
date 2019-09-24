@@ -1085,7 +1085,7 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Order_Item_Status_Controller_Change-20</fullName>
+            <fullName>Order_Item_Status_Controller_Change-25</fullName>
         </flows>
         <fullName>Order_Item_Status_Controller_Change</fullName>
     </flowDefinitions>
@@ -1094,6 +1094,18 @@
             <fullName>Create_Child_Price_Group_Account_Records-2</fullName>
         </flows>
         <fullName>Create_Child_Price_Group_Account_Records</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Class_Order_Acknowledgement-1</fullName>
+        </flows>
+        <fullName>Class_Order_Acknowledgement</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Class_Order_Ack-1</fullName>
+        </flows>
+        <fullName>Class_Order_Ack</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -1175,6 +1187,12 @@
             <fullName>Order_Item_Controller-4</fullName>
         </flows>
         <fullName>Order_Item_Controller</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Assign_Vouchers_for_Online_Class-4</fullName>
+        </flows>
+        <fullName>Assign_Vouchers_for_Online_Class</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -1331,6 +1349,12 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
+            <fullName>Create_Vouchers_for_Online_Classes-1</fullName>
+        </flows>
+        <fullName>Create_Vouchers_for_Online_Classes</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
             <fullName>User_Controller-1</fullName>
         </flows>
         <fullName>User_Controller</fullName>
@@ -1355,7 +1379,7 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Create_On_Hold_Order_Case-13</fullName>
+            <fullName>Create_On_Hold_Order_Case-14</fullName>
         </flows>
         <fullName>Create_On_Hold_Order_Case</fullName>
     </flowDefinitions>
@@ -1442,6 +1466,33 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
+            <fullName>Schedule_New_Training_Event-2</fullName>
+            <screens>
+                <fields>
+                    <name>EventCancelled</name>
+                </fields>
+                <name>Cancel_Processing</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>SuccessMessage</name>
+                </fields>
+                <name>Success_Screen</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>ProcessorCancel</name>
+                </fields>
+                <fields>
+                    <name>VerificationMessage</name>
+                </fields>
+                <name>Verification</name>
+            </screens>
+        </flows>
+        <fullName>Schedule_New_Training_Event</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
             <fullName>Set_Deactivated_Date-1</fullName>
         </flows>
         <fullName>Set_Deactivated_Date</fullName>
@@ -1451,6 +1502,12 @@
             <fullName>Order_Fulfillment_Status_Change-2</fullName>
         </flows>
         <fullName>Order_Fulfillment_Status_Change</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Add_additional_training_event-2</fullName>
+        </flows>
+        <fullName>Add_additional_training_event</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -1490,7 +1547,43 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Manage_Order_Status-70</fullName>
+            <fullName>Cancel_Class-1</fullName>
+            <screens>
+                <fields>
+                    <name>Information</name>
+                </fields>
+                <fields>
+                    <name>InformationVerification</name>
+                </fields>
+                <fields>
+                    <name>ProccessRecords</name>
+                </fields>
+                <name>Cancel_Class</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>closeclassmsg</name>
+                </fields>
+                <name>NotClosed</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>NotCancelled</name>
+                </fields>
+                <name>Not_Cancelled</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>UpdateComplete</name>
+                </fields>
+                <name>SuccessMessage</name>
+            </screens>
+        </flows>
+        <fullName>Cancel_Class</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Manage_Order_Status-72</fullName>
         </flows>
         <fullName>Manage_Order_Status</fullName>
     </flowDefinitions>
@@ -1556,6 +1649,12 @@
             <fullName>Update_Billing_State-1</fullName>
         </flows>
         <fullName>Update_Billing_State</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Voucher_Controller-1</fullName>
+        </flows>
+        <fullName>Voucher_Controller</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>

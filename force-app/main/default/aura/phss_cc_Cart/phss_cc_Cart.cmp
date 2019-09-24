@@ -94,7 +94,7 @@
             <div class="slds-size_2-of-12 columnHeaders">{!$Label.c.ProductDetail_Column_SKU}</div>
             <div class="slds-size_4-of-12 columnHeaders">{!$Label.c.ProductDetail_Column_Name}</div>
             <div class="slds-size_1-of-12 slds-align_absolute-center columnHeaders">{!$Label.c.ProductDetail_Column_ListPrice}</div>
-            <div class="slds-size_1-of-12 slds-align_absolute-center columnHeaders">{!$Label.c.ProductDetail_Column_DiscountPrice}</div>
+            <div class="slds-size_1-of-12 slds-align_absolute-center columnHeaders" style="font-size: 90%;">Discounted<br/>Price</div>
             <div class="slds-size_1-of-12 slds-align_absolute-center columnHeaders">{!$Label.c.ProductDetail_Column_DiscountPercentage}</div>
             <div class="slds-size_1-of-12 slds-align_absolute-center columnHeaders">&nbsp;</div>
             <div class="slds-size_2-of-12 slds-align_absolute-center columnHeaders">{!$Label.c.ProductDetail_Column_Quantity}</div>

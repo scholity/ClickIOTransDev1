@@ -1,4 +1,4 @@
-<apex:page controller="GeneratePDFHandlerInstCert" contentType="txt/xml#InstructorCertificates-{!todaysDate}.xls" cache="true">
+<apex:page controller="GeneratePDFHandlerInstCert" contentType="txt/xml#Certificates-{!todaysDate}.xls" cache="true">
     <apex:outputText value="{!xlsHeader}"/>
     
     <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
@@ -31,7 +31,7 @@
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Certificates</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Expiration Date</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Email</Data></Cell>
-                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Phone Number</Data></Cell>      
+                    <Cell ss:StyleID="s1"><Data ss:Type="String" >QR Code</Data></Cell>      
                 </Row>
                 
                 <apex:repeat value="{!instructorWrapperContent}" var="tableRow">                            
@@ -41,7 +41,7 @@
                         <Cell><Data ss:Type="String">{!tableRow.Valuess}</Data></Cell>
                         <Cell><Data ss:Type="String">{!tableRow.expDate}</Data></Cell>  
                         <Cell><Data ss:Type="String">{!tableRow.Email}</Data></Cell> 
-                        <Cell><Data ss:Type="String">{!tableRow.Phonenumber}</Data></Cell>  						
+                        <Cell><Data ss:Type="String">{!tableRow.QRCode}</Data></Cell>  						
                     </Row>                            
                 </apex:repeat>
             </Table>

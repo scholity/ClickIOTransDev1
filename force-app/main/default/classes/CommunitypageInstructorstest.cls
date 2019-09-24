@@ -68,7 +68,7 @@ public class CommunitypageInstructorstest{
         raa.redwing__Achievement__c = ra.Id;
         raa.redwing__Status__c = 'Acquired';
         raa.redwing__User__c =u3.id;
-        raa.redwing__Expiration_Date__c = System.today();
+        raa.redwing__Expiration_Date__c = System.today() + 100;
         raa.redwing__Training_Plan_Achievement__c = tpa.id;
         insert raa;
         
@@ -76,7 +76,8 @@ public class CommunitypageInstructorstest{
         
         test.starttest();
         System.runAs(u3) {
-            CommunitypageInstructors.getPicklistValues('Account', 'Munn', accRecord.id);
+            CommunitypageInstructors.getPicklistValues('Account', null);
+            CommunitypageInstructors.getPicklistValues('User', accRecord.id);
             CommunitypageInstructors.fetchUser();
             List<Id> accListFromClient = new List<Id>();
             accListFromClient.add(accRecord.id);
@@ -88,10 +89,16 @@ public class CommunitypageInstructorstest{
             
             //Filtered by both Account and user
             CommunitypageInstructors.fetchAchv(accString,userString);
-            //Filtered by both Account
-            List<Id> emptyAccountList = new List<Id>();
-            String emptyUserString = JSON.serialize(emptyAccountList);
+            
+            //Filtered by only Account
+            List<Id> emptyUserList = new List<Id>();
+            String emptyUserString = JSON.serialize(emptyUserList);
             CommunitypageInstructors.fetchAchv(accString,emptyUserString);
+            
+            //Filtered by only Instructor
+            List<Id> emptyAccountList = new List<Id>();
+            String emptyAccountString = JSON.serialize(emptyAccountList);
+            CommunitypageInstructors.fetchAchv(emptyAccountString, userString);
             
             System.AssertEquals(u3.id,raa.redwing__User__c);
             System.AssertEquals(u3.id,UserInfo.getUserId());

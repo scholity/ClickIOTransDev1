@@ -11,7 +11,6 @@
             }
             
             .table-bordered {
-            border: 1px solid #000;
             border-collapse : collapse;
             font-size : .7em;
             }
@@ -19,7 +18,7 @@
             
             thead>tr>th {
             vertical-align: bottom;
-            border: 1px solid #000;
+            border:1px solid black;
             border-spacing: 0;
             text-align:center;
             border-collapse: collapse;
@@ -29,7 +28,7 @@
             
             td {
             vertical-align: bottom;
-            border: 1px solid #000;
+            border:1px solid black;
             border-spacing: 0;
             border-collapse: collapse;
             text-align:center;
@@ -47,7 +46,10 @@
             .echoArea>td{
             padding:10px;
             }
-            
+            table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            }
             @page {
             size: landscape;
             
@@ -81,7 +83,7 @@
             <h4> Classes History</h4>
         </apex:outputPanel>
         
-        <table width="100%" class="table-bordered">
+        <table width="100%" border="1" class="table-bordered" style="-Fs-table-paginate: paginate;">
             <thead>
                 <tr>
                     <th width="90px;">Course</th>
@@ -89,8 +91,8 @@
                     <th width="80px;">Start Date</th>
                     <th width="80px;">End Date</th>
                     <th width="90px;">Number of Students</th>
-                    <th width="250px;">Time</th>
-                    <th width="90px;">Days</th>
+                    <th width="250px;">Start Time</th>
+                    <!-- <th width="90px;">Days</th> -->
                     <th width="90px;">Company</th>
                     <th width="90px;">Instructor</th>
                     <th width="150px;">Location</th>
@@ -100,7 +102,7 @@
             </thead>
             <tbody>
                 <apex:repeat value="{!classWrapperContent}" var="tableRow" >
-                    <tr>
+                    <tr Style="page-break-inside: avoid">
                         <td>{!tableRow.lpName}</td>
                         <td>{!tableRow.classOfferingId}</td>
                         <td>
@@ -114,8 +116,8 @@
                             </apex:outputText>
                         </td>
                         <td>{!tableRow.numberOfStudents}</td>
-                        <td>{!tableRow.startTime} - {!tableRow.endTime}</td>
-                        <td>{!tableRow.days}</td>
+                        <td>{!tableRow.startTime}</td>
+                        <!-- <td>{!tableRow.days}</td> -->
                         <td>{!tableRow.company}</td>
                         <td>{!tableRow.instructorName}</td>
                         <td>

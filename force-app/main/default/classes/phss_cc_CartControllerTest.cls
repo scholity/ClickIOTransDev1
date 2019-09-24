@@ -254,6 +254,52 @@ public with sharing class phss_cc_CartControllerTest {
         phss_cc_CartController.getOpportunityApprovalStatus (testOpportunity.Id);
         Test.stopTest();
     }
+
+    @IsTest
+    public static void testFetchActiveCartAndItems() {
+        setupTestData();
+        testCart.ccrz__ActiveCart__c = true;
+        update testCart;
+
+        Test.startTest();
+        Map<String, Object> result = phss_cc_CartController.fetchActiveCartAndItems(testOpportunity.Id);
+        Test.stopTest();
+
+        System.assert(result != null);
+    }
+
+    @IsTest
+    public static void testUpdateCartItemQuantities() {
+        setupTestData();
+        testCart.ccrz__ActiveCart__c = true;
+        update testCart;
+
+        List<ccrz__E_CartItem__c> cartItems = [SELECT Id, ccrz__Quantity__c FROM ccrz__E_CartItem__c WHERE ccrz__Cart__c = :testCart.Id];
+        Map<String, Object> cartItemQuantityMap = new Map<String, Object>();
+        for (ccrz__E_CartItem__c cartItem : cartItems) {
+            cartItemQuantityMap.put(cartItem.Id, cartItem.ccrz__Quantity__c.intValue() + 1);
+        }
+
+        Test.startTest();
+        Map<String, Object> result = phss_cc_CartController.updateCartItemQuantities(testOpportunity.Id, cartItemQuantityMap);
+        Test.stopTest();
+
+        System.assert(result != null);
+        if (result != null) {
+            Integer inputTotal = 0;
+            for (String cartItemId : cartItemQuantityMap.keySet()) {
+                inputTotal += (Integer) cartItemQuantityMap.get(cartItemId);
+            }
+
+            Map<String, Object> quantityMap = (Map<String, Object>) result.get(phss_cc_CartUtil.CART_ITEM_QUANTITY_MAP_KEY);
+            Integer resultTotal = 0;
+            for (String cartItemId : quantityMap.keySet()) {
+                resultTotal += ((Decimal) quantityMap.get(cartItemId)).intValue();
+            }
+
+            System.assertEquals(inputTotal, resultTotal);
+        }
+    }
     
     @isTest
     public static void testfetchPaymentTabsetPermissions() {

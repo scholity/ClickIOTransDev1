@@ -110,6 +110,9 @@
             <componentName>RequestBlendedClass</componentName>
         </componentInstances>
         <componentInstances>
+            <componentName>PHSS_ClassPostingService</componentName>
+        </componentInstances>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>context</name>
                 <value>GLOBAL</value>

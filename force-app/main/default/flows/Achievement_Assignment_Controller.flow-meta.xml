@@ -141,6 +141,9 @@
         <label>myDecision3</label>
         <locationX>50</locationX>
         <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision5</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>default</defaultConnectorLabel>
         <rules>
             <name>myRule_4</name>
@@ -182,7 +185,62 @@
             <label>Expires in 90 days</label>
         </rules>
     </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>2.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision5</name>
+        <label>myDecision5</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_6</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_6</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_6_A1</targetReference>
+            </connector>
+            <label>Certificate Acquired</label>
+        </rules>
+    </decisions>
     <description>Controls changes made on the Achievement Assignment Record</description>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+    ISPICKVAL([redwing__Achievement_Assignment__c].redwing__Status__c,&#39;Acquired&#39;),
+    NOT(ISNULL( [redwing__Achievement_Assignment__c].Email__c )),
+    ISPICKVAL([redwing__Achievement_Assignment__c].redwing__Status__c,&#39;Acquired&#39;),
+  OR(ISPICKVAL([redwing__Achievement_Assignment__c].redwing__Achievement__c.redwing__Type__c, &#39;Certifications&#39;), 
+     ISPICKVAL([redwing__Achievement_Assignment__c].redwing__Achievement__c.redwing__Type__c , &#39;CEU&#39;)) , 
+  OR(ISCHANGED([redwing__Achievement_Assignment__c].redwing__Status__c),
+     ISNEW())
+    )</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_6</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+    ISPICKVAL({!myVariable_current.redwing__Status__c},&#39;Acquired&#39;),
+    NOT(ISNULL( {!myVariable_current.Email__c} )),
+    ISPICKVAL({!myVariable_current.redwing__Status__c},&#39;Acquired&#39;),
+  OR(ISPICKVAL({!myVariable_current.redwing__Achievement__r.redwing__Type__c}, &#39;Certifications&#39;), 
+     ISPICKVAL({!myVariable_current.redwing__Achievement__r.redwing__Type__c} , &#39;CEU&#39;)) , 
+  OR(ISCHANGED({!myVariable_current.redwing__Status__c}),
+     ISNEW())
+    )</expression>
+    </formulas>
     <interviewLabel>Achievement_Assignment_Controller-1_InterviewLabel</interviewLabel>
     <label>Achievement Assignment Controller</label>
     <processMetadataValues>
@@ -363,6 +421,193 @@
             </value>
         </inputAssignments>
         <object>redwing__Learning_Category_Account__c</object>
+    </recordCreates>
+    <recordCreates>
+        <name>myRule_6_A1</name>
+        <label>Create SDoc Send Job</label>
+        <locationX>600</locationX>
+        <locationY>200</locationY>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Doclist (Template IDs)</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>SDOC__Doclist__c</field>
+            <value>
+                <stringValue>a6m1k0000004fhuAAA,a6m1k0000004fhpAAA,a6m1k0000004fK1AAI</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Object API Name</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>SDOC__ObjApiName__c</field>
+            <value>
+                <stringValue>redwing__Achievement_Assignment__c</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Object ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Reference</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>SDOC__Oid__c</field>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Send Email</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>SDOC__SendEmail__c</field>
+            <value>
+                <stringValue>1</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Start Job</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>SDOC__Start__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>SDOC__SDJob__c</object>
     </recordCreates>
     <recordUpdates>
         <processMetadataValues>
@@ -633,7 +878,7 @@
         <object>redwing__Achievement_Assignment__c</object>
     </recordUpdates>
     <startElementReference>isChangedDecision2_myRule_1_Contact_c</startElementReference>
-    <status>Draft</status>
+    <status>Obsolete</status>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>

@@ -393,7 +393,7 @@
             <sortOrder>14</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>S_Docs</actionName>
+            <actionName>Cancel_Class</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>15</sortOrder>
         </platformActionListItems>

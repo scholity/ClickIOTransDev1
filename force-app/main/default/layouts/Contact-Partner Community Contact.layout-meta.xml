@@ -170,9 +170,10 @@
     </relatedContent>
     <relatedLists>
         <fields>ACCOUNT.NAME</fields>
-        <fields>ACCCONRELATION.IS_ACTIVE</fields>
         <fields>ACCCONRELATION.IS_DIRECT</fields>
         <fields>ACCCONRELATION.ROLES</fields>
+        <fields>ACCOUNT.ADDRESS2_CITY</fields>
+        <fields>ACCOUNT.ADDRESS2_STATE</fields>
         <relatedList>RelatedContactAccountRelationList</relatedList>
     </relatedLists>
     <relatedLists>
