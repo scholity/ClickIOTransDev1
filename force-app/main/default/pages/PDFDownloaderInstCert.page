@@ -11,7 +11,6 @@
             }
             
             .table-bordered {
-            border: 1px solid #000;
             border-collapse : collapse;
             font-size : .7em;
             }
@@ -19,7 +18,7 @@
             
             thead>tr>th {
             vertical-align: bottom;
-            border: 1px solid #000;
+            border:1px solid black;
             border-spacing: 0;
             text-align:center;
             border-collapse: collapse;
@@ -29,7 +28,7 @@
             
             td {
             vertical-align: bottom;
-            border: 1px solid #000;
+            border:1px solid black;
             border-spacing: 0;
             border-collapse: collapse;
             text-align:center;
@@ -46,6 +45,10 @@
             }
             .echoArea>td{
             padding:10px;
+            }
+            table {
+            border-collapse: collapse;
+            border-spacing: 0;
             }
             
             @page {
@@ -75,7 +78,7 @@
         <apex:image url="{!$Resource.PHSS_RedCrossLogo}" width="200" height="75"/>
         <h4> Certificates </h4>
         
-        <table width="100%" class="table-bordered">
+        <table width="100%" border="1" class="table-bordered" style="-Fs-table-paginate: paginate">
             <thead>
                 <tr>
                     <th>Organization Name</th>
@@ -88,7 +91,7 @@
             </thead>
             <tbody>
                 <apex:repeat value="{!instructorWrapperContent}" var="tableRow" >
-                    <tr>
+                    <tr Style="page-break-inside: avoid">
                         <td><!-- <apex:outputText value="{!tableRow.OrganizationName}" rendered="{!tableRow.ExistAccount}"/> -->
                             <apex:outputText value="{!tableRow.OrganizationName}"/>
                         </td>

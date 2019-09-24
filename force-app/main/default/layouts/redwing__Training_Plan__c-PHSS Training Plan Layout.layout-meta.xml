@@ -395,6 +395,9 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>CC_Order__c</fields>
+        <fields>CC_Order_Item__c</fields>
+        <fields>Status__c</fields>
         <relatedList>Voucher__c.Learning_Plan__c</relatedList>
     </relatedLists>
     <relatedLists>

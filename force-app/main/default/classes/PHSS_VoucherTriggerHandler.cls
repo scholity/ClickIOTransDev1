@@ -346,4 +346,40 @@ public class PHSS_VoucherTriggerHandler {
 
         }
     }
+
+    /**
+     *@description Resets vouchers associated to abandoned cart items
+     *
+     * @param newVouchers
+     * @param oldVouchers
+     * @param newVoucherMap
+     * @param oldVoucherMap
+     */
+    public void resetAbandonedVouchers(List<Voucher__c> newVouchers, List<Voucher__c> oldVouchers, Map<Id,Voucher__c> newVoucherMap , Map<Id,Voucher__c> oldVoucherMap) {
+        List<Voucher__c> abandonedVouchers = new List<Voucher__c>();
+
+        // Identify vouchers that are associated with abandoned carts
+        for (Voucher__c newVoucher : newVouchers) {
+            Voucher__c oldVoucher = oldVoucherMap.get(newVoucher.Id);
+            if (oldVoucher != null) {
+                if (oldVoucher.Status__c == phss_cc_VoucherUtil.TEMP_HOLD_STATUS && newVoucher.Status__c == phss_cc_VoucherUtil.ISSUED_STATUS) {
+                    if (newVoucher.CC_Cart_Item__c != null) {
+                        newVoucher.CC_Cart_Item__c = null;
+                        abandonedVouchers.add(newVoucher);
+                    }
+                }
+            }
+        }
+
+        try {
+            if (!abandonedVouchers.isEmpty()){
+
+                // Set the flag to true so that it will not call recursively
+                PHSS_VoucherTriggerHandler.setAlreadyUpdatedVouchers();
+                update abandonedVouchers;
+            }
+        } catch (Exception e) {
+            System.debug('JASON: PHSS_VoucherTriggerHandler.resetAbandonedVouchers() exception caught: ' + e.getMessage() + ' lineNumber=' + e.getLineNumber() + ' stackTrace=' + e.getStackTraceString());
+        }
+    }
 }

@@ -25,7 +25,7 @@
                 <Column ss:Width="95"/>
                 <Column ss:Width="50"/>
                 <Column ss:Width="120"/>
-                <Column ss:Width="50"/>
+                <!-- <Column ss:Width="50"/> -->
                 <Column ss:Width="100"/>
                 <Column ss:Width="75"/>
                 <Column ss:Width="120"/>
@@ -37,8 +37,8 @@
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Start Date</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >End Date</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Number of Students</Data></Cell>
-                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Time</Data></Cell>
-                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Days</Data></Cell>
+                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Start Time</Data></Cell>
+                    <!-- <Cell ss:StyleID="s1"><Data ss:Type="String" >Days</Data></Cell> -->
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Company</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Instructor</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Location</Data></Cell>
@@ -59,8 +59,8 @@
                             </apex:outputText>
                             </Data></Cell>
                         <Cell><Data ss:Type="Number">{!tableRow.numberOfStudents}</Data></Cell>                                 
-                        <Cell><Data ss:Type="String">{!tableRow.startTime} - {!tableRow.endTime}</Data></Cell>                              
-                        <Cell><Data ss:Type="Number">{!tableRow.days}</Data></Cell>
+                        <Cell><Data ss:Type="String">{!tableRow.startTime}</Data></Cell>                              
+                        <!-- <Cell><Data ss:Type="Number">{!tableRow.days}</Data></Cell> -->
                         <Cell><Data ss:Type="String">{!tableRow.company}</Data></Cell>
                         <Cell><Data ss:Type="String">{!tableRow.instructorName}</Data></Cell>  
                         <Cell><Data ss:Type="String">

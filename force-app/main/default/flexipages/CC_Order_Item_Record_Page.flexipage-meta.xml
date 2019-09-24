@@ -303,10 +303,16 @@
             </componentInstanceProperties>
             <componentName>flexipage:richText</componentName>
             <visibilityRule>
+                <booleanFilter>1 OR 2</booleanFilter>
                 <criteria>
-                    <leftValue>{!Record.Is_Return__c}</leftValue>
+                    <leftValue>{!Record.ccrz__OrderItemStatus__c}</leftValue>
                     <operator>EQUAL</operator>
-                    <rightValue>true</rightValue>
+                    <rightValue>Returned</rightValue>
+                </criteria>
+                <criteria>
+                    <leftValue>{!Record.ccrz__OrderItemStatus__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>Return Submitted</rightValue>
                 </criteria>
             </visibilityRule>
         </componentInstances>
@@ -344,7 +350,7 @@
         <componentInstances>
             <componentName>RefundOrderItem</componentName>
             <visibilityRule>
-                <booleanFilter>1 OR 2 OR 3</booleanFilter>
+                <booleanFilter>(1 OR 2 OR 3) AND 4</booleanFilter>
                 <criteria>
                     <leftValue>{!Record.ccrz__OrderItemStatus__c}</leftValue>
                     <operator>EQUAL</operator>
@@ -359,6 +365,11 @@
                     <leftValue>{!Record.ccrz__OrderItemStatus__c}</leftValue>
                     <operator>EQUAL</operator>
                     <rightValue>Partial Returned</rightValue>
+                </criteria>
+                <criteria>
+                    <leftValue>{!Record.Is_Return__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>false</rightValue>
                 </criteria>
             </visibilityRule>
         </componentInstances>
@@ -395,6 +406,19 @@
         </componentInstances>
         <componentInstances>
             <componentName>DropStudent</componentName>
+            <visibilityRule>
+                <booleanFilter>1 AND 2</booleanFilter>
+                <criteria>
+                    <leftValue>{!Record.Inventory_Type__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>COMMUNITY</rightValue>
+                </criteria>
+                <criteria>
+                    <leftValue>{!Record.Is_Return__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>false</rightValue>
+                </criteria>
+            </visibilityRule>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>

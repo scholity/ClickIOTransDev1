@@ -1006,7 +1006,7 @@ IF(ISCHANGED({!myVariable_current.Status__c}) &amp;&amp; ISPICKVAL({!myVariable_
         <object>Channel_Compensation__c</object>
     </recordCreates>
     <startElementReference>myDecision</startElementReference>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>

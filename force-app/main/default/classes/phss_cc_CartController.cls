@@ -84,7 +84,7 @@ public with sharing class phss_cc_CartController {
             Map<String, Object> productQuantityMap = buildProductQuantityMap(cartItemQuantityMap);
             Map<String, List<Voucher__c>> voucherMap = phss_cc_VoucherUtil.requestVouchersForOpportunity(productClassIdMap, productQuantityMap, opportunityId);
 
-            result = phss_cc_CartUtil.updateCartItemQuantities(opportunityId, cartItemQuantityMap); 
+            result = phss_cc_CartUtil.updateCartItemQuantities(opportunityId, cartItemQuantityMap);
 
             Map<String, String> productCartItemMap = getProductCartItemMap(opportunityId, productClassIdMap);
             phss_cc_VoucherUtil.reserveVouchersForOpportunity(productClassIdMap, productQuantityMap, voucherMap, opportunityId, productCartItemMap);
@@ -234,9 +234,11 @@ public with sharing class phss_cc_CartController {
                     phss_cc_AccountUtil.PAYMENT_STATUS_REINSTATED
             };
 
-            Account account = phss_cc_AccountUtil.fetchAccountForOpportunity(opportunityId);
-            if (account.Payment_Status__c != null && validPaymentStatuses.contains(account.Payment_Status__c)) {
-                permissionsResult.put('allowPaymentByInvoice', true);
+            Account account = phss_cc_AccountUtil.fetchAccountForOpportunity(opportunityId); 
+            if (account.Preferred_Payment_type__c == 'Invoice') {
+                if (account.Payment_Status__c != null && validPaymentStatuses.contains(account.Payment_Status__c)) {
+                    permissionsResult.put('allowPaymentByInvoice', true);
+                }
             }
 
         } catch (Exception e) {

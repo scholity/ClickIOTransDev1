@@ -18,6 +18,7 @@ trigger CaptureCCPaymentOnFulfillmentInsert on Fulfillment__c (after insert) {
                     if (transactionPayment.ccrz__AccountType__c == 'cc') {
                         if (transactionPayment.ccrz__Amount__c < 0) {
                             system.debug('@@@executing phss_cc_CyberSourceCreditUtil.creditFulfillment(...)');
+                            phss_cc_CyberSourceCreditUtil.createRefundTransactionPayment(transactionPayment.Id);
                             phss_cc_CyberSourceCreditUtil.creditFulfillment(fulfillment.Id);
                         }
                         else if (transactionPayment.ccrz__Amount__c > 0) {

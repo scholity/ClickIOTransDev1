@@ -227,9 +227,13 @@ public without sharing class ILTInstructorCommunity{
     // Method to call Post class and add students method one after the another (Call from CRE & RBC - 2 Parameter identification)
     @AuraEnabled
     public static void invokeMethods(String JSON, String JSON1, RBCWrapper wrapper){
+        
+        system.debug('invokeMethods - JSON'+JSON);
+        system.debug('invokeMethods - JSON1'+JSON1);
+        
         Boolean boolState = true;
 
-        System.debug('wrapper '+wrapper);
+        System.debug('invokeMethods - wrapper '+wrapper);
 
         if (blend) {
             cre = false;
@@ -312,6 +316,7 @@ public without sharing class ILTInstructorCommunity{
     @AuraEnabled
     public static list<JSONWrapper.Students> initializeStudents(Integer Count){
         List<JSONWrapper.Students> studentList = new list<JSONWrapper.Students>();
+        system.debug('**studentList***'+studentList);
         for(Integer i=0; i<Count; i++){
             studentList.add(new JSONWrapper.Students());
         }
@@ -415,6 +420,9 @@ public without sharing class ILTInstructorCommunity{
     // method to add students to the class and create rosters, learning assignments, learning plan assignments, learning plans 
     @AuraEnabled
     public Static void addStudents(String JSON){
+        
+        system.debug('***JSON from Add students***'+JSON);
+        
         if(blend == false && cre ==false){
             other = true;
         }
@@ -480,7 +488,7 @@ public without sharing class ILTInstructorCommunity{
         
         List<redwing__Training_Plan_Achievement__c> trpac = [select id, Name from redwing__Training_Plan_Achievement__c where redwing__Training_Plan__c=: learningPlanId];
         System.debug('trpaclist '+trpac);
-        
+        system.debug('***studentList***'+studentList);
         for(JSONWrapper.Students student : studentList){
             studentLastNames.add(student.LastName);
             studentFirstNames.add(student.FirstName);
@@ -734,6 +742,8 @@ public without sharing class ILTInstructorCommunity{
                         else {
                             learningAssignment.redwing__Contact__r = fetchContact(student, true);// Create new contact or use exisitng method called
                         }
+                        system.debug('***studentvoucherMap***'+studentvoucherMap);
+                        system.debug('***classLearningId***'+classLearningId);
                         
                         if ((String.IsNotBlank(student.Voucherid) && studentvoucherMap.containskey(student.voucherid))) {
                             learningAssignment.External_Id__c = student.Email+student.LastName+student.FirstName+studentvoucherMap.get((student.voucherid)).ILT_Class__c+studentvoucherMap.get((student.voucherid)).ILT_Class__r.redwing__Learning__c; //Can be chaged if needed
@@ -1500,19 +1510,35 @@ public without sharing class ILTInstructorCommunity{
         List<String> ClaimedStatuses = System.label.ClaimedVoucherTypes.split(';');   
         List<Voucher__c> lstVouchersToUpdate = new List<Voucher__c>();    
         
-        if (iltClassid != null) { 
-	        List<Voucher__c> unclaimedVouchers = [Select Id, Name, Status__c From Voucher__c
-	        	Where ILT_Class__c = :iltClassid And Status__c Not In :ClaimedStatuses];
+        if (iltClassid != null)
+        { 
+	        List<Voucher__c> unclaimedVouchers = [SELECT Id,
+                                                         Name,
+                                                  		 Status__c,
+                                                  		 ILT_Class__r.Request_Type__c
+                                                    FROM Voucher__c
+                                                   WHERE ILT_Class__c = :iltClassid
+                                                     AND Status__c
+                                                     NOT IN :ClaimedStatuses];
 	        
-	        for (Voucher__c theVoucher : unclaimedVouchers) {
+	        for (Voucher__c theVoucher : unclaimedVouchers)
+			{
 	            voucher__c theUpdatedVoucher = new voucher__c();
-	        	theUpdatedVoucher.Id = theVoucher.Id;
+                
+	        	theUpdatedVoucher.Id 		= theVoucher.Id;
+                theUpdatedVoucher.Status__c = 'Void'; 
 //	            theUpdatedVoucher.Status__c = 'Blocked';
-	            theUpdatedVoucher.Status__c = 'Void';
+                /*
+                if(theVoucher.ILT_Class__r.Request_Type__c != 'Community')
+                {
+                   theUpdatedVoucher.Status__c = 'Void'; 
+                }
+                */
 	            lstVouchersToUpdate.add(theUpdatedVoucher);
 	    	}
 	        
-	        if(lstVouchersToUpdate.size() > 0) {
+	        if(lstVouchersToUpdate.size() > 0)
+            {
 	        	update lstVouchersToUpdate;
 	        }
         }
@@ -2737,13 +2763,13 @@ System.debug('The email failed to send:results[0] ' + results[0].errors[0].messa
 
             item.ccrz__Quantity__c = studentCount;
             item.ccrz__SubAmount__c = studentCount * item.ccrz__Price__c;
-            item.ccrz__OrderItemStatus__c = 'Shipped';
+            //item.ccrz__OrderItemStatus__c = 'Shipped';
         }
 
         String resMessage;
         try {
             update orderItems;
-
+            
             ccrz__E_Order__c ord = [SELECT Id, ccrz__TotalAmount__c, (SELECT Id, ccrz__Amount__c FROM ccrz__TransactionPayments__r) FROM ccrz__E_Order__c WHERE Id = :te.CC_Order__c LIMIT 1];
 
             // update transaction amount from order amount
@@ -2751,6 +2777,18 @@ System.debug('The email failed to send:results[0] ' + results[0].errors[0].messa
                 tp.ccrz__Amount__c = ord.ccrz__TotalAmount__c;
             }
             update ord.ccrz__TransactionPayments__r;
+            
+            List<ccrz__E_OrderItem__c> oItems = [SELECT Id,
+                                                 		ccrz__OrderItemStatus__c
+                                                   FROM ccrz__E_OrderItem__c
+                                                  WHERE ccrz__Order__c = :te.CC_Order__c];
+            system.debug('***oItems***'+oItems);
+            for (ccrz__E_OrderItem__c oi : oItems)
+            {
+                oi.ccrz__OrderItemStatus__c  = 'Shipped';
+            }
+            
+            update oItems; 
 
             resMessage = 'Order items successfully updated';
 

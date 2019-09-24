@@ -13,7 +13,7 @@ public without sharing class PHSS_ClassListInstructorViewController {
         else if(ObjName == 'User')
         {
             List<String> ListRolesName= new List<String> {'Administrator','Instructor'};
-                Boolean isInstructor = isInstructor();
+                Boolean isInstructor = isInstructor(accId);
             
             if(isInstructor) {
                 sQuery =  'Select id, Name From ' +objName + ' Where ContactId in (SELECT ContactId FROM AccountContactRelation WHERE AccountId = \'' +accId +'\' and ContactId = \'' +usr.ContactId+'\' and Roles IN: ListRolesName) Order By Name ASC';    
@@ -105,7 +105,7 @@ public without sharing class PHSS_ClassListInstructorViewController {
             Map <Id, redwing__ILT_Class__c> classIdWithChildRecords = new Map <Id, redwing__ILT_Class__c>();
             if(classIdsToQuery.size() > 0)
             {
-                String studentsChildQuery = 'SELECT Id, Name, (SELECT Id FROM redwing__ILT_Rosters__r WHERE redwing__ILT_Session__c = NULL) from redwing__ILT_Class__c where Id In (\'' + String.join(classIdsToQuery, '\',\'') + '\')';
+                String studentsChildQuery = 'SELECT Id, Name, (SELECT Id FROM Achievement_Assignments__r WHERE Achievement_Type__c = \'Certifications\' And (redwing__Status__c = \'Acquired\' OR redwing__Status__c = \'Eligible\')) from redwing__ILT_Class__c where Id In (\'' + String.join(classIdsToQuery, '\',\'') + '\')';
                 classIdWithChildRecords = new Map<Id, redwing__ILT_Class__c>((List<redwing__ILT_Class__c>)Database.query(studentsChildQuery));
             }
             
@@ -148,8 +148,8 @@ public without sharing class PHSS_ClassListInstructorViewController {
                             Integer numberOfStudentsInClass = 0;
                             If(classIdWithChildRecords.containsKey(item.redwing__ILT_Class__c))
                             {
-                                If(classIdWithChildRecords.get(item.redwing__ILT_Class__c).redwing__ILT_Rosters__r != null)
-                                    numberOfStudentsInClass = classIdWithChildRecords.get(item.redwing__ILT_Class__c).redwing__ILT_Rosters__r.size();
+                                If(classIdWithChildRecords.get(item.redwing__ILT_Class__c).Achievement_Assignments__r != null)
+                                    numberOfStudentsInClass = classIdWithChildRecords.get(item.redwing__ILT_Class__c).Achievement_Assignments__r.size();
                             }
                             
                             classWrapper tempClassWrap = new classWrapper(item, plansById.get(pId), currentLocation, classStatus, duration, numberOfStudentsInClass);
@@ -160,8 +160,8 @@ public without sharing class PHSS_ClassListInstructorViewController {
                         Integer numberOfStudentsInClass = 0;
                         If(classIdWithChildRecords.containsKey(item.redwing__ILT_Class__c))
                         {
-                            If(classIdWithChildRecords.get(item.redwing__ILT_Class__c).redwing__ILT_Rosters__r != null)
-                                numberOfStudentsInClass = classIdWithChildRecords.get(item.redwing__ILT_Class__c).redwing__ILT_Rosters__r.size();
+                            If(classIdWithChildRecords.get(item.redwing__ILT_Class__c).Achievement_Assignments__r != null)
+                                numberOfStudentsInClass = classIdWithChildRecords.get(item.redwing__ILT_Class__c).Achievement_Assignments__r.size();
                         }
                         
                         classWrapper tempClassWrap = new classWrapper(item, null, currentLocation, classStatus, duration, numberOfStudentsInClass);
@@ -182,12 +182,17 @@ classWrapperList.add(tempClassWrap);*/
         return result;
     }
     
-    public static Boolean isInstructor() {
-        User usr = [Select Id,Name,Profile.Name From User Where Id = :UserInfo.getUserId()];  
-        if(!usr.Profile.Name.containsIgnoreCase('partner')) {
-            return true;
+    public static Boolean isInstructor(String accId) {
+        User usr = [Select Id,Name,Profile.Name, ContactId From User Where Id = :UserInfo.getUserId()];  
+        if(usr.Profile.Name.containsIgnoreCase('partner')) 
+        {
+            List<AccountContactRelation> accountConRelation = [select id, Roles from AccountContactRelation where AccountId =: accId And ContactId =: usr.ContactId AND Roles includes ('Administrator')];
+            if(accountConRelation.size() > 0)
+                return false;
+            else
+                return true;
         }
-        return false;
+        return true;
     }
     
     public with sharing class ClassWrapper {

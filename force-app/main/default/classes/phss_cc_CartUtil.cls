@@ -20,9 +20,9 @@ public with sharing class phss_cc_CartUtil {
     private static final String CART_ITEM_ORIGINAL_ITEM_PRICE_KEY = 'originalItemPrice';
     private static final String CART_ITEM_PERCENT_DISCOUNT_KEY = 'percentDiscount';
 
-    private static final String CART_ITEM_LIST = 'cartItemList';
-    private static final String CART_ITEM_MAP = 'cartItemMap';
-    private static final String CART_ITEM_QUANTITY_MAP_KEY = 'cartItemQuantityMap';
+    public static final String CART_ITEM_LIST = 'cartItemList';
+    public static final String CART_ITEM_MAP = 'cartItemMap';
+    public static final String CART_ITEM_QUANTITY_MAP_KEY = 'cartItemQuantityMap';
     private static final String CART_ITEMS_KEY = 'ECartItemsS';
     private static final String CART_TOTAL_AMOUNT_KEY = 'totalAmount';
     private static final String PRODUCT_PRICE_KEY = 'price';
@@ -136,7 +136,7 @@ public with sharing class phss_cc_CartUtil {
      *
      * @return
      */
-    private static ccrz__E_Cart__c fetchCartById(String cartId) {
+    public static ccrz__E_Cart__c fetchCartById(String cartId) {
         ccrz__E_Cart__c cart;
 
         if (cartId == null) {
@@ -593,30 +593,19 @@ public with sharing class phss_cc_CartUtil {
      * @return
      */
     public static Map<String, Object> fetchActiveCartAndItems(String opportunityId) {
-        System.debug('JASON: phss_cc_CartUtil.fetchActiveCartAndItems()');
-        System.debug(' -- opportunityId: ' + opportunityId);
-
         Map<String, Object> response;
 
         try {
-            System.debug('JASON: setting context');
             phss_cc_Context.setContext(opportunityId);
 
-            System.debug('JASON: fetchCartById()');
-            System.debug(' -- currCart: ' + phss_cc_Context.currCart);
-            ccrz__E_Cart__c cart = fetchCartById(phss_cc_Context.currCart.Id);
-            if (cart != null && String.isNotEmpty(cart.Id)) {
-                System.debug('JASON: fetchCartItems()');
-                System.debug(' -- cart.Id: ' + cart.Id);
+            if (phss_cc_Context.currCart != null && String.isNotEmpty(phss_cc_Context.currCart.Id)) {
+                ccrz__E_Cart__c cart = fetchCartById(phss_cc_Context.currCart.Id);
                 response = fetchCartItems(cart.Id);
                 response.put(CART_TOTAL_KEY, cart.ccrz__TotalAmount__c);
                 response.put(CART_ENCRYPTED_ID_KEY, cart.ccrz__EncryptedId__c);
             }
 
         } catch (Exception e) {
-            System.debug('JASON: exception caught: ' + e.getMessage());
-            System.debug('JASON: line number: ' + e.getLineNumber());
-            System.debug('JASON: stack trace: ' + e.getStackTraceString());
             throw new phss_cc_Exception(FAILED_TO_FETCH_THE_ACTIVE_CART_AND_ITEMS, e);
         }
 

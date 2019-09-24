@@ -7857,11 +7857,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contract.CC_Price_Group__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contract.CompanySignedDate</field>
         <readable>true</readable>
     </fieldPermissions>
