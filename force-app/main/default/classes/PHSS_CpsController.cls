@@ -41,9 +41,16 @@ public without sharing class PHSS_CpsController {
     }
     
     @AuraEnabled
-    public static Map<String, Object> updateProductQuantityMap(Map<String, Object> productQuantityMap, String ccProductId, String noOfStudents) {
-
-        productQuantityMap.put(ccProductId,noOfStudents);
+    public static Map<String, Object> updateProductQuantityMap(Map<String, Object> productQuantityMap, String ccProductId, String quantity) {
+        
+		Boolean isProductInMap = productQuantityMap.containsKey(ccProductId);
+        if(isProductInMap){
+            String existingQuantity = (String) productQuantityMap.get(ccProductId);
+            integer i = Integer.valueOf(existingQuantity) + Integer.valueOf(quantity);
+            quantity = String.valueOf(i);
+        }
+        
+        productQuantityMap.put(ccProductId,quantity);
         return productQuantityMap;
 
     }
@@ -54,6 +61,7 @@ public without sharing class PHSS_CpsController {
             
             List<ccrz__E_CartItem__c> updatedCartItems = new list<ccrz__E_CartItem__c>();
         	List<ccrz__E_OrderItem__c> updatedOrderItems = new list<ccrz__E_OrderItem__c>();
+            List<ccrz__E_Order__c> updatedOrders = new List<ccrz__E_Order__c>();
             
             //System.debug('JSON:'+jsonStr);
             PHSS_CpsWrapper cpsWrap = (PHSS_CpsWrapper)JSON.deserialize(jsonStr, PHSS_CpsWrapper.class);
@@ -215,7 +223,6 @@ public without sharing class PHSS_CpsController {
                                                             newCartItem.ILT_Class__c = classID;
                                                             updatedCartItems.add(newCartItem);                		
                                                         }
-                
                 // US1521 - If this is CRE, Order Lines will already be created
                 // In this case, we need to write ILT Class Id on Order Item record(s)
                 
@@ -225,11 +232,31 @@ public without sharing class PHSS_CpsController {
                                                               ccrz__E_OrderItem__c newOrderItem = new ccrz__E_OrderItem__c();
                                                               newOrderItem.Id = theOrderItem.Id;	
                                                               newOrderItem.ILT_Class__c = classID;
-                                                              updatedOrderItems.add(newOrderItem);                		
+                                                              updatedOrderItems.add(newOrderItem);
+
+
                                                           }
+                
+                /*
+                // US1521 - If this is CRE, Order Lines will already be created
+                // In this case, we need to write ILT Class Id on Order Item record(s)
+                
+                for (ccrz__E_OrderItem__c theOrderItem : [Select Id, ccrz__Product__c, ILT_Class__c, ccrz__Order__c From ccrz__E_OrderItem__c
+                                                          Where ccrz__Order__r.ccrz__OriginatedCart__r.Opportunity__c = :cpsWrap.oppId]) {
+                                                              
+                                                              ccrz__E_OrderItem__c newOrderItem = new ccrz__E_OrderItem__c();
+                                                              newOrderItem.Id = theOrderItem.Id;	
+                                                              newOrderItem.ILT_Class__c = classID;
+                                                              updatedOrderItems.add(newOrderItem);
+                                                              
+                                                              ccrz__E_Order__c newOrder = new ccrz__E_Order__c();
+                                                              newOrder.Id = theOrderItem.ccrz__Order__c;
+                                                              newOrder.CRE_Request_Processed__c = true;
+                                                              updatedOrders.add(newOrder);
+
+                                                          }
+				*/
             } 
-            
-            
             
             
             if (updatedCartItems.size() > 0) {
@@ -238,7 +265,12 @@ public without sharing class PHSS_CpsController {
             
             if (updatedOrderItems.size() > 0) {
                 update updatedOrderItems;
-            }		
+            }	
+            
+
+            if (updatedOrders.size() > 0) {
+                update updatedOrders;
+            }
 
         }
         catch(Exception e) {
@@ -393,7 +425,6 @@ public without sharing class PHSS_CpsController {
         if (updateCartItemList.size() > 0) {
             update updateCartItemList;
         }        
-
         
         return addToCartResult;
 	}

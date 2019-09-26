@@ -4,6 +4,7 @@ public without sharing class ILTInstructorCommunity{
     private Static Id sessionId;
     private Static Id learningPlanId;
     private Static Id learningId;
+    private Static Id learningVersionId;
     private Static Id AccountId;
     private Static Id eventlearningId;
     private Static Id eventlearningplansection;
@@ -227,13 +228,9 @@ public without sharing class ILTInstructorCommunity{
     // Method to call Post class and add students method one after the another (Call from CRE & RBC - 2 Parameter identification)
     @AuraEnabled
     public static void invokeMethods(String JSON, String JSON1, RBCWrapper wrapper){
-        
-        system.debug('invokeMethods - JSON'+JSON);
-        system.debug('invokeMethods - JSON1'+JSON1);
-        
         Boolean boolState = true;
 
-        System.debug('invokeMethods - wrapper '+wrapper);
+        System.debug('wrapper '+wrapper);
 
         if (blend) {
             cre = false;
@@ -245,7 +242,7 @@ public without sharing class ILTInstructorCommunity{
             // try {
             System.debug('Blend Value'+blend);
             try {
-                postClass(JSON, wrapper);
+                redwing__ILT_Class__c newClass = postClass(JSON, wrapper);
 
             } catch (Exception e) {
                 System.debug('exception caught: ' + e.getMessage() + ' lineNumber=' + e.getLineNumber() + ' stackTrace=' + e.getStackTraceString());
@@ -259,6 +256,18 @@ public without sharing class ILTInstructorCommunity{
 			throw new AuraHandledException(e.getMessage());
 			}*/
         }
+
+
+        // learningPlanId = f(learning plan id is obtained from class created in call to postclass)
+        // classLearningId = f(class Id created in call to postClass)
+
+        // from addStudents (when there is a voucher)
+        //learningPlanId = studentvoucherMap.get((student.voucherid)).Learning_Plan__c;
+        //classLearningId = studentvoucherMap.get((student.voucherid)).ILT_Class__r.redwing__Learning__c;
+
+
+
+
         if(boolState && String.IsNotBlank(JSON1)){
             try {
                 addStudents(JSON1);
@@ -316,7 +325,6 @@ public without sharing class ILTInstructorCommunity{
     @AuraEnabled
     public static list<JSONWrapper.Students> initializeStudents(Integer Count){
         List<JSONWrapper.Students> studentList = new list<JSONWrapper.Students>();
-        system.debug('**studentList***'+studentList);
         for(Integer i=0; i<Count; i++){
             studentList.add(new JSONWrapper.Students());
         }
@@ -420,9 +428,6 @@ public without sharing class ILTInstructorCommunity{
     // method to add students to the class and create rosters, learning assignments, learning plan assignments, learning plans 
     @AuraEnabled
     public Static void addStudents(String JSON){
-        
-        system.debug('***JSON from Add students***'+JSON);
-        
         if(blend == false && cre ==false){
             other = true;
         }
@@ -488,7 +493,7 @@ public without sharing class ILTInstructorCommunity{
         
         List<redwing__Training_Plan_Achievement__c> trpac = [select id, Name from redwing__Training_Plan_Achievement__c where redwing__Training_Plan__c=: learningPlanId];
         System.debug('trpaclist '+trpac);
-        system.debug('***studentList***'+studentList);
+        
         for(JSONWrapper.Students student : studentList){
             studentLastNames.add(student.LastName);
             studentFirstNames.add(student.FirstName);
@@ -609,6 +614,8 @@ public without sharing class ILTInstructorCommunity{
                     {
                         if (auraException) throw new AuraHandledException('Learning Plan is Empty'); else throw new enrollException('Learning Plan is Empty');
                     }
+                } else {
+
                 }
             }
             //}
@@ -743,19 +750,20 @@ public without sharing class ILTInstructorCommunity{
                             learningAssignment.redwing__Contact__r = fetchContact(student, true);// Create new contact or use exisitng method called
                         }
                         system.debug('***studentvoucherMap***'+studentvoucherMap);
-                        system.debug('***classLearningId***'+classLearningId);
-                        
-                        if ((String.IsNotBlank(student.Voucherid) && studentvoucherMap.containskey(student.voucherid))) {
-                            learningAssignment.External_Id__c = student.Email+student.LastName+student.FirstName+studentvoucherMap.get((student.voucherid)).ILT_Class__c+studentvoucherMap.get((student.voucherid)).ILT_Class__r.redwing__Learning__c; //Can be chaged if needed
-                            learningAssignment.redwing__Training_Plan__c = studentvoucherMap.get((student.voucherid)).Learning_Plan__c;
-                            learningAssignment.redwing__Learning__c = studentvoucherMap.get((student.voucherid)).ILT_Class__r.redwing__Learning__c;
+                        if ((String.IsNotBlank(student.Voucherid) && studentvoucherMap.containskey(student.voucherid)))
+                        {
+                            learningAssignment.External_Id__c 				= student.Email+student.LastName+student.FirstName+studentvoucherMap.get((student.voucherid)).ILT_Class__c+studentvoucherMap.get((student.voucherid)).ILT_Class__r.redwing__Learning__c; //Can be chaged if needed
+                            learningAssignment.redwing__Training_Plan__c	= studentvoucherMap.get((student.voucherid)).Learning_Plan__c;
+                            learningAssignment.redwing__Learning__c 		= studentvoucherMap.get((student.voucherid)).ILT_Class__r.redwing__Learning__c;
                         	learningAssignment.redwing__Learning_Version__c = studentvoucherMap.get((student.voucherid)).ILT_Class__r.redwing__Learning__r.redwing__Current_Published_Version__c;                            
-                            learningAssignment.RCO_Order_Id__c = studentvoucherMap.get((student.voucherid)).RCO_Order_Id__c;
-                        } else {
-                            learningAssignment.External_Id__c = student.Email+student.LastName+student.FirstName+classId+classLearningId; //Can be changed if needed
-                            learningAssignment.redwing__Learning__c = classLearningId; // Retrieve learning id from page 1
-                        	//learningAssignment.redwing__Learning_Version__c = classLearningId.redwing__Current_Published_Version__c; // Need object?                        
-                            learningAssignment.redwing__Training_Plan__c = learningPlanId;
+                            learningAssignment.RCO_Order_Id__c 				= studentvoucherMap.get((student.voucherid)).RCO_Order_Id__c;
+                        }
+                        else
+                        {
+                            learningAssignment.External_Id__c 				= student.Email+student.LastName+student.FirstName+classId+classLearningId; //Can be changed if needed
+                            learningAssignment.redwing__Learning__c 		= learningId; //classLearningId; // Retrieve learning id from page 1 //DE1466 // learningId is defined in PostClass
+                        	learningAssignment.redwing__Learning_Version__c = learningVersionId;//classLearningId.redwing__Current_Published_Version__c; // Need object?                        
+                            learningAssignment.redwing__Training_Plan__c 	= learningPlanId;
                         }
                         
                         /*if(userMap.containsKey((student.LastName+student.FirstName+student.Email).toLowerCase()))
@@ -1918,7 +1926,7 @@ public without sharing class ILTInstructorCommunity{
     
     // Creating class and session for CRE and RBC
     @AuraEnabled
-    public static void postClass(String jsonStr, RBCWrapper wrapper){
+    public static redwing__ILT_Class__c postClass(String jsonStr, RBCWrapper wrapper) {
 
 //        RBCWrapper cpsWrap = (RBCWrapper) JSON.deserialize(jsonStr, RBCWrapper.class);
 
@@ -1942,6 +1950,7 @@ public without sharing class ILTInstructorCommunity{
         Map<String,redwing__Learning_Version__c> lVersions = new Map<String,redwing__Learning_Version__c>();
         
         JSONWrapper.ClassDetails objClassDetails = new JSONWrapper.ClassDetails(System.JSON.createParser(jsonStr));
+        Redwing__ILT_Class__c clsRecord = new Redwing__ILT_Class__c();
         String coursename;
         
         try {
@@ -2004,8 +2013,7 @@ public without sharing class ILTInstructorCommunity{
 
                 
                 // Step 6 - Create ILT Class record, bind to Learning object created above
-                
-                Redwing__ILT_Class__c clsRecord = new Redwing__ILT_Class__c();
+
                 clsRecord.Skedulo_Account__c = objClassDetails.Account;
                 clsRecord.redwing__End_Date__c = Date.Parse(objClassDetails.EndDate);
                 //clsRecord.redwing__End_Time__c= '17:00';
@@ -2323,8 +2331,10 @@ public without sharing class ILTInstructorCommunity{
                     lVersions.put(l.id,lv);
                 }
                 
-                if(lVersions.size() > 0){
+                if(lVersions.size() > 0)
+                {
                     insert lVersions.values();
+                    learningVersionId = lVersions.values().Id;
                 }
                 
                 //Update header information
@@ -2349,8 +2359,8 @@ public without sharing class ILTInstructorCommunity{
                 if (updatedOrders.size() > 0) {
                     update updatedOrders;
                 }
+
             }
-            
         }catch (Exception e) {
             //throw new AuraHandledException('Invalid Attempt');
             System.debug('JASON: Exception caught: ' + e.getMessage());
@@ -2359,6 +2369,7 @@ public without sharing class ILTInstructorCommunity{
             throw new AuraHandledException(e.getMessage());
             
         }
+        return clsRecord;
     }
     @AuraEnabled
     public static Account[] getAccountList() {

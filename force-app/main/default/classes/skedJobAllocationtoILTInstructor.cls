@@ -40,17 +40,18 @@ public without sharing class skedJobAllocationtoILTInstructor {
                 if (!'Deleted,Declined'.contains(theJobAllocation.sked__Status__c)) {
                     resourceIds.add(theJobAllocation.sked__Resource__c);
                     jobIds.add(theJobAllocation.sked__Job__c);
+                    // !! job is one to many on allocation !!
                     jobAllocationMap.put(theJobAllocation.sked__Job__c, theJobAllocation.Id);
                 }
             }
 
             resourceToInstructorMap = getResourceInstructorMap(resourceIds);
-            // Get jobs, including all members of stacked classes
+            // Add jobs related both to stack (if applicable) or schedule (if applicable)
             jobList = getJobList(jobIds);
             // Map recurring job to existing ILT Class (if applicable)
             scheduleToClassMap = getScheduleToClassMap(jobList);
             // Map all current and related/dependent jobs to existing ILT Class
-            jobToClassMap = getJobClassMap(jobList);
+            jobToClassMap = getJobToClassMap(jobList);
 
             for (sked__job__c theJob : jobList) {
                 jobMap.put(theJob.Id, theJob);
@@ -121,6 +122,7 @@ public without sharing class skedJobAllocationtoILTInstructor {
 
         Map<Id, sked__Job_Allocation__c> jobAllocationMap = new Map<Id, sked__Job_Allocation__c>();
         Map<Id, redwing__ILT_Class__c> scheduleToClassMap = new Map<Id, redwing__ILT_Class__c>();
+        Map<Id, redwing__ILT_Class__c> jobToClassMap = new Map<Id, redwing__ILT_Class__c>();
 
         updateRecords = true;
 
@@ -146,34 +148,35 @@ public without sharing class skedJobAllocationtoILTInstructor {
             jobList = getJobList(relatedJobIds);
             // Map recurring job to existing ILT Class (if applicable)
             scheduleToClassMap = getScheduleToClassMap(jobList);
+            // Map all current and related/dependent jobs to existing ILT Class
+            jobToClassMap = getJobToClassMap(jobList);
 
             System.debug(jobList);
             System.debug(scheduleToClassMap);
 
+            // Step 1 - Remove deleted instructors from all parent/related ILT class records
+            // If recurring, then remove instructor assignment from parent (defined in scheduleToClqssMap)
+            // If stacked, then remove from all members of stack (already added to jobList)
+            // Note that instructors are never directly assigned to dependent classes in a stack (this is assumed)
             for (sked__Job__c theJob : jobList) {
-                // If this is a dependent stacked class (job), need to delete instructor assigned at master class level
-                if (theJob.Is_Stacked_Class__c && !theJob.Is_Master_Class__c && theJob.sked__Parent__c != null) {
-                    if (jobAllocationMap.containsKey(theJob.sked__Parent__c)) {
-                        deletedExternalIds.add(theJob.Id + ':' + jobAllocationMap.get(theJob.sked__Parent__c).sked__Resource__c);
-                    }
-                } else {
-                    Id jobId = theJob.Id;
-                    if (jobAllocationMap.containsKey(JobId)) {
-                        Id allocationId = jobAllocationMap.get(jobId).sked__Resource__c;
+                Id jobId = theJob.Id;
+                if (jobAllocationMap.containsKey(JobId)) {
+                    Id allocationId = jobAllocationMap.get(jobId).sked__Resource__c;
 
-                        // If this is a recurring schedule class (job), need to adjust jobId to that of parent (first) class (job)
-                        if (theJob.sked__Recurring_Schedule__c != null &&
-                                scheduleToClassMap.containsKey(theJob.sked__Recurring_Schedule__c)) {
-                            jobId = scheduleToClassMap.get(theJob.sked__Recurring_Schedule__c).Skedulo_Job_Id__c;
-                        }
-
-                        deletedExternalIds.add(jobId + ':' + allocationId);
+                    // If this is a recurring schedule class (job), need to adjust jobId to that of parent (first) class (job)
+                    if (theJob.sked__Recurring_Schedule__c != null &&
+                            scheduleToClassMap.containsKey(theJob.sked__Recurring_Schedule__c)) {
+                        jobId = scheduleToClassMap.get(theJob.sked__Recurring_Schedule__c).Skedulo_Job_Id__c;
                     }
+
+                    deletedExternalIds.add(jobId + ':' + allocationId);
                 }
             }
             System.debug(deletedExternalIds);
 
-            deleteILTInstructors(deletedExternalIds);
+            if (!deletedExternalIds.isEmpty()) {
+                deleteILTInstructors(deletedExternalIds);
+            }
 
             afterInsert(updatedAllocations); // Process updated allocations
         }
@@ -191,7 +194,7 @@ public without sharing class skedJobAllocationtoILTInstructor {
         return resourceToInstructorMap;
     }
 
-    public Map<Id, redwing__ILT_Class__c> getJobClassMap(List<sked__Job__c> jobList) {
+    public Map<Id, redwing__ILT_Class__c> getJobToClassMap(List<sked__Job__c> jobList) {
         Set<Id> jobIds = new Set<Id>();
         Map<Id, redwing__ILT_Class__c> jobToClassMap = new Map<Id, redwing__ILT_Class__c>();
 

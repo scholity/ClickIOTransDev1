@@ -88,6 +88,13 @@
                     <target>/report-safety-outreach</target>
                     <type>InternalLink</type>
                 </navigationMenuItem>
+                <navigationMenuItem>
+                    <label>CPS Classes</label>
+                    <position>8</position>
+                    <publiclyAvailable>false</publiclyAvailable>
+                    <target>/classes-cps</target>
+                    <type>InternalLink</type>
+                </navigationMenuItem>
             </subMenu>
             <type>MenuLabel</type>
         </navigationMenuItem>

@@ -25,26 +25,31 @@
 		//alert('Date + 7 ' + todayPlus7);        
         
         component.set("v.todaysDatePlus7",todayPlus7);
-        
-        
-          
     },
     
     productCountIncrement: function (component, event, helper) {
-        var productQuantityMap = component.get('v.productQuantityMap');
         var productSfid = event.getParam('productSfid');
+        var previousCCProductId = component.get("v.cpsWrap.ccProductId");
+        var previousQuantity = component.get("v.cpsWrap.quantity");
         
         console.log("productSfid**>>**"+productSfid);
-        
+ 
+        //Edit Changed Product
+        if(previousCCProductId != "" && previousQuantity == "0"){
+            component.set("v.productChange", true);
+            component.set("v.cpsWrap.ccProductId",previousCCProductId);
+            component.set("v.cpsWrap.quantity", "-1");
+            helper.updateProductQuantityMap(component,event,helper);
+		}
+        component.set("v.courseError",false);
         component.set("v.CCProductId",productSfid);
         component.set("v.cpsWrap.ccProductId",productSfid);
         helper.getLearningPlanAttributes(component, event, helper);
-        
         //console.log("CCProductId " + component.get('v.CCProductId'));
         //console.log("LPName " + component.get('v.LPName'));
         //console.log("LPClassroomSetting " + component.get('v.LPClassroomSetting'));
         //console.log("LPDuration " + component.get('v.LPDuration'));
-        
+
     },
     
     onAddressChange : function (component, event, helper) {
@@ -55,18 +60,7 @@
            helper.getGeocode(component,event,helper);
     },  
     onFormatChange : function(component, event, helper) {
-        component.set("v.formatError",false);
-        
-        // Class format validation
-        var format = document.getElementById('formatSelect').value;
-        component.set("v.cpsWrap.classFormat",format);
-        if(component.get("v.cpsWrap.classFormat")) {
-            document.getElementById('formatSelect').classList.remove('requiredSelect');
-        }
-        else {
-            component.set("v.formatError",true);
-            document.getElementById('formatSelect').classList.add('requiredSelect');
-        }
+		helper.requiredSchedule(component,event,helper);
     },
     
     onZoneChange : function(component, event, helper) {
@@ -101,6 +95,12 @@
         var offering = tempList[edit_index -1];
 
         //component.set("v.offeringId", offering.offeringId);
+        component.set("v.courseError",false);
+        component.set("v.formatError",false);
+        component.set("v.zoneError",false);
+        component.set("v.scheduleError",false);
+        component.set("v.showError",false);
+        component.set("v.productChange", false);
 		component.set("v.cpsWrap.offeringId", offering.offeringId);
         component.set("v.cpsWrap.accId",offering.accId);
         component.set("v.cpsWrap.accName",offering.accName);
@@ -111,7 +111,7 @@
         component.set("v.cpsWrap.courseId",offering.courseId);
         component.set("v.LPClassroomSetting",offering.classFormat);
         component.set("v.cpsWrap.classFormat",offering.classFormat);
-        component.set("v.cpsWrap.noOfStudents",offering.noOfStudents);
+        component.set("v.cpsWrap.quantity","0");
         component.set("v.LPDuration",offering.classDuration);
         component.set("v.cpsWrap.classDuration",offering.classDuration);
         component.set("v.cpsWrap.sessionList",offering.sessionList);
@@ -152,6 +152,10 @@
                 if(offering.offeringId != del_index){
                     offering.offeringId = ++newOfferingId;
                     newOfferingList.push(offering);
+                } else {
+                    component.set("v.cpsWrap.ccProductId",offering.ccProductId);
+                    component.set("v.cpsWrap.quantity", "-1");
+                    helper.updateProductQuantityMap(component,event,helper);
                 }
             });
             component.set("v.offeringId", newOfferingId);
@@ -162,8 +166,7 @@
             $A.get("e.force:refreshView").fire();
         }
 
-    },
-    
+    },   
     addSession : function(component, event, helper) {
         var lastDate = '';
         var tempList = component.get("v.cpsWrap.sessionList");
@@ -177,7 +180,8 @@
         
         tempList.push({'classDate':'',
                        'startTime':'',
-                       'endTime':''});
+                       'endTime':'',
+                       'timeZone':tempList[0].timeZone,});
         component.set("v.cpsWrap.sessionList",tempList);
 
         helper.requiredSchedule(component,event,helper);
@@ -224,13 +228,21 @@
                 var offeringJson = JSON.stringify(component.get("v.cpsWrap"));
 
                 if(existingOfferingInCart != "0"){
+                    tempList[existingOfferingInCart -1].quantity = "1";
+                    if(component.get("v.productChange")){
+                        component.set("v.cpsWrap.quantity", "1");
+                    } else {
+                        component.set("v.cpsWrap.quantity", "0");
+                    }
+                    component.set("v.productChange", false);
                     tempList[existingOfferingInCart -1] = JSON.parse(offeringJson);
+                    
                 } else {
                     var offeringId = component.get("v.offeringId");
                     offeringId = offeringId + 1;
                     component.set("v.offeringId", offeringId);
 					component.set("v.cpsWrap.offeringId", offeringId);
-                    component.set("v.cpsWrap.noOfStudents", "1");
+                    component.set("v.cpsWrap.quantity", "1");
                     offeringJson = JSON.stringify(component.get("v.cpsWrap"));
 					tempList.push(JSON.parse(offeringJson));                 
                 }
@@ -373,13 +385,20 @@
                 var offeringJson = JSON.stringify(component.get("v.cpsWrap"));
                 
                 if(existingOfferingInCart != "0"){
+                    tempList[existingOfferingInCart -1].quantity = "1";
+                    if(component.get("v.productChange")){
+                        component.set("v.cpsWrap.quantity", "1");
+                    } else {
+                        component.set("v.cpsWrap.quantity", "0");
+                    }
+                    component.set("v.productChange", false);
                     tempList[existingOfferingInCart -1] = JSON.parse(offeringJson);
                 } else {
                     var offeringId = component.get("v.offeringId");
                     offeringId = offeringId + 1;
                     component.set("v.offeringId", offeringId);
 					component.set("v.cpsWrap.offeringId", offeringId);
-                    component.set("v.cpsWrap.noOfStudents", "1");
+                    component.set("v.cpsWrap.quantity", "1");
                     offeringJson = JSON.stringify(component.get("v.cpsWrap"));
 					tempList.push(JSON.parse(offeringJson));                    
                 }

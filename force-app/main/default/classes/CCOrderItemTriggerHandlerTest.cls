@@ -5,7 +5,7 @@
 
 @isTest
 public class CCOrderItemTriggerHandlerTest {
-	
+    
     public static Opportunity testOpportunity;
     public static Map<String, Object> testData;
     public static List<ccrz__E_Product__c> products;
@@ -17,15 +17,15 @@ public class CCOrderItemTriggerHandlerTest {
         bas.Bucket_Account_RecordTypeID__c = '012d000000098Wt';
         bas.Default_Bucket_Name__c = 'Bucket Account';
         bas.Maximum_Size_of_Bucket__c = 5000;
-		insert bas; 
+        insert bas; 
             
-		GL_Unit_Code__c unitCode = new GL_Unit_Code__c();
+        GL_Unit_Code__c unitCode = new GL_Unit_Code__c();
         unitCode.Name = '01234';
         unitCode.Unit_Code__c = '01234';
         unitCode.TS_LOC__c = '0123';
         insert unitCode;
             
-		Geo_Location__c geoLocation = new Geo_Location__c();            
+        Geo_Location__c geoLocation = new Geo_Location__c();            
         geoLocation.City__c = 'San Francisco';
         geoLocation.State__c = 'California';
         geoLocation.State_Abbreviation__c = 'CA';
@@ -34,7 +34,7 @@ public class CCOrderItemTriggerHandlerTest {
         geoLocation.Coordinates__Latitude__s = 1.234;
         geoLocation.Coordinates__Longitude__s = 1.333;
         geoLocation.GL_Unit_Code__c = unitCode.Id;
-        insert geoLocation;	
+        insert geoLocation; 
     }
     
     static testMethod void matchingPostalCode() {
@@ -49,12 +49,12 @@ public class CCOrderItemTriggerHandlerTest {
         phss_cc_TestDataFactory.createInsertStoredPayment(1, testOpportunity);
         Test.startTest();  
         Map<String, Object> newPO = new Map<String, Object>{
-        	phss_cc_OrderUtil.NEW_PO_NAME_KEY => 'Test PO',
+            phss_cc_OrderUtil.NEW_PO_NAME_KEY => 'Test PO',
             phss_cc_OrderUtil.NEW_PO_AMOUNT_KEY => '1000',
             //phss_cc_OrderUtil.NEW_PO_START_DATE_KEY => String.valueOf(Date.today()),
             //phss_cc_OrderUtil.NEW_PO_END_DATE_KEY => String.valueOf(Date.today()+5),
             phss_cc_OrderUtil.NEW_PO_DOSAVE_KEY => true
-      	};
+        };
         Map<String, Object> placeOrderResult = phss_cc_CartController.placeOrderOnCartPO(testOpportunity.Id, testCart.ccrz__EncryptedId__c, newPO);
         Map<String, Object> placeOrderResultExistingPO = phss_cc_OrderUtil.placeOrderOnCartPO(testOpportunity.Id, testCart.ccrz__EncryptedId__c, newPO);
         Test.stopTest();
@@ -78,12 +78,12 @@ public class CCOrderItemTriggerHandlerTest {
         phss_cc_TestDataFactory.createInsertStoredPayment(1, testOpportunity);  
         Test.startTest(); 
         Map<String, Object> newPO = new Map<String, Object>{
-        	phss_cc_OrderUtil.NEW_PO_NAME_KEY => 'Test PO',
+            phss_cc_OrderUtil.NEW_PO_NAME_KEY => 'Test PO',
             phss_cc_OrderUtil.NEW_PO_AMOUNT_KEY => '1000',
             //phss_cc_OrderUtil.NEW_PO_START_DATE_KEY => String.valueOf(Date.today()),
             //phss_cc_OrderUtil.NEW_PO_END_DATE_KEY => String.valueOf(Date.today()+5),
             phss_cc_OrderUtil.NEW_PO_DOSAVE_KEY => true
-      	};
+        };
         Map<String, Object> placeOrderResult = phss_cc_CartController.placeOrderOnCartPO(testOpportunity.Id, testCart.ccrz__EncryptedId__c, newPO);
         Map<String, Object> placeOrderResultExistingPO = phss_cc_OrderUtil.placeOrderOnCartPO(testOpportunity.Id, testCart.ccrz__EncryptedId__c, newPO);
         Test.stopTest();
@@ -100,12 +100,12 @@ public class CCOrderItemTriggerHandlerTest {
         phss_cc_TestDataFactory.createInsertStoredPayment(1, testOpportunity);
         Test.startTest();        
         Map<String, Object> newPO = new Map<String, Object>{
-        	phss_cc_OrderUtil.NEW_PO_NAME_KEY => 'Test PO',
+            phss_cc_OrderUtil.NEW_PO_NAME_KEY => 'Test PO',
             phss_cc_OrderUtil.NEW_PO_AMOUNT_KEY => '1000',
            // phss_cc_OrderUtil.NEW_PO_START_DATE_KEY => String.valueOf(Date.today()),
             //phss_cc_OrderUtil.NEW_PO_END_DATE_KEY => String.valueOf(Date.today()+5),
             phss_cc_OrderUtil.NEW_PO_DOSAVE_KEY => true
-      	};
+        };
         Map<String, Object> placeOrderResult = phss_cc_CartController.placeOrderOnCartPO(testOpportunity.Id, testCart.ccrz__EncryptedId__c, newPO);
         Map<String, Object> placeOrderResultExistingPO = phss_cc_OrderUtil.placeOrderOnCartPO(testOpportunity.Id, testCart.ccrz__EncryptedId__c, newPO);
         Test.stopTest();

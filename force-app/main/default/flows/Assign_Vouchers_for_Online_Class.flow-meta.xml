@@ -135,7 +135,7 @@
     <decisions>
         <name>Ready_to_fulfill</name>
         <label>Ready to fulfill</label>
-        <locationX>298</locationX>
+        <locationX>297</locationX>
         <locationY>203</locationY>
         <defaultConnector>
             <targetReference>Do_Nothing</targetReference>
@@ -143,7 +143,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Order_Submitted</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>sOrderItem.ccrz__OrderItemStatus__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -292,7 +292,7 @@
         <inputReference>outVoucher</inputReference>
     </recordUpdates>
     <startElementReference>Get_Order_Item</startElementReference>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>colLearning</name>
         <dataType>SObject</dataType>

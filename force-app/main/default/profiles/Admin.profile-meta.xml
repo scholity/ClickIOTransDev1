@@ -331,6 +331,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ClassListInstructorCPSController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ClassListInstructorCPSControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CommunitiesLandingController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -500,6 +508,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>GeneratePDFHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GeneratePDFHandlerCPS</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GeneratePDFHandlerCPStest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -16211,6 +16227,10 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>GeneratePDFHelperCPS</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>HomePageRedirect</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -16256,6 +16276,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>PDFDownloader</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>PDFDownloaderCPS</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
@@ -16344,6 +16368,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>XLSDownloader</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>XLSDownloaderCPS</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>

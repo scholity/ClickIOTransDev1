@@ -7,10 +7,6 @@
         var result = this.isCartValid(component);
         if (result.success) {
             var action = component.get('c.addClassesToCart');
-            console.log('v.recordId');
-            console.log(component.get('v.recordId'));
-            console.log('result.cartItems');
-            console.log(JSON.stringify(result.cartItems));
             action.setParams({
                 opportunityId : component.get('v.recordId'),
                 items         : JSON.stringify(result.cartItems)

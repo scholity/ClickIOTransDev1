@@ -45,9 +45,9 @@
             } else {
                 this.showToastMessage('Error Fetching Active Cart', 'Unable to contact server.', 'Error');
             }
-            component.set('v.showSpinner', false);
+            this.actionDidFinish('getActiveCart', component);
         });
-        component.set('v.showSpinner', true);
+        this.actionDidStart('getActiveCart', component);
         $A.enqueueAction(action);
     },
 
@@ -66,6 +66,8 @@
         else if (searchString.length < 2) {
             this.showToastMessage('Error', 'Enter at least 2 characters for search.', 'Error');
         } else {
+            this.actionDidStart('doSearch', component);
+
             var opportunitySfid = component.get('v.recordId');
             var action = component.get('c.searchProducts');
             action.setParams({
@@ -95,9 +97,8 @@
                 } else {
                     this.showToastMessage('Error Fetching Products', 'Unable to contact server.', 'Error');
                 }
-                component.set('v.showSpinner', false);
+                this.actionDidFinish('doSearch', component);
             });
-            component.set('v.showSpinner', true);
             $A.enqueueAction(action);
         }
     },
@@ -139,9 +140,9 @@
             } else {
                 this.showToastMessage('Error Adding to Cart', 'Unable to contact server.', 'Error');
             }
-            component.set('v.showSpinner', false);
+            this.actionDidFinish('addToCart', component);
         });
-        component.set('v.showSpinner', true);
+        this.actionDidStart('addToCart', component);
         $A.enqueueAction(action);
     },
 
@@ -208,5 +209,27 @@
         }
 
         component.set('v.filteredProductList', products);
+    },
+
+    actionDidStart: function (actionName, component) {
+        var actionsInProgress = component.get('v.actionsInProgress');
+        if (actionsInProgress != null && Array.isArray(actionsInProgress)) {
+            if (!actionsInProgress.includes(actionName)) {
+                actionsInProgress.push(actionName);
+            }
+        }
+        component.set('v.showSpinner', actionsInProgress.length > 0);
+    },
+
+    actionDidFinish: function (actionName, component) {
+        var actionsInProgress = component.get('v.actionsInProgress');
+        if (actionsInProgress != null && Array.isArray(actionsInProgress)) {
+            for (var i = 0; i < actionsInProgress.length; i++) {
+                if (actionsInProgress[i] == actionName) {
+                    actionsInProgress.splice(i, 1);
+                }
+            }
+        }
+        component.set('v.showSpinner', actionsInProgress.length > 0);
     }
 })

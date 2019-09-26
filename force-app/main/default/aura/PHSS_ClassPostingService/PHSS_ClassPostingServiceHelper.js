@@ -5,6 +5,7 @@
         action.setCallback(this, function(response) {
             var state = response.getState();
             if (state === "SUCCESS") { 
+
                 var resp = response.getReturnValue();    
                 component.set("v.cpsWrap",resp);
                 component.set("v.initialWrap",resp);
@@ -68,8 +69,7 @@
        	var action = component.get("c.updateProductQuantityMap");
         action.setParams({ productQuantityMap : component.get("v.myProductQuantityMap"),
                            ccProductId : component.get("v.cpsWrap.ccProductId"),
-                           //noOfStudents : component.get("v.cpsWrap.noOfStudents")
-                           noOfStudents : "2" });
+                           quantity : component.get("v.cpsWrap.quantity") });
 
         action.setCallback(this, function(response) {
             var state = response.getState();
@@ -157,6 +157,7 @@
         // Time Zone validation
         var tempList = component.get("v.cpsWrap.sessionList");
         tempList.forEach(function(session) {
+            
         	session.timeZone = document.getElementById('zoneSelect').value;
 
             if(session.timeZone) {
@@ -171,7 +172,6 @@
 
         });    
         component.set("v.cpsWrap.sessionList",tempList);
-        
         
         // Other fields validation
         var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
@@ -368,7 +368,7 @@
                     
                     component.set("v.LPName", 'Not Found');
                     component.set("v.LPClassroomSetting", '');
-                    component.set("v.LPDuration", '');
+                    component.set("v.LPDuration", 0);
                     
                     component.set("v.cpsWrap.courseId", '');
                     component.set("v.cpsWrap.courseName", 'Not Found');
@@ -385,17 +385,18 @@
         //component.set("v.cpsWrap.accName","");
         component.set("v.showError","false");
         component.set("v.errorMessage","");
+        component.set("v.productChange", false);
     	component.set("v.CCProductId","");
     	component.set("v.LPName","");
         component.set("v.LPClassroomSetting","");
-        component.set("v.LPDuration","");
-        component.set("v.ScheduledTime","");
+        component.set("v.LPDuration",0);
+        component.set("v.ScheduledTime",0);
         component.set("v.cpsWrap.courseName","");
     	component.set("v.cpsWrap.ccProductId","");
     	component.set("v.cpsWrap.courseId","");    
     	component.set("v.cpsWrap.classFormat","");
     	component.set("v.cpsWrap.classDuration","");
-    	component.set("v.cpsWrap.noOfStudents","1");
+    	component.set("v.cpsWrap.quantity","1");
         component.set("v.cpsWrap.sessionList",[]);
         var tempList = component.get("v.cpsWrap.sessionList");
         tempList.push({'classDate':'',
