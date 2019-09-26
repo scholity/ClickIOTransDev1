@@ -15,6 +15,7 @@
     <!--Booleans for changing component visibility-->
     <aura:attribute name="renderComplete" type="Boolean" default="false"/>
     <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="actionsInProgress" type="List" default="[]"/>
 
     <!--product spec attributes-->
     <aura:attribute name="showProductSpecMenu" type="Boolean" default="false"/>
@@ -31,6 +32,7 @@
 
     <!--Register Event-->
     <aura:registerEvent name="refreshComponent" type="c:phss_cc_RefreshComponentEvent"/>
+    <aura:registerEvent name="productSearchReady" type="c:phss_cc_ProductSearchReadyEvent"/>
 
     <!--Component Attributes-->
     <aura:attribute type="String" name="searchQuery"/>
@@ -58,7 +60,7 @@
             <lightning:button label="Submit" name="searchButton" onclick="{!c.onSearch}" variant="brand"/>
         </div>
 
-        <aura:if isTrue="{! and(v.showProductSpecMenu, greaterthan(v.availableProductSpecs.length, 0)) }">
+        <aura:if isTrue="{! greaterthan(v.availableProductSpecs.length, 0) }">
             <div class="slds-col slds-size_2-of-6">
                 <h1>&nbsp;</h1>
             </div>

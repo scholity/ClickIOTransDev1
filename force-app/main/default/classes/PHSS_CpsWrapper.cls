@@ -20,7 +20,7 @@ public class PHSS_CpsWrapper {
     @AuraEnabled
     public String classDuration {get;set;}
     @AuraEnabled
-    public String noOfStudents {get;set;}
+    public String quantity {get;set;}
     @AuraEnabled
     public List<String> classFormatList {get;set;}
     @AuraEnabled
@@ -67,7 +67,7 @@ public class PHSS_CpsWrapper {
         this.geoLat = '';
         this.geoLng = '';
         this.regType = '';
-        this.noOfStudents = '1';
+        this.quantity = '1';
     }    
     
     public class SessionWrapper {

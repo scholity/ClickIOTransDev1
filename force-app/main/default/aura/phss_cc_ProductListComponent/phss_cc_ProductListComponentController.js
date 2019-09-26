@@ -10,6 +10,9 @@
      */
     doInit : function (component, event, helper) {
         helper.getActiveCart(component);
+
+        var readyEvent = $A.get('e.c:phss_cc_ProductSearchReadyEvent');
+        setTimeout(function() { readyEvent.fire(); }, 100);
     },
 
     /**
@@ -19,7 +22,6 @@
      * @param helper
      */
     onSearch: function (component, event, helper) {
-        component.set('v.showProductSpecMenu', false);
         component.set('v.availableProductSpecs', []);
         helper.doSearch(component);
     },
@@ -38,7 +40,6 @@
     handleProductSearchEvent : function (component, event, helper) {
         var searchTerm = event.getParam('searchTerm');
         component.set('v.searchQuery', searchTerm);
-        component.set('v.showProductSpecMenu', true);
         helper.doSearch(component, event, helper);
     },
 

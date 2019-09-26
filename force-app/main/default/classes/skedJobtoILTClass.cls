@@ -262,7 +262,7 @@ public without sharing class skedJobtoILTClass {
     public  List<redwing__ILT_Instructor__c> jobInstructorList = new List<redwing__ILT_Instructor__c>();      
     public  Map<Id, Set<Id>> jobAllocationMap = new Map<Id, Set<Id>>();
     public  Map<Id, Set<Id>> scheduleAllocationMap = new Map<Id, Set<Id>>();
-    public  Map<Id, Set<Id>> jobStackMap = new Map<Id, Set<Id>>();
+    public  Map<Id, Integer> jobInstructorCountMap = new Map<Id, Integer>();
     public  Map<Id, List<redwing__ILT_Instructor__c>> jobInstructorMap = new Map<Id, List<redwing__ILT_Instructor__c>>();
     public  Map<Id, List<redwing__ILT_Instructor__c>> scheduleInstructorMap = new Map<Id, List<redwing__ILT_Instructor__c>>();    
     public  Map<Id, Id> instructorResourceMap = new Map<Id, Id>();        
@@ -293,7 +293,7 @@ public without sharing class skedJobtoILTClass {
         // Build a Map of Skedulo Course Catalog Id to Job Id, and all Locations and Jobs in Scope
         
         // Get a Map of all course catalog available to match it with course code in Stacked class
-        for(Course_Catalog__c cc:[SELECT Name, Id FROM Course_Catalog__c WHERE Type__c!=NULL LIMIT 10000])
+        for(Course_Catalog__c cc:[SELECT Name, Id, Number_of_Instructors__c FROM Course_Catalog__c WHERE Type__c!=NULL LIMIT 10000])
         {
             CCwithIds.put(cc.name, cc.Id);
         }
@@ -302,9 +302,9 @@ public without sharing class skedJobtoILTClass {
         for(sked__Job__c curJobRecord : newRecords){    
             if(curJobRecord.Is_Stacked_Class__c==true){   
                 if(CCwithIds.containsKey(curJobRecord.Course_Code__c)){ 
-                    jobIds.add(curJobRecord.Id);                            
-                    System.debug('*** Job:'+curJobRecord.Name+' is a valid stacked class with course code:'+curJobRecord.Course_Code__c);
+                    jobIds.add(curJobRecord.Id);
                     jobCatalogMap.put(curJobRecord.Id, CCwithIds.get(curJobRecord.Course_Code__c));//JobId with respective course catalog record - only stacked class
+                    System.debug('*** Job:'+curJobRecord.Name+' is a valid stacked class with course code:'+curJobRecord.Course_Code__c);
                     System.debug('*** Job catalog Map stacked class:'+jobCatalogMap);
                     
                     // *** US1493 - Enhancement to Skedulo record allocation to jobs
@@ -315,6 +315,7 @@ public without sharing class skedJobtoILTClass {
                         masterJobIds.add(curJobRecord.sked__Parent__c);
                         System.debug('Adding masterJobId:'+curJobRecord.sked__Parent__c);
                     }
+                    jobInstructorCountMap.put(curJobRecord.sked__Parent__c, (Integer) curJobRecord.Number_of_Instructors__c);
                 }
             }
             else
@@ -322,6 +323,8 @@ public without sharing class skedJobtoILTClass {
                 jobIds.add(curJobRecord.Id);                        
                 jobCatalogMap.put(curJobRecord.Id, curJobRecord.Course_Catalog__c); //JobId with respective course catalog record(Stacked class not included)
                 System.debug('*** Job:'+curJobRecord.name+' is a normal class:'+jobCatalogMap);
+
+                jobInstructorCountMap.put(curJobRecord.Id, (Integer) curJobRecord.Number_of_Instructors__c);
             }
 
             if(curJobRecord.sked__Location__c != null){
@@ -610,6 +613,10 @@ public without sharing class skedJobtoILTClass {
         // **************************************************************************************************************
 
         for(sked__Job__c curJobRecord : newRecords) {
+            Integer nMaxStudents = 0;
+            String instructorStudentRatio = '';
+            Integer nRequiredInstructors = 0;
+
             sked__Job__c oldJobRecord = oldRecords.get(curJobRecord.Id);
 
             // Determine if this is an updated job record for which an ILT class record does not already exist
@@ -694,56 +701,48 @@ public without sharing class skedJobtoILTClass {
                         }
                     } else clsRecord.Opportunity__c = null;
 
-                    Integer nTotalStudents = 0;
-                    String instructorStudentRatio = '';
-                    Id jobAllocationId;
-
                     if(curJobRecord.Is_Stacked_Class__c==true) {
                         if (catalogIds.get(CCwithIds.get(curJobRecord.Course_Code__c)) != Null) {                   
                             instructorStudentRatio = catalogIds.get(CCwithIds.get(curJobRecord.Course_Code__c)).Course_Catalog__r.Ratio_to_Instructor__c;
                         }
+                        if (curJobRecord.sked__Parent__c != null && jobInstructorCountMap.containsKey(curJobRecord.sked__Parent__c)) {
+                            nRequiredInstructors = jobInstructorCountMap.get(curJobRecord.sked__Parent__c);
+                        }
                     } else {
                         if (catalogIds.get(curJobRecord.Course_Catalog__c) != Null) {
-                            instructorStudentRatio = catalogIds.get(curJobRecord.Course_Catalog__c).Course_Catalog__r.Ratio_to_Instructor__c;                       
+                            instructorStudentRatio = catalogIds.get(curJobRecord.Course_Catalog__c).Course_Catalog__r.Ratio_to_Instructor__c;
+                        }
+                        if (jobInstructorCountMap.containsKey(curJobRecord.Id)) {
+                            nRequiredInstructors = jobInstructorCountMap.get(curJobRecord.Id);
                         }
                     }
-                    
+
                     // Default instructor:student ratio to 1:12 
                     if (String.isBlank(instructorStudentRatio)) {
                         instructorStudentRatio = '1:12';   
                     }
-                                    system.debug('*** instructorStudentRatio='+instructorStudentRatio);
-                                    system.debug('*** jobAllocationMap='+jobAllocationMap);
-                    if (instructorStudentRatio != null) {
-                        String[] ratio = instructorStudentRatio.split(':');
-                        if (ratio.size() == 2 && ratio[0] != null && ratio[1] != null) {
-                            Integer nInstructor = Integer.valueOf(ratio[0]);
-                            Integer nStudent = Integer.valueOf(ratio[1]);
+                    system.debug('*** instructorStudentRatio='+instructorStudentRatio);
+                    system.debug('*** nRequiredInstructors='+nRequiredInstructors);
 
-                            if (nInstructor != null && nStudent != null && nInstructor != 0) {
-                                if (curJobRecord.Is_Stacked_Class__c == true && curJobRecord.Is_Master_Class__c == false
-                                        && curJobRecord.sked__Parent__c != null) {
-                                    jobAllocationId = curJobRecord.sked__Parent__c;
-                                } else {
-                                    jobAllocationId = curJobRecord.Id;
-                                }
+                    String[] ratio = instructorStudentRatio.split(':');
+                    if (ratio.size() == 2 && ratio[0] != null && ratio[1] != null) {
+                        Integer nInstructor = Integer.valueOf(ratio[0]);
+                        Integer nStudent = Integer.valueOf(ratio[1]);
 
-                                Set<Id> nAllocations = jobAllocationMap.get(jobAllocationId);
-                                Integer nAllocatedInstructors;
-                                // Default to one instructor if none have been allocated yet
-                                if (nAllocations == null || nAllocations.size() == 0) {
-                                    nAllocatedInstructors = 1;
-                                } else {
-                                    nAllocatedInstructors = nAllocations.size();
-                                }
-                                system.debug('*** nAllocatedInstructors='+nAllocatedInstructors);
-                                nTotalStudents = Integer.valueOf(Math.ceil((nStudent/nInstructor) * nAllocatedInstructors));
+                        if (nInstructor != null && nStudent != null && nInstructor != 0) {
+                            // Default to one instructor if none have been allocated yet
+                            if (nRequiredInstructors == null || nRequiredInstructors <= 0) {
+                                nRequiredInstructors = 1;
                             }
-                        } else {
-                            nTotalStudents = 12;
+                            nMaxStudents = Integer.valueOf(Math.ceil((nStudent/nInstructor) * nRequiredInstructors));
                         }
+                    } else {
+                        nMaxStudents = 12;
                     }
-system.debug('*** nTotalStudents='+nTotalStudents);
+                    system.debug('*** nMaxStudents='+nMaxStudents);
+                    clsRecord.redwing__Max_Seats__c = nMaxStudents;
+                    clsRecord.Available_Seats__c = nMaxStudents;
+
                     if(curJobRecord.Is_Stacked_Class__c==true) {
                         System.debug('*** Creating stacked class for job:'+curJobRecord.name);
                         System.debug('*** Course code:'+curJobRecord.Course_Code__c);                       
@@ -755,11 +754,7 @@ system.debug('*** nTotalStudents='+nTotalStudents);
                         System.debug('*** Cloud Craze Product:'+catalogIds.get(CCwithIds.get(curJobRecord.Course_Code__c)));
                         
                         if(catalogIds!=null && catalogIds.get(CCwithIds.get(curJobRecord.Course_Code__c))!=null){
-                            clsRecord.Cloud_Craze_Product__c = catalogIds.get(CCwithIds.get(curJobRecord.Course_Code__c)).Id;                                                   
-                            //clsRecord.redwing__Max_Seats__c = catalogIds.get(CCwithIds.get(curJobRecord.Course_Code__c)).Course_Catalog__r.Number_of_Students__c; 
-                            //clsRecord.Available_Seats__c = catalogIds.get(CCwithIds.get(curJobRecord.Course_Code__c)).Course_Catalog__r.Number_of_Students__c;
-                            clsRecord.redwing__Max_Seats__c = nTotalStudents;
-                            clsRecord.Available_Seats__c = nTotalStudents;
+                            clsRecord.Cloud_Craze_Product__c = catalogIds.get(CCwithIds.get(curJobRecord.Course_Code__c)).Id;
                         }
                         
                         clsRecord.Is_Master_Class__c = curJobRecord.Is_Master_Class__c;
@@ -778,16 +773,9 @@ system.debug('*** nTotalStudents='+nTotalStudents);
                         clsRecord.Learning_Plan__c = learningplancc.get(curJobRecord.Course_Catalog__c);
                         //clsRecord.Classroom_Setting__c = learningPlancs.get(curJobRecord.Course_Catalog__c);
                         if(!learningPlancDate.IsEmpty() && !learningPlancs.IsEmpty()&& learningPlancDate.containsKey(curJobRecord.Course_Catalog__c) && learningPlancs.containsKey(curJobRecord.Course_Catalog__c)){
-                            //Date createdDate = date.newinstance(learningPlancDate.get(curJobRecord.Course_Catalog__c).year(), learningPlancDate.get(curJobRecord.Course_Catalog__c).month(), learningPlancDate.get(curJobRecord.Course_Catalog__c).day());
-                            //Date enddateDate = date.newinstance(learningPlancs.get(curJobRecord.Course_Catalog__c).year(), learningPlancs.get(curJobRecord.Course_Catalog__c).month(), learningPlancs.get(curJobRecord.Course_Catalog__c).day());
-                            //clsRecord.Class_Online_From__c = learningPlancDate.get(curJobRecord.Course_Catalog__c).date();
                             clsRecord.Classroom_Setting__c = learningPlancs.get(curJobRecord.Course_Catalog__c);
                             if (catalogIds!=null && catalogIds.get(curJobRecord.Course_Catalog__c)!=null) {
                                 clsRecord.Cloud_Craze_Product__c= catalogIds.get(curJobRecord.Course_Catalog__c).Id;
-                                //clsRecord.redwing__Max_Seats__c = catalogIds.get(curJobRecord.Course_Catalog__c).Course_Catalog__r.Number_of_Students__c;
-                                //clsRecord.Available_Seats__c = catalogIds.get(curJobRecord.Course_Catalog__c).Course_Catalog__r.Number_of_Students__c;
-                                clsRecord.redwing__Max_Seats__c = nTotalStudents;
-                                clsRecord.Available_Seats__c = nTotalStudents;
                             }
                         }
                     }
@@ -1022,7 +1010,7 @@ system.debug('*** nTotalStudents='+nTotalStudents);
             database.UpsertResult[] results = Database.upsert(lstILTClass, f, false);
             System.debug('Class created results' + results);
 
-            for (Integer nILTClass=0; nILTClass < results.size(); nILTClass++) {
+            for (Integer nILTClass = 0; nILTClass < results.size(); nILTClass++) {
                 if (results[nILTClass].isSuccess()) {
                     redwing__ILT_Class__c clsRecord = lstILTClass[nILTClass];
                     newJobToClassMap.put(clsRecord.Skedulo_Job_Id__c, clsRecord);
@@ -1035,7 +1023,7 @@ system.debug('*** nTotalStudents='+nTotalStudents);
 
                     if (clsRecord.Request_Type__c == 'Full Service') {
                         Set<ccrz__E_OrderItem__c> orderItemSet = jobIdOrderItems.get(clsRecord.Skedulo_Job_Id__c);
-                        if (!orderItemSet.isEmpty()) {
+                        if (orderItemSet != null && !orderItemSet.isEmpty()) {
                             Id theOrderId;
                             for (ccrz__E_OrderItem__c oi : orderItemSet) {
                                 if (oi.ILT_Class__c == null) {
@@ -1052,40 +1040,62 @@ system.debug('*** nTotalStudents='+nTotalStudents);
                     }
                 }
             }
-        }
-           
-        // Voucher creation (newJobToClassMap now contains a mapping of Job Id to ILT Class for both new and existing classes)
-        // We must iterate over old and new to determine if class size has changed based on job allocation or ratio change
 
-        for (redwing__ILT_Class__c theClass :  newJobToClassMap.values()) {
-            system.debug(newJobToClassMap);
+            // **************************************************************************************************
+            // ** Manage Resource (Instructor) Allocations (Assignments)
+            // **************************************************************************************************
 
-            // Insure that the Learning Plan Id will be available if we need to create voucher, otherwise need to skip
-            if (catalogIds.get(jobCatalogMap.get(theClass.Skedulo_Job_Id__c)) != null) {
-                // For new ILT Class records use the previously calculated max seats(number of students) for voucher count
-                // For updated (existing) ILT Class records determine if voucher count is still valid (max seats)
-                Integer nTotalStudentsOld = 0;
-                Integer nTotalStudents = 0;
-                if (theClass.redwing__Max_Seats__c != null) {
-                    nTotalStudents = Integer.valueOf(theClass.redwing__Max_Seats__c);
-                }
-                if (jobToClassMap.containsKey(theClass.Skedulo_Job_Id__c)) {
-                    nTotalStudentsOld = Integer.valueOf(jobToClassMap.get(theClass.Skedulo_Job_Id__c).redwing__Max_Seats__c);
-                }
+            resourceToInstructorMap = getResourceInstructorMap(setJob);
+            if (!resourceToInstructorMap.isEmpty()) {
+                lstILTInstructor = assignInstructors(setJob);
+            }
 
-                System.debug('*** nTotalStudentsOld='+nTotalStudentsOld+' nTotalStudents='+nTotalStudents);
-                if (nTotalStudents > nTotalStudentsOld) {
-                    for (Integer i = 0; i < (nTotalStudents - nTotalStudentsOld); i++) {
-                        Voucher__c objVoucher = new Voucher__c();
-                        objVoucher.ILT_Class__c = theClass.Id;
-                        objVoucher.Learning_Plan__c = catalogIds.get(jobCatalogMap.get(theClass.Skedulo_Job_Id__c)).LMS_Learning_Plan__c;
-                        voucherList.add(objVoucher);
+            // Voucher creation (newJobToClassMap now contains a mapping of Job Id to ILT Class for both new and existing classes)
+            // We must iterate over old and new to determine if class size has changed based on job allocation or ratio change
+
+            for (redwing__ILT_Class__c theClass : newJobToClassMap.values()) {
+                system.debug(newJobToClassMap);
+
+                // Insure that the Learning Plan Id will be available if we need to create voucher, otherwise need to skip
+                if (catalogIds.get(jobCatalogMap.get(theClass.Skedulo_Job_Id__c)) != null) {
+                    // For new ILT Class records use the previously calculated max seats(number of students) for voucher count
+                    // For updated (existing) ILT Class records determine if voucher count is still valid (max seats)
+                    Integer nTotalStudentsOld = 0;
+                    Integer nTotalStudents = 0;
+                    if (theClass.redwing__Max_Seats__c != null) {
+                        nTotalStudents = Integer.valueOf(theClass.redwing__Max_Seats__c);
+                    }
+                    if (jobToClassMap.containsKey(theClass.Skedulo_Job_Id__c)) {
+                        nTotalStudentsOld = Integer.valueOf(jobToClassMap.get(theClass.Skedulo_Job_Id__c).redwing__Max_Seats__c);
+                    }
+
+                    System.debug('*** nTotalStudentsOld=' + nTotalStudentsOld + ' nTotalStudents=' + nTotalStudents);
+                    if (nTotalStudents > nTotalStudentsOld) {
+                        for (Integer i = 0; i < (nTotalStudents - nTotalStudentsOld); i++) {
+                            Voucher__c objVoucher = new Voucher__c();
+                            objVoucher.ILT_Class__c = theClass.Id;
+                            objVoucher.Learning_Plan__c = catalogIds.get(jobCatalogMap.get(theClass.Skedulo_Job_Id__c)).LMS_Learning_Plan__c;
+                            voucherList.add(objVoucher);
+                        }
                     }
                 }
-                // What about reductions in max class size?  Are vouchers to be removed?
             }
         }
-                    
+
+        if (lstILTInstructor.size() > 0) {
+            System.debug('lstILTInstructor='+lstILTInstructor);
+            Schema.SObjectField f = redwing__ILT_Instructor__c.Fields.Skedulo_Job_Id_External__c;
+            Database.UpsertResult[] results = Database.upsert(lstILTInstructor, f, false);
+            system.debug('lstILTInstructor Upsert Results =' + results);
+        }
+
+        if (lstILTSession.size() > 0) {
+            System.debug('ListILTSession='+lstILTSession);
+            Schema.SObjectField f = redwing__ILT_Session__c.Fields.Skedulo_Job_Id_External__c;
+            Database.UpsertResult[] results = Database.upsert(lstILTSession, f, false);
+            System.debug('ListILTSession Upsert Results='+results);
+        }
+
         if (voucherList.size() > 0) {
             System.debug('voucherList='+voucherList);
             List<Database.SaveResult> sresult = Database.insert(voucherList, false);
@@ -1100,13 +1110,6 @@ system.debug('*** nTotalStudents='+nTotalStudents);
             System.debug('lstOrderItems='+lstOrderItems);
             List<Database.SaveResult> sresult = Database.update(lstOrderItems, false);
         }
-
-        if (lstILTSession.size() > 0) {
-            System.debug('ListILTSession='+lstILTSession);
-            Schema.SObjectField f = redwing__ILT_Session__c.Fields.Skedulo_Job_Id_External__c;        
-            Database.UpsertResult[] results = Database.upsert(lstILTSession, f, false);
-            System.debug('ListILTSession Upsert Results='+results);
-        }    
         
         if (lstEventClass.size() > 0){
             System.debug(' Event Class record created');
@@ -1120,22 +1123,6 @@ system.debug('*** nTotalStudents='+nTotalStudents);
             Schema.SObjectField f = redwing__Training_Activity__c.Fields.Skedulo_Job_Id_External__c;
             Database.UpsertResult[] results = Database.upsert(lstTrainingActivity, f, false);
             System.debug('get learning activity Id '+results[0].getId());
-        }
-
-        // **************************************************************************************************
-        // ** Manage Resource (Instructor) Allocations (Assignments)
-        // **************************************************************************************************
-
-        resourceToInstructorMap = getResourceInstructorMap(setJob);
-        if (!resourceToInstructorMap.isEmpty()) {
-            lstILTInstructor = assignInstructors(setJob);
-
-            if (lstILTInstructor.size() > 0) {
-                System.debug(' ILT Instructor record created');
-                Schema.SObjectField f = redwing__ILT_Instructor__c.Fields.Skedulo_Job_Id_External__c;
-                Database.UpsertResult[] results = Database.upsert(lstILTInstructor, f, false);
-                system.debug('lstILTInstructor Upsert Results =' + results);
-            }
         }
     }
     
@@ -1349,7 +1336,7 @@ system.debug('*** nTotalStudents='+nTotalStudents);
 
         return classFieldChange;
     }
-	*/
+    */
     
     private Boolean checkSessionJobFields(sked__Job__c newJob, sked__Job__c oldJob) {
         Boolean sessionFieldChange = false; // true = at least one field value has changed between old and new records
@@ -1393,7 +1380,7 @@ system.debug('*** nTotalStudents='+nTotalStudents);
         if (includedProfilesSet.contains(profiles[0].Name)) {
             return true; // Eligible, profile in included List
         } else {
-			if(Test.isRunningTest()) return true;            
+            if(Test.isRunningTest()) return true;            
             else return false; // Not eligible, profile not in included List
         }
     }

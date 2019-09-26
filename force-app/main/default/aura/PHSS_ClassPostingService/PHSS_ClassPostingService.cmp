@@ -6,7 +6,7 @@
     <aura:attribute name = "CCProductId"		  type = "String"  	default = ""/>
     <aura:attribute name = "LPName"				  type = "String"  	default = ""/>
     <aura:attribute name = "LPClassroomSetting"	  type = "String"  	default = ""/>
-    <aura:attribute name = "LPDuration"			  type = "Decimal"  	default = ""/>      
+    <aura:attribute name = "LPDuration"			  type = "Decimal"  	default = "0"/>      
     <aura:attribute name = "ScheduledTime"		  type = "Decimal"  	default = "0"/> 
     
     <aura:attribute name = "storeFrontName" 	type = "String" 	default = "CPS" />
@@ -36,6 +36,7 @@
     <aura:attribute name = "formatError"    type = "Boolean"    default = "false"/>
     <aura:attribute name = "zoneError"      type = "Boolean"    default = "false"/>
     <aura:attribute name = "scheduleError"  type = "Boolean"    default = "false"/>
+    <aura:attribute name = "productChange"  type = "Boolean"    default = "false"/>
     
     <aura:attribute name = "oppIdParent" 	type = "String" 	default = ""/>
     <aura:attribute name = "displayPaymentInfo" type = "Boolean" default="true"/>
@@ -48,6 +49,7 @@
     <aura:attribute name = "offeringsList"	type="List" />
     <aura:attribute name = "offeringId" 	type="Integer" default = "0"/>
     <aura:attribute name = "offeringsPosted" type="Integer" default = "0"/>
+    <aura:handler   name="change" value="{!v.cpsWrap.classFormat}" action="{!c.onFormatChange}" />
 
 
     
@@ -179,7 +181,12 @@
                             	<label style="color:gray; font-size: .75rem;">Session</label>
                             </div>    
                             <aura:if isTrue="{!v.scheduleError}" >
-                                <div class="lookupError">You must Schedule session for minimum <b>{!v.cpsWrap.classDuration}</b> hours</div>
+                                <aura:if isTrue="{!v.cpsWrap.classDuration}" >
+                                	<div class="lookupError">You must Schedule session for minimum <b>{!v.cpsWrap.classDuration}</b> hours</div>
+                            	<aura:set attribute="else">
+                                    <div class="lookupError">Please <b>Search for a Course</b> and select from the search results to Schedule session(s) </div>
+                                </aura:set>
+                                </aura:if>
                             </aura:if>
                             <!--
                             <aura:iteration items="{!v.cpsWrap.sessionList}" var="sess" indexVar="index">
@@ -197,7 +204,7 @@
                                                             min="{!v.todaysDatePlus7}"
                                                             max="{!v.EndDate}"
                                                             autocomplete="off"
-                                                            aura:id="date1"/>
+                                                            aura:id="field"/>
                                                
                                            <aura:set attribute="else">
                                            <lightning:input value="{!sess.classDate}"
@@ -207,7 +214,7 @@
                                                             min="{!v.todaysDateFromLastEnterDate}"
                                                             max="{!v.EndDate}"
                                                             autocomplete="off"
-                                                            aura:id="dateN"/>
+                                                            aura:id="field2"/>
                                            </aura:set>
                                            </aura:if>
                                        </div>
