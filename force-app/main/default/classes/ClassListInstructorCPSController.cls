@@ -27,7 +27,7 @@ public without sharing class ClassListInstructorCPSController {
     }
     
     @AuraEnabled
-    public static List<ClassWrapper> getClasses(Integer offset, Integer limitOffset, Boolean isHistory, String accId, String instructorId) {        
+    public static List<ClassWrapper> getClasses(Integer offset, Integer limitOffset, String accId, String instructorId, String startDateFrom, String startDateTo) {        
         List<classWrapper> classWrapperList = new List<classWrapper>();
         limitOffset = Integer.valueOf(limitOffset);
         offset = Integer.valueOf(offset);
@@ -86,10 +86,17 @@ public without sharing class ClassListInstructorCPSController {
             query += ' AND redwing__Instructor__c = \'' + UserInfo.getUserId() + '\'';
         }
         
-        if(isHistory){
-            query +=  'AND redwing__ILT_Class__r.redwing__End_Date__c < TODAY ';
-        } else {
-            query +=  'AND redwing__ILT_Class__r.redwing__End_Date__c >= TODAY ';
+        //Start Date Condition
+        If(!String.isBlank(startDateFrom))
+        {
+            date dateStartDateFrom = date.valueOf(startDateFrom);
+            query += ' AND redwing__ILT_Class__r.redwing__Start_Date__c >= : dateStartDateFrom ';  
+        }
+        
+        If(!String.isBlank(startDateTo))
+        {
+            date dateStartDateTo = date.valueOf(startDateTo);
+            query += ' AND redwing__ILT_Class__r.redwing__Start_Date__c <= : dateStartDateTo ';  
         }
         
         query +=  'ORDER BY redwing__ILT_Class__r.Name ASC ';

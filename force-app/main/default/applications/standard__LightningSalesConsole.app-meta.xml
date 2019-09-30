@@ -1605,6 +1605,7 @@
     <tabs>redwing__ILT_Class__c</tabs>
     <tabs>Associated_Orders__c</tabs>
     <tabs>ccrz__E_CompositeProduct__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>LightningSalesConsole_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -1613,6 +1614,9 @@
         </mappings>
         <mappings>
             <tab>Attendee__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Integration_Error_Log__c</tab>
         </mappings>
         <mappings>
             <tab>ccrz__E_CompositeProduct__c</tab>

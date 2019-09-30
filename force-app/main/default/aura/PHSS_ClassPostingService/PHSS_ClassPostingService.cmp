@@ -51,8 +51,6 @@
     <aura:attribute name = "offeringsPosted" type="Integer" default = "0"/>
     <aura:handler   name="change" value="{!v.cpsWrap.classFormat}" action="{!c.onFormatChange}" />
 
-
-    
 	<!--
     <ltng:require 
                       styles="" 

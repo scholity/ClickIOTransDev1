@@ -20,4 +20,5 @@
     <tabs>redwing__ILT_Class__c</tabs>
     <tabs>Associated_Orders__c</tabs>
     <tabs>ccrz__E_CompositeProduct__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
 </CustomApplication>

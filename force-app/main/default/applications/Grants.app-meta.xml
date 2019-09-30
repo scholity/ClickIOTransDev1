@@ -51,6 +51,7 @@
     <tabs>SFDC_MDF_Claim__c</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>standard-report</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Scholarships_UtilityBar</utilityBar>
 </CustomApplication>

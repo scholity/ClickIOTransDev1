@@ -1,4 +1,4 @@
-<apex:page controller="GeneratePDFHandlerCPS" contentType="txt/xml#ClassesTeaching{!ClassType} CPS -{!todaysDate}.xls" cache="true">
+<apex:page controller="GeneratePDFHandlerCPS" contentType="txt/xml#Classes CPS -{!todaysDate}.xls" cache="true">
     <apex:outputText value="{!xlsHeader}"/>
     
     <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
@@ -17,7 +17,7 @@
             </Style> 
         </Styles>
         
-        <Worksheet ss:Name="Classes Teaching {!ClassType} CPS">              
+        <Worksheet ss:Name="Classes CPS">              
             <Table x:FullColumns="1" x:FullRows="1">                    
                 <Column ss:Width="120"/>
                 <Column ss:Width="85"/>

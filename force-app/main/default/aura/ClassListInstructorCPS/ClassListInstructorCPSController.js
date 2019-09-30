@@ -16,29 +16,11 @@
         helper.getData(component);
     },
     
-    handleSelectTab : function(component, event, helper){
-        var nameTab = event.getParam('id');
-        var selectedTab = component.get("v.selectedTab");
-        var isNeedUpdatedData = true;
-        if(selectedTab === nameTab){
-            isNeedUpdatedData = false;
-        } else{
-            component.set("v.isHistory", !component.get("v.isHistory"));
-        }
-        if(isNeedUpdatedData){
-            helper.getData(component);
-        }
-        component.set("v.selectedTab", nameTab);
-    },
-    
-    handleOrgSelection : function(component, event, helper) {
-        if(component.get("v.selectedAccount") == "") {
-            component.set("v.selectedInstructor","");
-        }    
+    getInstClasses : function(component, event, helper) {
         helper.getData(component);
     },
     
-    getInstClasses : function(component, event, helper) {
+    getClassesOnChangeDate : function(component, event, helper) {
         helper.getData(component);
     },
     
@@ -51,17 +33,17 @@
     
     sortField : function(component, event, helper) {
         var dataset = event.target.dataset;
-        helper.sortFields(component, dataset.array, dataset.field, dataset.order);
+        helper.sortFields(component, dataset.field, dataset.order);
     },
     
     downloadDocumentCurrent : function(component, event, helper){
         var sendData = component.get("v.sendData");
         
-        console.log('dataToSend='+component.get("v.currentClasses"));        
-        var dataToSend = component.get("v.currentClasses");
+        console.log('dataToSend='+component.get("v.Classes"));        
+        var dataToSend = component.get("v.Classes");
         
         //invoke vf page js method
-        sendData(dataToSend, 'PDF', 'Current', function(){
+        sendData(dataToSend, 'PDF', function(){
             //handle callback
         });
     },
@@ -69,35 +51,11 @@
     exportDocumentCurrent : function(component, event, helper){
         var sendData = component.get("v.sendData");
         
-        console.log('dataToSend='+component.get("v.currentClasses"));        
-        var dataToSend = component.get("v.currentClasses");
+        console.log('dataToSend='+component.get("v.Classes"));        
+        var dataToSend = component.get("v.Classes");
         
         //invoke vf page js method
-        sendData(dataToSend, 'XLS', 'Current', function(){
-            //handle callback
-        });
-    },
-    
-    downloadDocumentHistory : function(component, event, helper){
-        var sendData = component.get("v.sendData");
-        
-        console.log('dataToSend='+component.get("v.historyClasses"));        
-        var dataToSend = component.get("v.historyClasses");
-        
-        //invoke vf page js method
-        sendData(dataToSend, 'PDF', 'History',function(){
-            //handle callback
-        });
-    },
-    
-    exportDocumentHistory : function(component, event, helper){
-        var sendData = component.get("v.sendData");
-        
-        console.log('dataToSend='+component.get("v.historyClasses"));        
-        var dataToSend = component.get("v.historyClasses");
-        
-        //invoke vf page js method
-        sendData(dataToSend, 'XLS', 'History', function(){
+        sendData(dataToSend, 'XLS', function(){
             //handle callback
         });
     }

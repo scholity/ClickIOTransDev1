@@ -1878,5 +1878,6 @@
     <tabs>Voucher__c</tabs>
     <tabs>ccrz__E_CompositeProduct__c</tabs>
     <tabs>ccrz__E_Attribute__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

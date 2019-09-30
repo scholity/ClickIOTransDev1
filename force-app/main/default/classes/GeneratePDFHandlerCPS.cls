@@ -2,14 +2,12 @@ public class GeneratePDFHandlerCPS
 {
     public String PDFData {get; set;}
     public String Downloadtype {get; set;}
-    public String Classtype {get; set;}
     public String todaysDate {get; set;}
     public List<ClassWrapper> classWrapperContent {get; set;}
     public GeneratePDFHandlerCPS()
     {
         PDFData = '';
         Downloadtype = '';
-        Classtype = '';
         classWrapperContent = new List<ClassWrapper>();
     }
     
@@ -70,10 +68,7 @@ public class GeneratePDFHandlerCPS
         if(Downloadtype == 'PDF')
         {
             System.PageReference pageRef = new System.PageReference('/apex/PDFDownloaderCPS');
-            if(Classtype == 'Current')
-                pageRef.getHeaders().put('content-disposition', 'attachment; filename=CurrentClasses CPS-'+System.today().format()+'-PDF.pdf');
-            else if(Classtype == 'History')
-                pageRef.getHeaders().put('content-disposition', 'attachment; filename=HistoryClasses CPS-'+System.today().format()+'-PDF.pdf');
+            pageRef.getHeaders().put('content-disposition', 'attachment; filename=Classes CPS-'+System.today().format()+'-PDF.pdf');
             return pageRef;
         }
         else

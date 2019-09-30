@@ -26,4 +26,5 @@
     <tabs>Associated_Orders__c</tabs>
     <tabs>ccrz__E_CompositeProduct__c</tabs>
     <tabs>Centennial_Campaign__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
 </CustomApplication>

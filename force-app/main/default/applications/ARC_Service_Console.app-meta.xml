@@ -1764,6 +1764,7 @@
     <tabs>standard-OtherUserProfile</tabs>
     <tabs>Free_Class__c</tabs>
     <tabs>Centennial_Campaign__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>ARC_Service_Console_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -1772,6 +1773,9 @@
         </mappings>
         <mappings>
             <tab>Free_Class__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Integration_Error_Log__c</tab>
         </mappings>
         <mappings>
             <tab>Knowledge__kav</tab>

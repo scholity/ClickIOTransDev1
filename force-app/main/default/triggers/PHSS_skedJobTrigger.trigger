@@ -7,11 +7,11 @@ trigger PHSS_skedJobTrigger on sked__Job__c (after insert, after update, before 
         }
         else if (Trigger.isAfter) {
             if (Trigger.isInsert) { 
-                skedJobtoILTClass lmsHandler = new skedJobtoILTClass();
+                PHSS_skedJobtoILTClass lmsHandler = new PHSS_skedJobtoILTClass();
                 lmsHandler.afterInsert(Trigger.new);                
             }
             else if (Trigger.isUpdate) {
-                skedJobtoILTClass lmsHandler = new skedJobtoILTClass();
+                PHSS_skedJobtoILTClass lmsHandler = new PHSS_skedJobtoILTClass();
                 lmsHandler.afterUpdate(Trigger.new, Trigger.oldMap);                
             }
         }

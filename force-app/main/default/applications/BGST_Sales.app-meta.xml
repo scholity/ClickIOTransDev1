@@ -25,4 +25,5 @@
     <tabs>Voucher__c</tabs>
     <tabs>ccrz__E_CompositeProduct__c</tabs>
     <tabs>redwing__ILT_Instructor__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
 </CustomApplication>

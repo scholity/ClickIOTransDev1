@@ -154,7 +154,7 @@ public without sharing class ClassListInstructorCPSControllerTest {
         insert instructorrecord;
         
         System.runAs(u) {
-            ClassListInstructorCPSController.getClasses(0, 10, true, accId, u.Id);
+            ClassListInstructorCPSController.getClasses(0, 10, accId, u.Id, '', '');
         }
     }
 }

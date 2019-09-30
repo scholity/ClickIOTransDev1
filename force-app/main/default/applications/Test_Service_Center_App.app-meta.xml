@@ -1019,6 +1019,7 @@
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>ccrz__E_CompositeProduct__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Test_Service_Center_App_UtilityBar</utilityBar>
 </CustomApplication>
