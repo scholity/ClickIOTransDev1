@@ -54,7 +54,7 @@ public without sharing class PHSS_CpsController {
         return productQuantityMap;
 
     }
-        
+    
     @AuraEnabled
     public static void postClass(String jsonStr) {
         try {
@@ -226,13 +226,24 @@ public without sharing class PHSS_CpsController {
                 // US1521 - If this is CRE, Order Lines will already be created
                 // In this case, we need to write ILT Class Id on Order Item record(s)
                 
-                for (ccrz__E_OrderItem__c theOrderItem : [Select Id, ccrz__Product__c, ILT_Class__c From ccrz__E_OrderItem__c
-                                                          Where ccrz__Order__r.ccrz__OriginatedCart__r.Opportunity__c = :cpsWrap.oppId]) {
+                for (ccrz__E_OrderItem__c theOrderItem : [Select Id, ccrz__Product__c, ILT_Class__c, ccrz__Order__c From ccrz__E_OrderItem__c
+                                                          Where ccrz__Order__r.ccrz__OriginatedCart__r.Opportunity__c = :cpsWrap.oppId And ccrz__E_OrderItem__c.ccrz__Product__c = :cpsWrap.ccProductId]) {
                                                               
                                                               ccrz__E_OrderItem__c newOrderItem = new ccrz__E_OrderItem__c();
-                                                              newOrderItem.Id = theOrderItem.Id;	
-                                                              newOrderItem.ILT_Class__c = classID;
-                                                              updatedOrderItems.add(newOrderItem);
+                                                              
+                                                              if(newOrderItem.ILT_Class__c != NULL && newOrderItem.ILT_Class__c != ''){
+																 // Insert New Order Item for Multiple Course
+																 /*
+																 newOrderItem.ILT_Class__c = classID;
+                                                                 insert newOrderItem;
+																 */
+                                                              } else {
+                                                                  newOrderItem.Id = theOrderItem.Id;	
+                                                                  newOrderItem.ILT_Class__c = classID;
+                                                                  updatedOrderItems.add(newOrderItem);
+                                                              }
+                                                              
+                                                             
 
 
                                                           }

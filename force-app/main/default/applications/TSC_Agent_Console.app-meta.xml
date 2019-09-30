@@ -217,6 +217,7 @@ rc.shopstaywell.com</whitelistedDomains>
     <tabs>redwing__ILT_Class__c</tabs>
     <tabs>Associated_Orders__c</tabs>
     <tabs>ccrz__E_CompositeProduct__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
     <workspaceConfig>
         <mappings>
             <tab>Associated_Orders__c</tab>
@@ -226,6 +227,9 @@ rc.shopstaywell.com</whitelistedDomains>
         </mappings>
         <mappings>
             <tab>Chat_Supervisor_Console</tab>
+        </mappings>
+        <mappings>
+            <tab>Integration_Error_Log__c</tab>
         </mappings>
         <mappings>
             <tab>ccrz__E_CompositeProduct__c</tab>

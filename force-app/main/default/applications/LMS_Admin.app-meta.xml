@@ -1504,6 +1504,7 @@
     <tabs>ccrz__E_PriceList__c</tabs>
     <tabs>ccrz__E_Category__c</tabs>
     <tabs>ccrz__E_Spec__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>LMS_Admin_UtilityBar</utilityBar>
 </CustomApplication>

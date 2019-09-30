@@ -863,9 +863,13 @@
     <tabs>standard-Dashboard</tabs>
     <tabs>standard-File</tabs>
     <tabs>standard-report</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>IRT_Service_Console_UtilityBar</utilityBar>
     <workspaceConfig>
+        <mappings>
+            <tab>Integration_Error_Log__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-Account</tab>
         </mappings>

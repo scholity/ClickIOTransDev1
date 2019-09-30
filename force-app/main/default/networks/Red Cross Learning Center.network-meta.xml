@@ -183,6 +183,13 @@
                     <target>Centennial_Campaign__c</target>
                     <type>SalesforceObject</type>
                 </navigationMenuItem>
+                <navigationMenuItem>
+                    <label>Students List</label>
+                    <position>11</position>
+                    <publiclyAvailable>false</publiclyAvailable>
+                    <target>/students-list</target>
+                    <type>InternalLink</type>
+                </navigationMenuItem>
             </subMenu>
             <type>MenuLabel</type>
         </navigationMenuItem>

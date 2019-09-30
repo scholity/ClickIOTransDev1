@@ -106,6 +106,7 @@ public without sharing class skedJobtoILTClass {
         String masterJobIds = '';
         String jobQuery = '';
         Set<Id> jobIds = new Set<Id>();
+        //Set<Id> masterJobIds = new Set<Id>();
         
         for (sked__Job__c theJob : jobList) {
             jobIds.add(theJob.Id);  
@@ -144,19 +145,23 @@ public without sharing class skedJobtoILTClass {
     }
 
     public List<redwing__ILT_Instructor__c> assignInstructors(Set<Id> setJob) {
-        // Strip all instructors currently mapped to the this class (if any) and reassign
+        // Assign all instructors to jobs/classes based on current allocations in Skedulo
+
+        Set<String> allocationExternalIds = new Set<String>();
+        Set<Id> recurringJobIds = new Set<Id>();
+        Set<Id> ILTInstructors = new Set<Id>();
 
         List<Id> ILTInstructorIds = new List<Id>();
         List<Id> validatedJobIds = new List<Id>();
-        Set<String> allocationExternalIds = new Set<String>();
-
         List<redwing__ILT_Instructor__c> assignedInstructors = new List<redwing__ILT_Instructor__c>();
         List<redwing__ILT_Instructor__c> updatedInstructors = new List<redwing__ILT_Instructor__c>();
 
         Map<Id, Id> dependentJobMap = new Map<Id, Id>();
+        Map<Id, Set<Id>> existingInstructorMap = new Map<Id, Set<Id>>();
 
         // Insure we are rebuilding instructor assignments only for those jobs which have a defined allocation
-        // This includes all members of a stacked class (instructors are currently allocated only to parent of a stack)
+        // Dependent stacked classes have been added to setJob prior to this call, and these do NOT
+        // have their own allocation (they inherit from the parent in the stack).
 
         for (Id theJobId : setJob) {
             if (jobAllocationMap.containsKey(theJobId)) {
@@ -164,19 +169,20 @@ public without sharing class skedJobtoILTClass {
             }
         }
 
+        // Add all members of a stacked class Job Ids to list of validated jobs (these have no explicit allocations)
         for (sked__Job__c theJob : [
                 SELECT Id, sked__Parent__c
                 FROM sked__Job__c
                 WHERE sked__Parent__c IN :validatedJobIds
         ]) {
+            // Discard this job if in fact it represents a master class (parent id == class id)
             if (theJob.Id == theJob.sked__Parent__c) continue;
 
             dependentJobMap.put(theJob.Id, theJob.sked__Parent__c);
-
-            // Add stacked class Job Id to list of validated jobs (these will have instructor allocations removed)
             validatedJobIds.add(theJob.Id);
         }
 
+        // Build list of all instructors previously assigned to Jobs in scope of this request
         assignedInstructors = [
                 SELECT Id, redwing__ILT_Class__c, redwing__Instructor__c,
                         redwing__ILT_Class__r.Skedulo_Job_Id__c
@@ -186,20 +192,50 @@ public without sharing class skedJobtoILTClass {
 
         if (!assignedInstructors.isEmpty()) {
             for (redwing__ILT_Instructor__c theILTInstructor : assignedInstructors) {
-                ILTInstructorIds.add(theILTInstructor.Id);
-            }
-
-            // Delete all of the current ILT Instructor assignments related to Jobs in scope for this request
-            if (!ILTInstructorIds.isEmpty()) {
-                Database.DeleteResult[] drList = Database.delete(ILTInstructorIds, false);
+                if (existingInstructorMap.containsKey(theILTInstructor.redwing__ILT_Class__r.Skedulo_Job_Id__c)) {
+                    ILTInstructors = existingInstructorMap.get(theILTInstructor.redwing__ILT_Class__r.Skedulo_Job_Id__c);
+                }
+                ILTInstructors.add(theILTInstructor.redwing__Instructor__c);
+                existingInstructorMap.put(theILTInstructor.redwing__ILT_Class__r.Skedulo_Job_Id__c, ILTInstructors);
             }
         }
 
         // Map all instructors allocated to the current job to this class
-        // The external Id insures that if the same instructor is assigned to multiple sessions
-        // that they are only associated once at the ILT Class level
+        // The external Id insures that if the same instructor is assigned to multiple sessions (as in a recurring series)
+        // that they are only associated once at the ILT Class level (all instructors across all recurring jobs
+        // are assigned at the class level, not the session level)
 
+        // Add allocations for the master (parent) class in a recurring series (only one - typically the first in the series -
+        // will have an ILT Class defined)
+        List<redwing__ILT_Class__c> recurringMasterClasses = [SELECT Id, Skedulo_Job_Id__c, Skedulo_Job_Id__r.sked__Recurring_Schedule__c
+            FROM redwing__ILT_Class__c
+            WHERE Skedulo_Job_Id__r.sked__Recurring_Schedule__c IN :scheduleAllocationMap.keySet()];
+        for (redwing__ILT_Class__c theClass : recurringMasterClasses) {
+            if (scheduleAllocationMap.containsKey(theClass.Skedulo_Job_Id__r.sked__Recurring_Schedule__c)) {
+                for (Id theResourceId : scheduleAllocationMap.get(theClass.Skedulo_Job_Id__r.sked__Recurring_Schedule__c)) {
+                    if (!allocationExternalIds.contains(theClass.Skedulo_Job_Id__c + ':' + theResourceId)) {
+                        redwing__ILT_Instructor__c theILTInstructor = new redwing__ILT_Instructor__c();
+                        theILTInstructor.Skedulo_Job_Id_External__c = theClass.Skedulo_Job_Id__c + ':' + theResourceId;
+                        theILTInstructor.redwing__Instructor__c = resourceToInstructorMap.get(theResourceId);
+                        theILTInstructor.redwing__ILT_Class__c = theClass.Id;
+
+                        System.debug('**** Creating ILTInstructor (schedule allocation):' + theILTInstructor);
+
+                        updatedInstructors.add(theILTInstructor);
+                        allocationExternalIds.add(theILTInstructor.Skedulo_Job_Id_External__c);
+                        if (existingInstructorMap.containsKey(theClass.Skedulo_Job_Id__c)) {
+                            ILTInstructors = existingInstructorMap.get(theClass.Skedulo_Job_Id__c);
+                            ILTInstructors.remove(theILTInstructor.redwing__Instructor__c);
+                            existingInstructorMap.put(theClass.Skedulo_Job_Id__c, ILTInstructors);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Add allocations for each job in scope of this request (which now includes all members of stacked classes)
         for (Id theJobId : validatedJobIds) {
+            // If this is a stacked class (job), then we use job Id of the master (parent) class/job
             Id jobAllocationId = theJobId;
             if (dependentJobMap.containsKey(theJobId)) {
                 jobAllocationId = dependentJobMap.get(theJobId);
@@ -213,14 +249,34 @@ public without sharing class skedJobtoILTClass {
                         theILTInstructor.redwing__Instructor__c = resourceToInstructorMap.get(theResourceId);
                         theILTInstructor.redwing__ILT_Class__r = new redwing__ILT_Class__c(Skedulo_Job_Id_External__c = theJobId);
 
-                        System.debug('**** Creating ILTInstructor:' + theILTInstructor);
+                        System.debug('**** Creating ILTInstructor (job allocation):' + theILTInstructor);
 
                         updatedInstructors.add(theILTInstructor);
-                        allocationExternalIds.add(theJobId + ':' + theResourceId);
+                        allocationExternalIds.add(theILTInstructor.Skedulo_Job_Id_External__c);
+                        if (existingInstructorMap.containsKey(theJobId)) {
+                            ILTInstructors = existingInstructorMap.get(theJobId);
+                            ILTInstructors.remove(theILTInstructor.redwing__Instructor__c);
+                            existingInstructorMap.put(theJobId, ILTInstructors);
+                        }
                     }
                 }
             }
         }
+        /*
+        // Delete orphaned instructors (inactive allocations)
+        for (Id theJobId : existingInstructorMap.keySet()) {
+            Set<Id> ILTInstructors = existingInstructorMap.get(theJobId);
+
+            for (redwing__ILT_Instructor__c theILTInstructor : assignedInstructors) {
+                ILTInstructorIds.add(theILTInstructor.Id);
+            }
+
+            if (!ILTInstructorIds.isEmpty()) {
+                Database.DeleteResult[] drList = Database.delete(ILTInstructorIds, false);
+            }
+
+        }
+        */
         return updatedInstructors;
     }
 
@@ -315,7 +371,10 @@ public without sharing class skedJobtoILTClass {
                         masterJobIds.add(curJobRecord.sked__Parent__c);
                         System.debug('Adding masterJobId:'+curJobRecord.sked__Parent__c);
                     }
-                    jobInstructorCountMap.put(curJobRecord.sked__Parent__c, (Integer) curJobRecord.Number_of_Instructors__c);
+                    if (curJobRecord.Is_Master_Class__c) {
+                        jobInstructorCountMap.put(curJobRecord.Id, (Integer) curJobRecord.Number_of_Instructors__c);
+                    }
+                    System.debug('**** Job: '+curJobRecord.Name+' Id:'+curJobRecord.Id+' jobInstructorCountMap='+jobInstructorCountMap);
                 }
             }
             else
@@ -549,7 +608,7 @@ public without sharing class skedJobtoILTClass {
         // to result in creation of new ILT Class record since when they are created the location may not be confirmed)
 
         if (updateRecords){
-            for(redwing__ILT_Class__c theClass : [Select Id, Skedulo_Job_Id__c, redwing__Max_Seats__c from redwing__ILT_Class__c where Skedulo_Job_Id__c IN: SetJob]) {
+            for(redwing__ILT_Class__c theClass : [Select Id, Skedulo_Job_Id__c, redwing__Max_Seats__c, Available_Seats__c from redwing__ILT_Class__c where Skedulo_Job_Id__c IN: SetJob]) {
                 jobToClassMap.put(theClass.Skedulo_Job_Id__c, theClass);
             }
         }
@@ -680,15 +739,15 @@ public without sharing class skedJobtoILTClass {
                     // Step 1 - Create ILT Class record for this Skedulo Job (may exist from previous requests)
                     // Note: The Skedulo Job Id binds the ILT Class, Session, Learning Object, and EventClass records together      
                     // **************************************************************************************************************  
-                    
-                    System.debug('updateRecords++++++++++++' +updateRecords );
-                    System.debug('sked start++++++++++++' +curJobRecord.sked__Start__c);
-                    
+
+                    System.debug('updateRecords++++++++++++' + updateRecords);
+                    System.debug('sked start++++++++++++' + curJobRecord.sked__Start__c);
+
                     System.debug('Inside class creation');
                     Redwing__ILT_Class__c clsRecord = new Redwing__ILT_Class__c();
                     clsRecord.Skedulo_Account__c = curJobRecord.sked__Account__c;
-                    clsRecord.redwing__Description__c = curJobRecord.sked__Description__c;      
-                    clsRecord.Request_Type__c = curJobRecord.sked__Type__c;  
+                    clsRecord.redwing__Description__c = curJobRecord.sked__Description__c;
+                    clsRecord.Request_Type__c = curJobRecord.sked__Type__c;
                     clsRecord.Ready_to_Publish__c = curJobRecord.Ready_to_Publish__c;
                     clsRecord.redwing__Location__c = (!locationToILTLocationMap.IsEmpty() && locationToILTLocationMap.containsKey(curJobRecord.sked__Location__c)) ? locationToILTLocationMap.get(curJobRecord.sked__Location__c) : null; // added as per DE1443
 
@@ -701,12 +760,16 @@ public without sharing class skedJobtoILTClass {
                         }
                     } else clsRecord.Opportunity__c = null;
 
-                    if(curJobRecord.Is_Stacked_Class__c==true) {
-                        if (catalogIds.get(CCwithIds.get(curJobRecord.Course_Code__c)) != Null) {                   
+                    if (curJobRecord.Is_Stacked_Class__c == true) {
+                        if (catalogIds.get(CCwithIds.get(curJobRecord.Course_Code__c)) != Null) {
                             instructorStudentRatio = catalogIds.get(CCwithIds.get(curJobRecord.Course_Code__c)).Course_Catalog__r.Ratio_to_Instructor__c;
                         }
                         if (curJobRecord.sked__Parent__c != null && jobInstructorCountMap.containsKey(curJobRecord.sked__Parent__c)) {
                             nRequiredInstructors = jobInstructorCountMap.get(curJobRecord.sked__Parent__c);
+                        } else {
+                            if (curJobRecord.Is_Master_Class__c && jobInstructorCountMap.containsKey(curJobRecord.Id)) {
+                                nRequiredInstructors = jobInstructorCountMap.get(curJobRecord.Id);
+                            }
                         }
                     } else {
                         if (catalogIds.get(curJobRecord.Course_Catalog__c) != Null) {
@@ -719,10 +782,10 @@ public without sharing class skedJobtoILTClass {
 
                     // Default instructor:student ratio to 1:12 
                     if (String.isBlank(instructorStudentRatio)) {
-                        instructorStudentRatio = '1:12';   
+                        instructorStudentRatio = '1:12';
                     }
-                    system.debug('*** instructorStudentRatio='+instructorStudentRatio);
-                    system.debug('*** nRequiredInstructors='+nRequiredInstructors);
+                    system.debug('*** instructorStudentRatio=' + instructorStudentRatio);
+                    system.debug('*** nRequiredInstructors=' + nRequiredInstructors);
 
                     String[] ratio = instructorStudentRatio.split(':');
                     if (ratio.size() == 2 && ratio[0] != null && ratio[1] != null) {
@@ -730,18 +793,25 @@ public without sharing class skedJobtoILTClass {
                         Integer nStudent = Integer.valueOf(ratio[1]);
 
                         if (nInstructor != null && nStudent != null && nInstructor != 0) {
-                            // Default to one instructor if none have been allocated yet
+                            // Default to one instructor if none have been defined
                             if (nRequiredInstructors == null || nRequiredInstructors <= 0) {
                                 nRequiredInstructors = 1;
                             }
-                            nMaxStudents = Integer.valueOf(Math.ceil((nStudent/nInstructor) * nRequiredInstructors));
+                            nMaxStudents = Integer.valueOf(Math.ceil((nStudent / nInstructor) * nRequiredInstructors));
                         }
                     } else {
                         nMaxStudents = 12;
                     }
-                    system.debug('*** nMaxStudents='+nMaxStudents);
-                    clsRecord.redwing__Max_Seats__c = nMaxStudents;
-                    clsRecord.Available_Seats__c = nMaxStudents;
+                    system.debug('*** nMaxStudents=' + nMaxStudents);
+
+                    // Instructor and student counts are NEVER decremented, only adjusted upwards
+                    if (jobToClassMap.containsKey(curJobRecord.Id)) {
+                        redwing__ILT_Class__c theExistingClass = jobToClassMap.get(curJobRecord.Id);
+                        if (theExistingClass.redwing__Max_Seats__c < nMaxStudents) {
+                            clsRecord.redwing__Max_Seats__c = nMaxStudents;
+                            clsRecord.Available_Seats__c = theExistingClass.Available_Seats__c + (nMaxStudents - theExistingClass.redwing__Max_Seats__c);
+                        }
+                    }
 
                     if(curJobRecord.Is_Stacked_Class__c==true) {
                         System.debug('*** Creating stacked class for job:'+curJobRecord.name);
@@ -803,9 +873,9 @@ public without sharing class skedJobtoILTClass {
                     // *****
                     System.debug('Inspecting price overrIde');
                     
-                    if (jobPriceOverrIdeMap.get(curJobRecord.Id) != null && curJobRecord.sked__Type__c == 'Community') {
-                        System.debug('OverrIde='+jobPriceOverrIdeMap.get(curJobRecord.Id));                 
-                        clsRecord.Price_OverrIde__c = jobPriceOverrIdeMap.get(curJobRecord.Id);
+                    if (jobPriceOverrideMap.get(curJobRecord.Id) != null && curJobRecord.sked__Type__c == 'Community') {
+                        System.debug('OverrIde='+jobPriceOverrideMap.get(curJobRecord.Id));
+                        clsRecord.Price_Override__c = jobPriceOverrideMap.get(curJobRecord.Id);
                     } 
                                     
                     clsRecord.redwing__End_Date__c = (curJobRecord.sked__Finish__c != null) ?  

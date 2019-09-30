@@ -42,6 +42,7 @@
             helper.updateProductQuantityMap(component,event,helper);
 		}
         component.set("v.courseError",false);
+        component.set("v.scheduleError",false);
         component.set("v.CCProductId",productSfid);
         component.set("v.cpsWrap.ccProductId",productSfid);
         helper.getLearningPlanAttributes(component, event, helper);
@@ -60,9 +61,8 @@
            helper.getGeocode(component,event,helper);
     },  
     onFormatChange : function(component, event, helper) {
-		helper.requiredSchedule(component,event,helper);
+		//helper.requiredSchedule(component,event,helper);
     },
-    
     onZoneChange : function(component, event, helper) {
         helper.requiredSchedule(component,event,helper);
         component.set("v.zoneError",false);

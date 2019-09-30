@@ -38,12 +38,19 @@
         var action = component.get("c.getClasses");
         console.log('account..'+component.get("v.selectedAccount"));
         console.log('instructor..'+component.get("v.selectedInstructor"));
+        var startDateFromVar;
+        var startDateToVar;
+        if(component.get("v.StartDateFrom") != '')
+            startDateFromVar = component.get("v.StartDateFrom");
+        if(component.get("v.StartDateTo") != '')
+            startDateToVar = component.get("v.StartDateTo");
         action.setParams({
             "offset"      : component.get("v.offset"),
             "limitOffset" : component.get("v.limitOffset"),
-            "isHistory"   : component.get("v.isHistory"),
             "accId"       : component.get("v.selectedAccount"),
-            "instructorId": component.get("v.selectedInstructor")
+            "instructorId": component.get("v.selectedInstructor"),
+            "startDateFrom" : startDateFromVar,
+            "startDateTo" : startDateToVar
         });
         
         action.setCallback(this, function(response) {
@@ -52,14 +59,8 @@
                 var result = response.getReturnValue();
                 
                 if (state === 'SUCCESS') {
-                    
-                    if( !component.get("v.isHistory")){
-                        component.set('v.currentClasses', result);
-                        this.sortFields(component, 'current', 'startDate', 'asc');
-                    } else{
-                        component.set('v.historyClasses', result);
-                        this.sortFields(component, 'history', 'startDate', 'asc');
-                    }
+                    component.set('v.Classes', result);
+                    this.sortFields(component, 'startDate', 'asc');
                 } else {
                     console.log('error');
                 }
@@ -72,8 +73,8 @@
         $A.enqueueAction(action);
     },
     
-    sortFields : function(component, array, field, order) {
-        var resultArray = component.get("v." + array + "Classes");
+    sortFields : function(component, field, order) {
+        var resultArray = component.get("v.Classes");
         resultArray = resultArray.sort(function(first, second){
             var a = first[field];
             var b = second[field];
@@ -87,6 +88,6 @@
         });
         component.set("v.sortField", field);
         component.set("v.sortOrder", order);
-        component.set("v." + array + "Classes", resultArray);
+        component.set("v.Classes", resultArray);
     },
 })

@@ -46,5 +46,6 @@
     <tabs>SDG_Field__c</tabs>
     <tabs>SDG_Action__c</tabs>
     <tabs>SDG__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

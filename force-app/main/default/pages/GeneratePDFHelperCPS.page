@@ -8,7 +8,6 @@
     <apex:form >
         <apex:inputhidden id="hiddenData" value="{!PDFData}"/>
         <apex:inputhidden id="hiddenDownloadtype" value="{!Downloadtype}"/>
-        <apex:inputhidden id="hiddenClasstype" value="{!Classtype}"/>
         
         <apex:actionfunction name="jsGeneratePDF" action="{!downloadPDF}" />
         
@@ -20,8 +19,6 @@
             printData.value = JSON.stringify(data);
             var downloadtype = document.getElementById('{!$Component.hiddenDownloadtype}');
             downloadtype.value = downloadtypeCmp;
-            var classType = document.getElementById('{!$Component.hiddenClasstype}');
-            classType.value = classtypeCmp;
             
             //invoke PDF Generation
             jsGeneratePDF();

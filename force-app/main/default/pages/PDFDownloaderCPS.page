@@ -75,13 +75,9 @@
     
     <body>
         <apex:image url="{!$Resource.PHSS_RedCrossLogo}" width="200" height="75"/>
-        <apex:outputPanel rendered="{!Classtype == 'Current'}">
-            <h4> Current Classes CPS</h4>
+        <apex:outputPanel >
+            <h4>Classes CPS</h4>
         </apex:outputPanel> 
-        
-        <apex:outputPanel rendered="{!Classtype == 'History'}">
-            <h4> Classes History CPS</h4>
-        </apex:outputPanel>
         
         <table width="100%" border="1" class="table-bordered" style="-Fs-table-paginate: paginate;">
             <thead>

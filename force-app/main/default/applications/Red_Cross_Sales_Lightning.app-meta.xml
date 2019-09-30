@@ -147,5 +147,6 @@
     <tabs>Free_Class__c</tabs>
     <tabs>redwing__ILT_Instructor__c</tabs>
     <tabs>Coupon__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

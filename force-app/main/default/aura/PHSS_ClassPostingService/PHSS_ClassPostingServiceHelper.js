@@ -433,7 +433,7 @@
                 var hours = Math.floor(minutes / 60); 
                 // console.log("Hours: " + hours);
                 var timeScheduled = (component.get('v.ScheduledTime') +  hours);
-                if(timeScheduled >= required_time){ 
+                if(timeScheduled >= required_time && component.get('v.cpsWrap.classDuration') != 0){ 
                     component.set("v.scheduleError",false);
                 } else {
                     component.set("v.scheduleError",true);

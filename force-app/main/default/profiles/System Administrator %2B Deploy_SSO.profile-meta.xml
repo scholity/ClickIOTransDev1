@@ -523,6 +523,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>GeneratePDFHandlerStudents</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>GeneratePDFHandlertest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1039,6 +1043,22 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PHSS_skedJobAllocationtoILTInstructor</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PHSS_skedJobtoILTClass</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PHSS_skedLocationtoILTlocation</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PHSS_skedResourcetoInstructor</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Phss_myCertificationstest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1244,6 +1264,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SortMockImpl</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudentListingController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -9114,6 +9138,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Error_Log__c.Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Error_Log__c.Fulfillment_Item__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Error_Log__c.Order__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Files__c.File_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -14448,6 +14487,9 @@
         <layout>Individual-Individual Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Integration_Error_Log__c-Integration Error Log Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Integration_Files__c-Integration Files Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -15533,6 +15575,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Integration_Error_Log__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Integration_Files__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -16243,6 +16294,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>GeneratePDFHelperStudent</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>HomePageRedirect</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
@@ -16296,6 +16351,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>PDFDownloaderInstCert</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>PDFDownloaderStudents</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
@@ -16388,6 +16447,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>XLSDownloaderInstCert</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>XLSDownloaderStudents</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
@@ -16866,6 +16929,10 @@
     <tabVisibilities>
         <tab>Getting_Started</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Integration_Error_Log__c</tab>
+        <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Integration_Files__c</tab>

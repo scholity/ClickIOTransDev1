@@ -1616,6 +1616,7 @@
     <tabs>ccrz__E_CompositeProduct__c</tabs>
     <tabs>Knowledge__kav</tabs>
     <tabs>redwing__ILT_Instructor__c</tabs>
+    <tabs>Integration_Error_Log__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>LightningService_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -1630,6 +1631,9 @@
         </mappings>
         <mappings>
             <tab>Course__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Integration_Error_Log__c</tab>
         </mappings>
         <mappings>
             <tab>Knowledge__kav</tab>

@@ -170,6 +170,19 @@ public without sharing class skedJobAllocationtoILTInstructor {
                     }
 
                     deletedExternalIds.add(jobId + ':' + allocationId);
+
+                    // Now loop around related stacked classes to insure instructor is deleted for these, too
+                    if (theJob.Is_Stacked_Class__c && theJob.Is_Master_Class__c) {
+                        for (sked__Job__c theRelatedJob : jobList) {
+                            if (theRelatedJob.Is_Stacked_Class__c && !theRelatedJob.Is_Master_Class__c && theRelatedJob.sked__Parent__c == jobId) {
+                                Id relatedJobId = theRelatedJob.Id;
+
+                                if (jobToClassMap.containsKey(relatedJobId)) {
+                                    deletedExternalIds.add(relatedJobId + ':' + allocationId);
+                                }
+                            }
+                        }
+                    }
                 }
             }
             System.debug(deletedExternalIds);
@@ -323,7 +336,7 @@ public without sharing class skedJobAllocationtoILTInstructor {
             List <sked__Job__c> dependentJobs = [
                 SELECT Id, Name, Is_Stacked_Class__c, Is_Master_Class__c, sked__Parent__c, sked__Recurring_Schedule__c
                 FROM sked__Job__c
-                WHERE sked__Parent__c IN :stackedJobIds
+                WHERE Is_Stacked_Class__c = TRUE AND Is_Master_Class__c = FALSE AND sked__Parent__c IN :stackedJobIds
             ];
 
             if (!dependentJobs.isEmpty()) {
