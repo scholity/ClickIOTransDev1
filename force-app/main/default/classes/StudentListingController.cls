@@ -1,17 +1,10 @@
 public without sharing class StudentListingController
 {
-    Public Static  List<InstructorWrapper> InstructorList;
-    Public Static  Set<InstructorWrapper> Dupcheck;
-    Public Static  List<InstructorWrapper> returnedlist;
-    Public Static List<UserAccountWrapper> UserAccountlist;
-    
     @AuraEnabled
     public static List<sObject> getPicklistValues(String objName, String accId) 
     {
         User usr = [SELECT id, ContactId, Name, Profile.Name, Profile.UserLicense.Name FROM User WHERE id=: UserInfo.getUserId()];
         String sQuery = '';
-        List <sObject> returnList = new List <sObject> ();
-        
         if(objName == 'Account')
         {
             sQuery =  'Select id, Name From ' +objName + ' Where id in (SELECT AccountId FROM AccountContactRelation WHERE ContactId = \'' +usr.ContactId+'\') Order By Name ASC';
@@ -36,200 +29,81 @@ public without sharing class StudentListingController
     public static User fetchUser()
     {      
         User u = [SELECT id, ContactId, Name, Profile.Name, Profile.UserLicense.Name FROM User WHERE id=: UserInfo.getUserId()];
-        System.debug('User--->'+u);
         return u;
         
     }
+    
     @AuraEnabled
-    public static List<InstructorWrapper> fetchAchv(String accId, String instId) {
+    public static List<InstructorWrapper> fetchAchv(String accId, String instId,  String expirationDateFrom, String expirationDateTo, String certificateId) 
+    {
         System.debug('instId idd'+instId);
         System.debug('Accountidd >>>>'+accId);
-        // Declaration
-        String sQuery = '';
-        String sQueryAccount = '';
-        Boolean Expiredate = false;
-        String Dateformat;
-        String Todaydate;
-        String OrganizationName;
-        String InstructorName;
-        Boolean existUser = true;
-        Boolean existAccount = true;
-        System.debug('Accountid Retrieved'+accId);
-        List < sObject > returnList = new List < sObject > ();
-        List <String> Usernamelist = new list<String>();
-        List <String> Organizationlist = new list<String>();
-        //List <String> Accountlist = new list<String>();
-        map<Id, string> MapUsrAccDupCheck=new map<Id, string>();
-        map<Id, String> MapUsrCon=new map<Id, String>();
-        map<String, string> MapUsrAcc=new map<String, string>();
-        Set<String> userAccountList = new Set<String>();
-        user u = fetchUser();
+        String sObjectQuery = 'Select Id, Name, Account__r.Name,redwing__Contact__r.Email,redwing__Contact__r.Phone, redwing__User__c ,redwing__User__r.Name, redwing__User__r.Phone, redwing__User__r.Email, redwing__Expiration_Date__c, QR_Code_Identifier__c, ILT_Class__r.redwing__Location__r.redwing__Address_1__c, ILT_Class__r.redwing__Location__r.redwing__City__c, ILT_Class__r.redwing__Location__r.redwing__Country__c, ILT_Class__r.redwing__Location__r.redwing__State__c, ILT_Class__r.redwing__Location__r.redwing__Postal_Code__c, ILT_Class__r.Name, ILT_Class__r.redwing__Start_Date__c, ILT_Class__r.redwing__End_Date__c, ILT_Class__r.Class_Closed_Date__c, redwing__Acquisition_Date__c, redwing__Achievement__r.Name, Firstname__c, Lastname__c, Email__c, Phone__c, ILT_Class__r.redwing__Location__c from redwing__Achievement_Assignment__c where  Id != null ';
         
-        
-        // Retrieve a list of Accounts that belongs to logged in user
-        sQueryAccount =  'select id, Name from Account where id in (SELECT AccountId FROM AccountContactRelation WHERE ContactId = \'' +u.ContactId+'\') order by createdDate DESC limit 200';
-        List <Account> lstOfAccountRecords = Database.query(sQueryAccount);
-        system.debug('lstOfAccountRecords ++++++++++++'+lstOfAccountRecords );
-        Set<ID> SetAccIDs= new set<ID>();
-        for(Account Acc:lstOfAccountRecords )
-        {
-            SetAccIDs.add(Acc.Id);
-            System.debug('AccountIdssss>>>>>>>'+SetAccIDs);
-        }
-        List <user> lstOfRecords=new List <user>(); 
-        // Query to fetch the User List when its a specific Account 
-        if(((List<Id>)JSON.deserializeStrict(accId ,List<Id>.class)).size () > 0 && ((List<Id>)JSON.deserializeStrict(instId ,List<Id>.class)).size () == 0 )
+        if(((List<Id>)JSON.deserializeStrict(accId ,List<Id>.class)).size () > 0)
         {
             List<Id> accIdsFromClient = (List<Id>)JSON.deserializeStrict(accId ,List<Id>.class);
-            sQuery =  'select id, Name, ContactId from User where ContactId in (SELECT ContactId FROM AccountContactRelation WHERE AccountId In ( \'' +String.join(accIdsFromClient, '\',\'') +'\' )) order by createdDate DESC limit 100';
-            
+            sObjectQuery  += ' And Account__c In: accIdsFromClient';
         }
-        else if(((List<Id>)JSON.deserializeStrict(instId ,List<Id>.class)).size () > 0 && ((List<Id>)JSON.deserializeStrict(accId ,List<Id>.class)).size () == 0)
-        {
-            List<Id> userIdsFromClient = (List<Id>)JSON.deserializeStrict(instId ,List<Id>.class);
-            sQuery =  'select id, Name,ContactId from User where ContactId in (SELECT ContactId FROM AccountContactRelation WHERE AccountId IN :SetAccIDs) and id In( \'' + String.join(userIdsFromClient, '\',\'') + '\') order by createdDate DESC limit 100';
-            System.debug('Contactlist >>>>>>>>>>>'+Database.query(sQuery));
-        }
-        else
-        {
-            List<Id> accIdsFromClient = (List<Id>)JSON.deserializeStrict(accId ,List<Id>.class);
-            List<Id> userIdsFromClient = (List<Id>)JSON.deserializeStrict(instId ,List<Id>.class);
-            sQuery =  'select id, Name,ContactId from User where ContactId in (SELECT ContactId FROM AccountContactRelation WHERE AccountId In ( \'' + String.join(accIdsFromClient, '\',\'') +'\')) and id In (\'' + String.join(userIdsFromClient, '\',\'') +'\') order by createdDate DESC limit 100';
-        }
-        lstOfRecords = Database.query(sQuery);
         
-        for(user Obj:lstOfRecords){
-            MapUsrCon.put(Obj.ContactId,Obj.Name);
-        }
-        system.debug('MapUsrCon+++++++++++++'+MapUsrCon);
-        /*User aUser;
-if(instId!='Not'){
-aUser = [SELECT id, ContactId, Name, Profile.Name, Profile.UserLicense.Name FROM User WHERE id=: instId];
-}*/
-        
-        if(((List<Id>)JSON.deserializeStrict(accId ,List<Id>.class)).size () > 0 && ((List<Id>)JSON.deserializeStrict(instId ,List<Id>.class)).size () == 0 )
-        {
-            List<Id> accIdsFromClient = (List<Id>)JSON.deserializeStrict(accId ,List<Id>.class);
-            for(AccountContactRelation AccCon:[SELECT ContactId,Account.Name FROM AccountContactRelation WHERE AccountId In : accIdsFromClient ORDER BY Account.Name]){
-                String UsrId=MapUsrCon.get(AccCon.ContactId);
-                MapUsrAcc.put(UsrId+'|'+AccCon.Account.Name,AccCon.Account.Name);
-                userAccountList.add(AccCon.Account.Name);
-            }
-        } 
-        else if(((List<Id>)JSON.deserializeStrict(instId ,List<Id>.class)).size () > 0 && ((List<Id>)JSON.deserializeStrict(accId ,List<Id>.class)).size () == 0)
+        if(((List<Id>)JSON.deserializeStrict(instId ,List<Id>.class)).size () > 0)
         {
             List<Id> userIdsFromClient = (List<Id>)JSON.deserializeStrict(instId ,List<Id>.class);
-            List<User> usersListWithContact = [SELECT id, ContactId, Name, Profile.Name, Profile.UserLicense.Name FROM User WHERE id In : userIdsFromClient];
-            List<Id> userContactIds = new List<Id>();
-            for(User userRec : usersListWithContact)
-            {
-                userContactIds.add(userRec.ContactId);
-            }
-            for(AccountContactRelation AccCon:[SELECT ContactId,Account.Name FROM AccountContactRelation WHERE ContactId In : userContactIds ORDER BY Account.Name]){
-                String UsrId=MapUsrCon.get(AccCon.ContactId);
-                MapUsrAcc.put(UsrId+'|'+AccCon.Account.Name,AccCon.Account.Name);
-                userAccountList.add(AccCon.Account.Name);
-            }
+            sObjectQuery += ' And redwing__User__c In : userIdsFromClient';
         }
-        else
-        {
-            List<Id> accIdsFromClient = (List<Id>)JSON.deserializeStrict(accId ,List<Id>.class);
-            List<Id> userIdsFromClient = (List<Id>)JSON.deserializeStrict(instId ,List<Id>.class);
-            List<User> usersListWithContact = [SELECT id, ContactId, Name, Profile.Name, Profile.UserLicense.Name FROM User WHERE id In : userIdsFromClient];
-            List<Id> userContactIds = new List<Id>();
-            for(User userRec : usersListWithContact)
-            {
-                userContactIds.add(userRec.ContactId);
-            }
-            for(AccountContactRelation AccCon:[SELECT ContactId,Account.Name FROM AccountContactRelation WHERE ContactId In : userContactIds and AccountId In : accIdsFromClient ORDER BY Account.Name]){
-                String UsrId=MapUsrCon.get(AccCon.ContactId);
-                MapUsrAcc.put(UsrId+'|'+AccCon.Account.Name,AccCon.Account.Name);
-                userAccountList.add(AccCon.Account.Name);
-            } 
-        }
-        system.debug('MapUsrAcc+++++++++++++'+MapUsrAcc);
-        System.debug('List of account recordss>>>>>>>>'+lstOfRecords);
-        // Query to fetch the Certified Instructors    
-        List<redwing__Achievement_Assignment__c> InstructorAchv = [Select Id, Name, Account__r.Name,redwing__Contact__r.Email,redwing__Contact__r.Phone, redwing__User__c ,redwing__User__r.Name, redwing__User__r.Phone, redwing__User__r.Email, redwing__Expiration_Date__c, QR_Code_Identifier__c, ILT_Class__r.redwing__Location__r.redwing__Address_1__c, ILT_Class__r.redwing__Location__r.redwing__City__c, ILT_Class__r.redwing__Location__r.redwing__Country__c, ILT_Class__r.redwing__Location__r.redwing__State__c, ILT_Class__r.redwing__Location__r.redwing__Postal_Code__c, ILT_Class__r.Name, ILT_Class__r.redwing__Start_Date__c, ILT_Class__r.redwing__End_Date__c, ILT_Class__r.Class_Closed_Date__c, redwing__Acquisition_Date__c, redwing__Achievement__r.Name, Firstname__c, Lastname__c, Email__c, Phone__c, ILT_Class__r.redwing__Location__c from redwing__Achievement_Assignment__c where redwing__User__c in:lstOfRecords and redwing__Status__c = 'Acquired' and Achievement_Type__c = 'Certifications'  ORDER BY redwing__User__r.Name,redwing__Achievement__r.Name ASC ];
-        System.debug('Achievement Assignment listt iddd>>>'+InstructorAchv);
         
-        InstructorList = new List<InstructorWrapper>();
-        Dupcheck = new Set<InstructorWrapper>();
-        returnedlist = new List<InstructorWrapper>();
+        //Start Date Condition
+        date dateExpirationDateFrom;
+        If(!String.isBlank(expirationDateFrom))
+        {
+            dateExpirationDateFrom = date.valueOf(expirationDateFrom);
+            sObjectQuery += ' AND redwing__Expiration_Date__c >= : dateExpirationDateFrom ';  
+        }
+        
+        date dateExpirationDateTo;
+        If(!String.isBlank(expirationDateTo))
+        {
+            dateExpirationDateTo = date.valueOf(expirationDateTo);
+            sObjectQuery += ' AND redwing__Expiration_Date__c <= : dateExpirationDateTo ';  
+        }
+        
+        //Course Id Condition
+        if(!String.isBlank(certificateId))
+            sObjectQuery += ' AND redwing__Achievement__c = : certificateId '; 
+        
+        sObjectQuery += ' And redwing__Status__c = \'Acquired\'';
+        sObjectQuery += ' And Achievement_Type__c = \'Certifications\'';
+        sObjectQuery += ' ORDER BY redwing__User__r.Name,redwing__Achievement__r.Name ASC';
+        
+        List<redwing__Achievement_Assignment__c> InstructorAchv = Database.query(sObjectQuery);
+        
         // Add data to wrapper list and display the details in the table
-        for(String a:userAccountList){
+        List<InstructorWrapper> InstructorList = new List<InstructorWrapper>();
+        for(redwing__Achievement_Assignment__c key: InstructorAchv)
+        {
+            Datetime dtExpDate = (Datetime)Key.redwing__Expiration_Date__c;
+            String Expdate = '';
+            if(dtExpDate != null)
+                Expdate = dtExpDate.format('MM/dd/yyyy');
             
-            for(redwing__Achievement_Assignment__c key: InstructorAchv)
-            {
-                
-                Datetime dtExpDate = (Datetime)Key.redwing__Expiration_Date__c;
-                String Expdate = dtExpDate.format('MM/dd/yyyy');
-                
-                if(Key.redwing__Expiration_Date__c < date.today())
-                {
-                    Expiredate = true;
-                }
-                else
-                {
-                    Expiredate = false;
-                }
-                
-                
-                if(Organizationlist.contains(key.redwing__User__r.Name+'|'+a))
-                {
-                    System.debug('Old');
-                    existAccount =false;
-                    existUser =false;
-                    OrganizationName=MapUsrAcc.get(key.redwing__User__r.Name+'|'+a);
-                    InstructorName=key.redwing__User__r.Name;
-                    System.debug('Existing Account'+OrganizationName);
-                }
-                else
-                {
-                    System.debug('New');
-                    if(MapUsrAcc.containsKey(key.redwing__User__r.Name+'|'+a)){
-                        existAccount =true;
-                        OrganizationName=MapUsrAcc.get(key.redwing__User__r.Name+'|'+a);
-                        Organizationlist.add(key.redwing__User__r.Name+'|'+a);
-                        InstructorName=key.redwing__User__r.Name;
-                        System.debug('New Account'+OrganizationName);
-                    }
-                }
-                
-                // Location
-                LocationWrapper currentLocation = new LocationWrapper();
-                if(key.ILT_Class__r.redwing__Location__c != null){
-                    currentLocation.city        = key.ILT_Class__r.redwing__Location__r.redwing__City__c;
-                    currentLocation.address1    = key.ILT_Class__r.redwing__Location__r.redwing__Address_1__c;
-                    currentLocation.country     = key.ILT_Class__r.redwing__Location__r.redwing__Country__c;
-                    currentLocation.province    = key.ILT_Class__r.redwing__Location__r.redwing__State__c;
-                    currentLocation.postalCode  = key.ILT_Class__r.redwing__Location__r.redwing__Postal_Code__c;
-                }
-                
-                // Status 
-                String classStatus = RCConstants.STATUS_UPCOMING;
-                if(key.ILT_Class__r.redwing__Start_Date__c <= datetime.now()){
-                    classStatus = RCConstants.STATUS_IN_PROGRESS;
-                }
-                if(key.ILT_Class__r.redwing__End_Date__c <= datetime.now()){
-                    classStatus = RCConstants.STATUS_COMPLETED;
-                }
-                if(key.ILT_Class__r.Class_Closed_Date__c != null) {
-                    classStatus = RCConstants.STATUS_REPORTED;
-                }
-                
-                // To confirm if the Organization is already available in the list
-                InstructorList.add(new InstructorWrapper(InstructorName,Key.redwing__Achievement__r.Name,Expdate,Key.redwing__Contact__r.Email,Key.redwing__Contact__r.Phone,Expiredate,existUser,existAccount,OrganizationName, Key.QR_Code_Identifier__c, Key.Firstname__c, Key.Lastname__c, Key.Email__c, Key.Phone__c, Key.redwing__Achievement__r.Name, Key.redwing__Acquisition_Date__c, classStatus, Key.ILT_Class__r.Name, Key.ILT_Class__r.redwing__Start_Date__c, currentLocation));
+            // Location
+            LocationWrapper currentLocation = new LocationWrapper();
+            if(key.ILT_Class__r.redwing__Location__c != null){
+                currentLocation.city        = key.ILT_Class__r.redwing__Location__r.redwing__City__c;
+                currentLocation.address1    = key.ILT_Class__r.redwing__Location__r.redwing__Address_1__c;
+                currentLocation.country     = key.ILT_Class__r.redwing__Location__r.redwing__Country__c;
+                currentLocation.province    = key.ILT_Class__r.redwing__Location__r.redwing__State__c;
+                currentLocation.postalCode  = key.ILT_Class__r.redwing__Location__r.redwing__Postal_Code__c;
             }
+            
+            InstructorList.add(new InstructorWrapper(key.redwing__User__r.Name, Key.redwing__Achievement__r.Name, Expdate, Key.redwing__Contact__r.Email, Key.redwing__Contact__r.Phone, key.Account__r.Name, Key.QR_Code_Identifier__c, Key.Firstname__c, Key.Lastname__c, Key.Email__c, Key.Phone__c, Key.redwing__Achievement__r.Name, Key.redwing__Acquisition_Date__c, Key.ILT_Class__r.Name, Key.ILT_Class__r.redwing__Start_Date__c, currentLocation));
         }
-        System.debug('Map assignmentsss>>>>>>>>>>>>>>>>'+InstructorList);
-        Dupcheck.addAll(InstructorList);
-        returnedlist.addAll(Dupcheck);
-        //return InstructorAchv;
-        return returnedlist;
+        System.debug('InstructorList>>>>>>>>>>>>>>>>'+InstructorList);
+        return InstructorList;
     }
     
-    public static Boolean isInstructor(String accId) {
+    public static Boolean isInstructor(String accId) 
+    {
         User usr = [Select Id,Name,Profile.Name, ContactId From User Where Id = :UserInfo.getUserId()];  
         if(usr.Profile.Name.containsIgnoreCase('partner')) 
         {
@@ -242,15 +116,13 @@ aUser = [SELECT id, ContactId, Name, Profile.Name, Profile.UserLicense.Name FROM
         return true;
     }
     
-    public class InstructorWrapper {
+    public class InstructorWrapper 
+    {
         @AuraEnabled public string Key;
         @AuraEnabled public String Valuess;
         @AuraEnabled public String expDate;
         @AuraEnabled public String Email;
         @AuraEnabled public String Phonenumber;
-        @AuraEnabled public boolean Expireflag;
-        @AuraEnabled public boolean ExistUser;
-        @AuraEnabled public boolean ExistAccount;
         @AuraEnabled public String OrganizationName;
         @AuraEnabled public String QRCode;
         @AuraEnabled public String StudentFirstName;
@@ -259,41 +131,28 @@ aUser = [SELECT id, ContactId, Name, Profile.Name, Profile.UserLicense.Name FROM
         @AuraEnabled public String StudentPhone;
         @AuraEnabled public String AchievementName;
         @AuraEnabled public Date AcquisitionDate;
-        @AuraEnabled public String Status;
         @AuraEnabled public String ILTClass;
         @AuraEnabled public Date ILTClassStartDate;
         @AuraEnabled public locationWrapper location;
-        public InstructorWrapper(string Key, String Valuess, String expDate, String Email, String Phonenumber,Boolean Expireflag, Boolean ExistUser, Boolean ExistAccount, String OrganizationName, String QRCode, String StudentFirstName, String StudentLastName, String StudentEmail, String StudentPhone, String AchievementName, Date AcquisitionDate, String Status, String ILTClass, Date ILTClassStartDate, locationWrapper location) {
+        public InstructorWrapper(string Key, String Valuess, String expDate, String Email, String Phonenumber, String OrganizationName, String QRCode, String StudentFirstName, String StudentLastName, String StudentEmail, String StudentPhone, String AchievementName, Date AcquisitionDate, String ILTClass, Date ILTClassStartDate, locationWrapper location) 
+        {
             this.Key = Key;
             this.Valuess= Valuess;
             this.expDate=expDate;
             this.Email = Email;
             this.Phonenumber = Phonenumber;
-            this.Expireflag = Expireflag;
-            this.ExistUser = ExistUser;
-            this.ExistAccount = ExistAccount;
             this.OrganizationName = OrganizationName;
             this.QRCode = QRCode;
-            
             this.StudentFirstName = StudentFirstName;
             this.StudentLastName = StudentLastName;
             this.StudentEmail = StudentEmail;
             this.StudentPhone = StudentPhone;
             this.AchievementName = AchievementName;
             this.AcquisitionDate = AcquisitionDate;
-            this.Status = Status;
             this.ILTClass = ILTClass;
             this.ILTClassStartDate = ILTClassStartDate;
             this.location = location;
         }
-    }
-    public class UserAccountWrapper{
-        @AuraEnabled public List<Account> Accountdetails;
-        @AuraEnabled public List<User> Userdetails;
-        /* public UserAccountWrapper(List<Account> Accountdetails,List<User> Userdetails) {
-this.Accountdetails=Accountdetails;
-this.Userdetails=Userdetails;
-}*/
     }
     
     public with sharing class locationWrapper {
@@ -303,5 +162,4 @@ this.Userdetails=Userdetails;
         @AuraEnabled public String province     = '';
         @AuraEnabled public String postalCode   = '';
     }
-    
 }

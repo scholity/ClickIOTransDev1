@@ -52,11 +52,6 @@ public class GeneratePDFHandlerCPStest
         
         //For PDF Current
         classRef.Downloadtype = 'PDF';
-        classRef.Classtype = 'Current';
-        classRef.downloadPDF();
-        
-        //For PDF History
-        classRef.Classtype = 'History';
         classRef.downloadPDF();
     }
 }

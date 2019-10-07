@@ -29,10 +29,10 @@ public without sharing class PHSS_skedLocationtoILTlocation {
                 
                 if(String.IsNotBlank(skld.sked__Address__c)) {
                     // Handles Addr1, City, State Zip (optional Country)
-                    String theFourTokenRegEx = '^([^,]*),([^,]*),([^,]*)\\s+(\\d{5,})(([,\\s])(.*))?';//'^(.*),(.*),(.*)\\s+(\\d{5,})(([,\\s])(.*))?';
+                    String theFourTokenRegEx = '^([^,]*),([^,]*),([^,]*)\\s+(\\d{5,})(([,\\s]*)(.*))?';
                     
                     // Handles Addr1, Addr2, City, State Zip
-                    String theFiveTokenRegEx = '^([^,]*),([^,]*),([^,]*),([^,]*)\\s+(\\d{5,})(([,\\s])(.*))?';//'^(.*),(.*),(.*),(.*)\\s+(\\d{5,})(([,\\s])(.*))?';
+                    String theFiveTokenRegEx = '^([^,]*),([^,]*),([^,]*),([^,]*)\\s+(\\d{5,})(([,\\s]*)(.*))?';
                     
                     Pattern myFourTokenPattern = Pattern.compile(theFourTokenRegEx);
                     Pattern myFiveTokenPattern = Pattern.compile(theFiveTokenRegEx);
@@ -44,7 +44,11 @@ public without sharing class PHSS_skedLocationtoILTlocation {
                         theCity = myFourTokenMatcher.group(2).trim();
                         theState = myFourTokenMatcher.group(3).trim();
                         theZip = MyFourTokenMatcher.group(4).trim();
-                        if (String.IsNotBlank(MyFourTokenMatcher.group(7))) theCountry = MyFourTokenMatcher.group(7).trim();
+                        if (String.IsNotBlank(MyFourTokenMatcher.group(7))) {
+                            theCountry = MyFourTokenMatcher.group(7).trim();
+                        } else {
+                            theCountry = 'US';
+                        }
                     } else {
                         Matcher myFiveTokenMatcher = myFiveTokenPattern.matcher(skld.sked__Address__c);
                         
@@ -54,7 +58,11 @@ public without sharing class PHSS_skedLocationtoILTlocation {
                             theCity = myFiveTokenMatcher.group(3).trim();
                             theState = myFiveTokenMatcher.group(4).trim();
                             theZip = MyFiveTokenMatcher.group(5).trim();  
-                            if (String.IsNotBlank(MyFiveTokenMatcher.group(8))) theCountry = MyFiveTokenMatcher.group(8).trim(); 
+                            if (String.IsNotBlank(MyFiveTokenMatcher.group(8))) {
+                                theCountry = MyFiveTokenMatcher.group(8).trim(); 
+                            } else {
+                                theCountry = 'US';
+                            }
                         }                      
                     }
                 }            

@@ -1,4 +1,4 @@
-<apex:page controller="GeneratePDFHandlerStudents" contentType="txt/xml#Students Details -{!todaysDate}.xls" cache="true">
+<apex:page controller="GeneratePDFHandlerStudents" contentType="txt/xml#Student Certificate -{!todaysDate}.xls" cache="true">
     <apex:outputText value="{!xlsHeader}"/>
     
     <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
@@ -24,7 +24,7 @@
                 <Column ss:Width="95"/>
                 <Column ss:Width="120"/>
                 <Column ss:Width="80"/>
-                <Column ss:Width="80"/>
+                <Column ss:Width="140"/>
                 <Column ss:Width="80"/>
                 <Column ss:Width="80"/>
                 <Column ss:Width="120"/>
@@ -38,19 +38,18 @@
                 <Column ss:Width="140"/>
                 <Row>
                     
-                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Account</Data></Cell>
+                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Organization</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Student First Name</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Student Last Name</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Student Email</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Student Phone</Data></Cell>
-                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Achievement</Data></Cell>
-                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Acquisition Date</Data></Cell>
+                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Certificate</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Expiration Date</Data></Cell>
-                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Status</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >QR Code</Data></Cell>
-                    <Cell ss:StyleID="s1"><Data ss:Type="String" >ILT Class</Data></Cell>
-                    <Cell ss:StyleID="s1"><Data ss:Type="String" >ILT Class Start Date</Data></Cell>
+                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Class Name</Data></Cell>
+                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Class Start Date</Data></Cell>
                     <Cell ss:StyleID="s1"><Data ss:Type="String" >Location</Data></Cell>
+                    <Cell ss:StyleID="s1"><Data ss:Type="String" >Instructor</Data></Cell>
                 </Row>
                 
                 <apex:repeat value="{!classWrapperContent}" var="tableRow">                            
@@ -61,14 +60,7 @@
                         <Cell><Data ss:Type="String">{!tableRow.StudentEmail}</Data></Cell>
                         <Cell><Data ss:Type="String">{!tableRow.StudentPhone}</Data></Cell>
                         <Cell><Data ss:Type="String">{!tableRow.AchievementName}</Data></Cell>
-                        <Cell><Data ss:Type="String"> <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
-                            <apex:param value="{!tableRow.AcquisitionDate}" /> 
-                            </apex:outputText>
-                            </Data>
-                        </Cell>
-                        <Cell><Data ss:Type="String">{!tableRow.expDate}</Data>
-                        </Cell>                               
-                        <Cell><Data ss:Type="String">{!tableRow.Status}</Data></Cell>                              
+                        <Cell><Data ss:Type="String">{!tableRow.expDate}</Data></Cell>                            
                         <Cell><Data ss:Type="String">{!tableRow.QRCode}</Data></Cell>
                         <Cell><Data ss:Type="String">{!tableRow.ILTClass}</Data></Cell>
                         <Cell><Data ss:Type="String"> <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
@@ -85,7 +77,8 @@
                                 <apex:outputText value="{!tableRow.location.postalCode}" />
                             </apex:outputpanel>
                             </Data>
-                        </Cell>  				
+                        </Cell> 
+                        <Cell><Data ss:Type="String">{!tableRow.Key}</Data></Cell>
                     </Row>                            
                 </apex:repeat>
             </Table>

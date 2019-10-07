@@ -1,5 +1,5 @@
 ({
-    getValues : function(component) {
+    getValues : function(component, helper) {
         var action = component.get("c.getPicklistValues");
         action.setParams({
             "objName" : component.get("v.objName"),
@@ -34,26 +34,39 @@
         $A.enqueueAction(action);	
     },
     
-    getData : function(component) {
+    toggleSpinner:function(component, helper) {
+        component.set('v.loadingSpinner', !component.get('v.loadingSpinner')); 
+    },
+    
+    getData : function(component, helper) {
+        helper.toggleSpinner(component, helper);
         var action = component.get("c.getClasses");
         console.log('account..'+component.get("v.selectedAccount"));
         console.log('instructor..'+component.get("v.selectedInstructor"));
+        console.log('selectedLookUpRecord..'+component.get("v.selectedLookUpRecord"));
+        //alert(JSON.stringify(component.get("v.selectedLookUpRecord")));
         var startDateFromVar;
         var startDateToVar;
+        var courseId;
         if(component.get("v.StartDateFrom") != '')
             startDateFromVar = component.get("v.StartDateFrom");
         if(component.get("v.StartDateTo") != '')
             startDateToVar = component.get("v.StartDateTo");
+        if(component.get("v.selectedLookUpRecord") != '' && component.get("v.selectedLookUpRecord") != null && component.get("v.selectedLookUpRecord") != {})
+            courseId = component.get("v.selectedLookUpRecord").Id;
+        //courseId = "a3r5B00000068C7QAI";
         action.setParams({
             "offset"      : component.get("v.offset"),
             "limitOffset" : component.get("v.limitOffset"),
             "accId"       : component.get("v.selectedAccount"),
             "instructorId": component.get("v.selectedInstructor"),
             "startDateFrom" : startDateFromVar,
-            "startDateTo" : startDateToVar
+            "startDateTo" : startDateToVar,
+            "courseId" : courseId
         });
         
         action.setCallback(this, function(response) {
+            helper.toggleSpinner(component, helper);
             var state = response.getState();
             if (state === 'SUCCESS') {
                 var result = response.getReturnValue();

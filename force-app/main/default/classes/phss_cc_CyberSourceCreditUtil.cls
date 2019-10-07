@@ -147,7 +147,7 @@ public with sharing class phss_cc_CyberSourceCreditUtil {
         }
     }
 
-	@testVisible
+	@TestVisible
     private static void saveRefundCapture(Map<String, Object> data, String authTxnPmtId, String captureTxnPmtId) {
         try {
             Map<String, Object> refundAmountDetails = (Map<String, Object>) data.get(REFUND_AMOUNT_DETAILS_KEY);

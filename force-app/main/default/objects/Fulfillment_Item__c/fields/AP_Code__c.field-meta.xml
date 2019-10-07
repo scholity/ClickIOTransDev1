@@ -2,7 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>AP_Code__c</fullName>
     <externalId>false</externalId>
-    <formula>TEXT(CC_Product__r.AP_Code__c)</formula>
+    <formula>/*TEXT(CC_Product__r.AP_Code__c)*/
+
+Order_Item__r.AP_Code__c</formula>
     <label>AP Code</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -263,7 +263,6 @@
 
     updateOrder : function(cmp, event) {
 
-
          var studentCount = cmp.get("v.numberOfStudentsList").length;
          console.log('studentCount '+studentCount);
 
@@ -274,6 +273,7 @@
          console.log('trainingEventId '+trainingEventId);
 
          var action = cmp.get("c.handleFullServiceClass");
+      
          action.setParams({
              classId : classId, studentCount : studentCount, trainingEventId : trainingEventId
          });

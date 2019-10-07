@@ -4,7 +4,7 @@
 
 public with sharing class phss_cc_VoucherUtil {
 
-    public static final String ISSUED_STATUS = 'Issued'; 
+    public static final String ISSUED_STATUS = 'Issued';
     public static final String TEMP_HOLD_STATUS = 'Temp Hold';
     public static final Integer RESERVATION_TIMESTAMP_OFFSET = -45;        // number of minutes to offset the reservation timestamp
 

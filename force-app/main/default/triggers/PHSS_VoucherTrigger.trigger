@@ -15,7 +15,6 @@ trigger PHSS_VoucherTrigger on Voucher__c (after insert, after update) {
                 handler.CheckTotalAvailableOnlineVouchers(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap);
                 handler.BlockIssuedVouchersAndIssueBlockedVouchers(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap);
                 handler.adjustAvailableSeats(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap);
-                handler.resetAbandonedVouchers(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap);
              }
          }
      }

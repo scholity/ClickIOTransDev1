@@ -811,6 +811,9 @@ public without sharing class PHSS_skedJobtoILTClass {
                             clsRecord.redwing__Max_Seats__c = nMaxStudents;
                             clsRecord.Available_Seats__c = theExistingClass.Available_Seats__c + (nMaxStudents - theExistingClass.redwing__Max_Seats__c);
                         }
+                    } else {
+                        clsRecord.redwing__Max_Seats__c = nMaxStudents;
+                        clsRecord.Available_Seats__c = nMaxStudents;
                     }
 
                     if(curJobRecord.Is_Stacked_Class__c==true) {
