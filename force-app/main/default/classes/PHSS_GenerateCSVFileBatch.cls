@@ -16,6 +16,7 @@ global class PHSS_GenerateCSVFileBatch implements Database.Batchable<sOBject>, D
         
         fulfillmentItemList 	= new List<Fulfillment_Item__c>();
         errorItemList 			= new List<errorItem>();
+        integrationErrorLogList	= new List<Integration_Error_Log__c>();
         sequenceNumber 			= 2;
         recordsProcessed 		= 0;
         
@@ -132,9 +133,11 @@ global class PHSS_GenerateCSVFileBatch implements Database.Batchable<sOBject>, D
                               'Quantity__c,Order__r.ccrz__Account__r.SABA_Org_Type__c,' +
                               // FUTURE/TBD - Org Type
                               'Id,' +
+            				  'Order__r.Id,' +
                               'Order__r.ccrz__Account__r.SABA_Name__c,Order__r.ccrz__Account__r.Id,' +
                               'Order__r.ccrz__Account__r.nk_billto_org_id__c,' +
                               'ILT_Class__c,' +
+            				  'AP_Code__c,' +
                               'CC_Product__r.AP_Code__c ' +
                         'FROM Fulfillment_Item__c WHERE Status__c=\'Ready\' AND Fulfillment__r.Type__c!=\'Receipt\' AND Fulfillment__r.Payment_Method__c =\'po\'';
         
@@ -207,7 +210,8 @@ global class PHSS_GenerateCSVFileBatch implements Database.Batchable<sOBject>, D
                 {
                     month='0'+month;
                 }
-                transactionDate = dt.year()+'/'+month+'/'+day+' 00:00:00';
+                //transactionDate = dt.year()+'/'+month+'/'+day+' 00:00:00';
+                transactionDate = dt.year()+'/'+month+'/'+day; // DE1824
             }
             
             // Unit Code
@@ -679,9 +683,11 @@ global class PHSS_GenerateCSVFileBatch implements Database.Batchable<sOBject>, D
 
             // AP Code
             String apCode = '';
-            if(!String.isEmpty(fi.CC_Product__r.AP_Code__c))
+            if(!String.isEmpty(fi.AP_Code__c))
             {
-                apCode='"'+fi.CC_Product__r.AP_Code__c+'"';
+                //apCode='"'+fi.CC_Product__r.AP_Code__c+'"';
+                //DE1301
+                apCode='"'+fi.AP_Code__c+'"';
             }
             
             String fullName = '';
@@ -764,12 +770,16 @@ global class PHSS_GenerateCSVFileBatch implements Database.Batchable<sOBject>, D
                 
                 errorItemList.add(err);
                 
-                /*
+                
                 Integration_Error_Log__c iErrorLog = new Integration_Error_Log__c ();
                 
-                iErrorLog.Fulfillment_Item__c = fi.Id;
+                iErrorLog.Fulfillment_Item__c 	= fi.Id;
+                iErrorLog.Account__c 			= fi.Order__r.ccrz__Account__r.Id;
+                iErrorLog.Order__c 				= fi.Order__r.Id;
+                iErrorLog.Error_Details__c		= errString;
+                iErrorLog.Status__c				= 'Open';
                 
-                integrationErrorLogList.add(iErrorLog);*/
+                integrationErrorLogList.add(iErrorLog);
                 //errorItemList.add(new errorItem(fi.Id,fi.Name,fi.Fulfillment_Item_Total__c,errorDetails));
             }
             else
@@ -787,7 +797,9 @@ global class PHSS_GenerateCSVFileBatch implements Database.Batchable<sOBject>, D
         {
             for(Fulfillment_Item__c fi: fulfillmentItemList)
             {
-                fi.Status__c='Complete';
+                //DE1792/DE1809
+                //fi.Status__c='Complete';
+                fi.Status__c='Invoiced'; 
             }
             if(!integrationFiles.isEmpty() && !fulfillmentItemList.isEmpty())
             {
@@ -846,13 +858,14 @@ global class PHSS_GenerateCSVFileBatch implements Database.Batchable<sOBject>, D
                 system.debug(e);
                 csvFileString = csvFileString + e.fiId + ',' + e.fiName + ',' + e.fiAmount + ',' + e.errorDetails + '\n';
             }
-            /*
+            
             system.debug('***integrationErrorLogList***'+integrationErrorLogList);
             
             if(integrationErrorLogList.size() > 0)
             {
                 insert integrationErrorLogList;
-            }*/
+            }
+            
             String body = 'The batch job PHSS_GenerateCSVFileBatch has finished. \n' +
                           'Attached you will find a list of Fulfillment Item Ids that need data verified.';
             String subject = 'Apex Batch Result for PHSS_GenerateCSVFileBatch - Fulfillment Items Not Processed';

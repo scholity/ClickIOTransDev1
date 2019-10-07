@@ -135,9 +135,9 @@ public without sharing class ClassListInstructorCPSControllerTest {
         //Create ILT Class Record
         Redwing__ILT_Class__c clsRecord = new Redwing__ILT_Class__c();
         clsRecord.Skedulo_Account__c = accId;
-        clsRecord.redwing__End_Date__c = system.today() - 2;
+        clsRecord.redwing__End_Date__c = system.today() + 6;
         clsRecord.redwing__End_Time__c = '13:00';
-        clsRecord.redwing__Start_Date__c = system.today() - 2;// Assuming Start date = End date
+        clsRecord.redwing__Start_Date__c = system.today() + 2;// Assuming Start date = End date
         clsRecord.redwing__Start_Time__c = '12:00';
         clsRecord.Name = 'Test';
         clsRecord.Request_Type__c = 'CPS';
@@ -154,7 +154,7 @@ public without sharing class ClassListInstructorCPSControllerTest {
         insert instructorrecord;
         
         System.runAs(u) {
-            ClassListInstructorCPSController.getClasses(0, 10, accId, u.Id, '', '');
+            ClassListInstructorCPSController.getClasses(0, 10, accId, u.Id, '', '', '');
         }
     }
 }

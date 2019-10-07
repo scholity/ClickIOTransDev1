@@ -62,7 +62,7 @@ public class GeneratePDFHandlerStudents
         if(Downloadtype == 'PDF')
         {
             System.PageReference pageRef = new System.PageReference('/apex/PDFDownloaderStudents');
-            pageRef.getHeaders().put('content-disposition', 'attachment; filename=Students Details-'+System.today().format()+'-PDF.pdf');
+            pageRef.getHeaders().put('content-disposition', 'attachment; filename=Student Certificate-'+System.today().format()+'Download-PDF.pdf');
             return pageRef;
         }
         else

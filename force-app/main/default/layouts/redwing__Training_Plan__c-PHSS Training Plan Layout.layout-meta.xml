@@ -38,8 +38,8 @@
                 <field>redwing__Language__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Classroom_Setting__c</field>
+                <behavior>Edit</behavior>
+                <field>PHSS__Classroom_Setting__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

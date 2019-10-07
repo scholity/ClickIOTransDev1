@@ -2069,6 +2069,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Annual Licensing Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CEP</fullName>
             <default>false</default>
         </values>

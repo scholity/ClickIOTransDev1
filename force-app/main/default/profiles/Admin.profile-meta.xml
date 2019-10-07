@@ -531,6 +531,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>GeneratePDFHandlerStudentstest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>GeneratePDFHandlertest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -756,6 +760,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PHSS_CertificationProvisioningHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PHSS_ClassBatchServices</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1047,7 +1055,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PHSS_skedIntegrationsTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PHSS_skedJobAllocationtoILTInstructor</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PHSS_skedJobToILTClass_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1056,6 +1072,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PHSS_skedLocationtoILTlocation</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PHSS_skedResourceLocation_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1275,6 +1295,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudentListingControllertest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SubmitCaseController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1349,6 +1373,10 @@
     <classAccesses>
         <apexClass>TestGarbageAccountServices</apexClass>
         <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TestGetFeedbackSurveytrigger</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TestGlobalUtil</apexClass>
@@ -1600,6 +1628,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>phss_cc_AccountUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>phss_cc_AccountUtilTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2207,10 +2239,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>skedJobAllocationtoILTInstructor</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>skedJobCancellationNotificationCon</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2235,14 +2263,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>skedJobtoILTClass</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>skedJobtoILTClassSave</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>skedLocationHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2252,10 +2272,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>skedLocationTrigger_Test</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>skedLocationtoILTlocation</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2300,10 +2316,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>skedResourceTrigger_Test</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>skedResourcetoILTInstructor</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -9146,12 +9158,32 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Error_Log__c.Error_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Error_Log__c.Fixed_by__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Error_Log__c.Fulfillment_Item__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Error_Log__c.Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Error_Log__c.Order__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Error_Log__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -16779,7 +16811,7 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Training_Events__c.AES_Event</recordType>
-        <visible>false</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>

@@ -75,11 +75,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Classroom_Setting__c</field>
+                <field>Course_Class_Type__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Course_Class_Type__c</field>
+                <behavior>Edit</behavior>
+                <field>PHSS__Classroom_Setting__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

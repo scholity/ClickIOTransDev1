@@ -1,6 +1,6 @@
 ({
 	doInit : function(component, event, helper) {
-		component.set("v.storeFrontName","CPSStore");
+		component.set("v.storeFrontName","CPS");
         
         helper.initializeWrapper(component, event, helper);
         helper.initalizeProductQuantityMap(component, event, helper);

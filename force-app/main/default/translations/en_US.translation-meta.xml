@@ -916,7 +916,7 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Process_Scheduler_Controller-3</fullName>
+            <fullName>Process_Scheduler_Controller-4</fullName>
         </flows>
         <fullName>Process_Scheduler_Controller</fullName>
     </flowDefinitions>
@@ -1012,7 +1012,7 @@
             <choices>
                 <name>GeneralStore</name>
             </choices>
-            <fullName>Create_Contract-43</fullName>
+            <fullName>Create_Contract-44</fullName>
             <screens>
                 <fields>
                     <name>Effective_End_Date</name>
@@ -1040,6 +1040,15 @@
             </screens>
             <screens>
                 <fields>
+                    <name>ApprovalDisplay</name>
+                </fields>
+                <fields>
+                    <name>FinalMessage</name>
+                </fields>
+                <name>FinalScreen</name>
+            </screens>
+            <screens>
+                <fields>
                     <name>Selected_Price_Lists</name>
                 </fields>
                 <name>Price_Lists</name>
@@ -1058,6 +1067,12 @@
             <fullName>Landing_Page_to_Campaign_Routing-1</fullName>
         </flows>
         <fullName>Landing_Page_to_Campaign_Routing</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Prepare_Training_Revenue_Creation-1</fullName>
+        </flows>
+        <fullName>Prepare_Training_Revenue_Creation</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -1196,7 +1211,7 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Add_Cancelation_Fee_to_Order-32</fullName>
+            <fullName>Add_Cancelation_Fee_to_Order-34</fullName>
             <screens>
                 <fields>
                     <name>CancelFeeError</name>
@@ -1583,7 +1598,7 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Manage_Order_Status-72</fullName>
+            <fullName>Manage_Order_Status-73</fullName>
         </flows>
         <fullName>Manage_Order_Status</fullName>
     </flowDefinitions>
@@ -1622,7 +1637,7 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Order_Status_Controller-83</fullName>
+            <fullName>Order_Status_Controller-84</fullName>
         </flows>
         <fullName>Order_Status_Controller</fullName>
     </flowDefinitions>

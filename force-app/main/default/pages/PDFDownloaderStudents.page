@@ -82,19 +82,18 @@
         <table width="100%" border="1" class="table-bordered" style="-Fs-table-paginate: paginate;">
             <thead>
                 <tr>
-                    <th width="90px;">Account</th>
+                    <th width="90px;">Organization</th>
                     <th width="90px;">Student First Name</th>
                     <th width="90px;">Student Last Name</th>
                     <th width="90px;">Student Email</th>
                     <th width="80px;">Student Phone</th>
-                    <th width="80px;">Achievement </th>
-                    <th width="250px;">Acquisition Date</th>
+                    <th width="80px;">Certificate</th>
                     <th width="90px;">Expiration Date</th>
-                    <th width="90px;">Status</th>
                     <th width="150px;">QR Code</th>
-                    <th width="90px;">ILT Class</th>
-                    <th width="90px;">ILT Class Start Date</th>
+                    <th width="90px;">Class Name</th>
+                    <th width="90px;">Class Start Date</th>
                     <th width="90px;">Location</th>
+                    <th width="90px;">Instructor</th>
                 </tr>
             </thead>
             <tbody>
@@ -106,13 +105,7 @@
                         <td>{!tableRow.StudentEmail}</td>
                         <td>{!tableRow.StudentPhone}</td>
                         <td>{!tableRow.AchievementName}</td>
-                        <td>
-                            <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
-                                <apex:param value="{!tableRow.AcquisitionDate}" /> 
-                            </apex:outputText>
-                        </td>
                         <td>{!tableRow.expDate}</td>
-                        <td>{!tableRow.Status}</td>
                         <td>{!tableRow.QRCode}</td>
                         <td>{!tableRow.ILTClass}</td>
                         <td>
@@ -129,6 +122,7 @@
                                 <apex:outputText value="{!tableRow.location.postalCode}" />
                             </apex:outputpanel>
                         </td>
+                        <td>{!tableRow.Key}</td>
                     </tr>
                 </apex:repeat>
             </tbody>

@@ -1,6 +1,7 @@
 ({
     onLoad: function(component, event, sortField) {
         //call apex class method
+        helper.toggleSpinner(component, helper);
         var action = component.get('c.fetchsortedAccountDetails');
         
         // pass the apex method parameters to action 
@@ -12,6 +13,7 @@
             "accId"   : component.get("v.selectedAccount")
         });
         action.setCallback(this, function(response) {
+            helper.toggleSpinner(component, helper);
             //store state of response
             var state = response.getState();
             if (state === "SUCCESS") {
@@ -20,6 +22,10 @@
             }
         });
         $A.enqueueAction(action);
+    },
+    
+    toggleSpinner:function(component, helper) {
+        component.set('v.loadingSpinner', !component.get('v.loadingSpinner')); 
     },
     
     sortHelper: function(component, event, sortFieldName) {
@@ -39,12 +45,14 @@
     },
     
     getValues : function(component, event, helper) {
+        helper.toggleSpinner(component, helper);
         var action = component.get("c.getPicklistValues");
         action.setParams({
             "objName" : component.get("v.objName"),
             "accId"   : component.get("v.selectedAccount")
         });
         action.setCallback(this, function(response) {
+            helper.toggleSpinner(component, helper);
             var state = response.getState();
             if (state === 'SUCCESS') {
                 var result = response.getReturnValue();
@@ -92,43 +100,17 @@
         component.set("v.records", Listss);
     },
     fetchIns : function(component, event, helper) {
-        
+        helper.toggleSpinner(component, helper);
         var action = component.get("c.fetchAchv");
-        var orgId 	= component.get("v.selectedAccount")
-        var InsId   = component.get("v.selectedInstructor")
+        var orgId 	= component.get("v.selectedAccount");
+        var InsId   = component.get("v.selectedInstructor");
         var orgg = [];
         var Ins = [];
-        if((orgId!=null||orgId!=undefined||orgId!='') && (InsId==null||InsId==undefined||InsId==''))
-        {
-            if(orgId == 'All')
-            {
-                var accountDetailsFromServer = component.get("v.accountList.Accountdetails");
-                for(var i in  accountDetailsFromServer)
-                {
-                    orgg.push(accountDetailsFromServer[i].Id);
-                }
-            }
-            else
-                orgg.push(orgId);
-        }
-        if((orgId==null||orgId==undefined||orgId=='') && (InsId!=null||InsId!=undefined||InsId!=''))
-        {
-            if(InsId == 'All')
-            {
-                var userDetailsFromServer = component.get("v.instList.Userdetails");
-                for(var i in  userDetailsFromServer)
-                {
-                    Ins.push(userDetailsFromServer[i].Id);
-                }
-            }
-            else
-                Ins.push(InsId);
-        }
         if((orgId!=null && InsId!=undefined && orgId!='' && InsId!=''))
         {
-            if(orgId == 'All')
+            if(orgId == 'ALL')
             {
-                var accountDetailsFromServer = component.get("v.accountList.Accountdetails");
+                var accountDetailsFromServer = component.get("v.selectedAccount");
                 for(var i in  accountDetailsFromServer)
                 {
                     orgg.push(accountDetailsFromServer[i].Id);
@@ -139,27 +121,35 @@
             
             if(InsId == 'ALL')
             {
-                var userDetailsFromServer = component.get("v.instList.Userdetails");
+                var userDetailsFromServer = component.get("v.instList");
                 for(var i in  userDetailsFromServer)
                 {
-                    Ins.push(userDetailsFromServer[i].Id);
+                    if(userDetailsFromServer[i].Id != 'ALL')
+                        Ins.push(userDetailsFromServer[i].Id);
                 }
             }
             else
                 Ins.push(InsId);
         }
         
+        var expirationDateFromVar;
+        var expirationDateToVar;
+        var certificateId;
+        if(component.get("v.expirationDateFrom") != '')
+            expirationDateFromVar = component.get("v.expirationDateFrom");
+        if(component.get("v.expirationDateTo") != '')
+            expirationDateToVar = component.get("v.expirationDateTo");
+        if(component.get("v.selectedLookUpRecord") != '' && component.get("v.selectedLookUpRecord") != null && component.get("v.selectedLookUpRecord") != {})
+            certificateId = component.get("v.selectedLookUpRecord").Id;
+        
         console.log('Accountid>>>>>>>>'+orgg);
         console.log('Instructor idd>>>>>>>>'+Ins);
-        var idx = event.target.id;
         
         if((orgId!=null && InsId!=null && orgId!='' && InsId!='' && orgId!= undefined && InsId!=undefined))
         {
-            action.setParams({accId : JSON.stringify(orgg),instId :JSON.stringify(Ins)});
-            
-            console.log('Button id>>>>>>>>'+idx);
+            action.setParams({accId : JSON.stringify(orgg), instId : JSON.stringify(Ins), expirationDateFrom : expirationDateFromVar, expirationDateTo : expirationDateToVar, certificateId : certificateId});
             action.setCallback(this, function(response){
-                
+                helper.toggleSpinner(component, helper);
                 var state = response.getState();
                 console.log('Expected State'+state);
                 if (state === "SUCCESS") {

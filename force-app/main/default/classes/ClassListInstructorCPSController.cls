@@ -27,7 +27,7 @@ public without sharing class ClassListInstructorCPSController {
     }
     
     @AuraEnabled
-    public static List<ClassWrapper> getClasses(Integer offset, Integer limitOffset, String accId, String instructorId, String startDateFrom, String startDateTo) {        
+    public static List<ClassWrapper> getClasses(Integer offset, Integer limitOffset, String accId, String instructorId, String startDateFrom, String startDateTo, String courseId) {        
         List<classWrapper> classWrapperList = new List<classWrapper>();
         limitOffset = Integer.valueOf(limitOffset);
         offset = Integer.valueOf(offset);
@@ -87,17 +87,41 @@ public without sharing class ClassListInstructorCPSController {
         }
         
         //Start Date Condition
+        date dateStartDateFrom;
         If(!String.isBlank(startDateFrom))
         {
-            date dateStartDateFrom = date.valueOf(startDateFrom);
+            dateStartDateFrom = date.valueOf(startDateFrom);
+            query += ' AND redwing__ILT_Class__r.redwing__Start_Date__c >= : dateStartDateFrom ';  
+        }
+        else
+        {
+            if(!String.isBlank(startDateTo))
+                dateStartDateFrom = date.valueOf(startDateTo) - 30;
+            else
+                dateStartDateFrom = system.today();
+            
             query += ' AND redwing__ILT_Class__r.redwing__Start_Date__c >= : dateStartDateFrom ';  
         }
         
+        date dateStartDateTo;
         If(!String.isBlank(startDateTo))
         {
-            date dateStartDateTo = date.valueOf(startDateTo);
+            dateStartDateTo = date.valueOf(startDateTo);
             query += ' AND redwing__ILT_Class__r.redwing__Start_Date__c <= : dateStartDateTo ';  
         }
+        else
+        {
+            if(!String.isBlank(startDateFrom))
+                dateStartDateTo = date.valueOf(startDateFrom) + 30;
+            else
+                dateStartDateTo = system.today() + 30;
+            
+            query += ' AND redwing__ILT_Class__r.redwing__Start_Date__c <= : dateStartDateTo '; 
+        }
+        
+        //Course Id Condition
+        if(!String.isBlank(courseId))
+            query += ' AND redwing__ILT_Class__r.redwing__Learning__c = : courseId '; 
         
         query +=  'ORDER BY redwing__ILT_Class__r.Name ASC ';
         if(Integer.valueOf(limitOffset) != 0){
