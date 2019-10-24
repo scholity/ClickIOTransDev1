@@ -89,7 +89,7 @@
                     <type>InternalLink</type>
                 </navigationMenuItem>
                 <navigationMenuItem>
-                    <label>CPS Classes</label>
+                    <label>CPS Class Report</label>
                     <position>8</position>
                     <publiclyAvailable>false</publiclyAvailable>
                     <target>/classes-cps</target>
@@ -276,6 +276,13 @@
             <position>7</position>
             <publiclyAvailable>true</publiclyAvailable>
             <target>/questions</target>
+            <type>InternalLink</type>
+        </navigationMenuItem>
+        <navigationMenuItem>
+            <label>Account Affiliation</label>
+            <position>8</position>
+            <publiclyAvailable>false</publiclyAvailable>
+            <target>/account-affiliation</target>
             <type>InternalLink</type>
         </navigationMenuItem>
     </navigationLinkSet>

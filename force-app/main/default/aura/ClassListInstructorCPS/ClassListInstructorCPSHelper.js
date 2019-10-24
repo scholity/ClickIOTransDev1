@@ -9,22 +9,8 @@
             var state = response.getState();
             if (state === 'SUCCESS') {
                 var result = response.getReturnValue();
-                if (state === 'SUCCESS') {
-                    if(component.get("v.objName") == "Account") {
-                        component.set("v.accountList",result);    
-                    }
-                    else {
-                        component.set("v.instList",result);
-                        if(component.get("v.instList").length == 1) {
-                            component.set("v.selectedInstructor",component.get("v.instList")[0].Id);
-                        }
-                        else {
-                            component.set("v.selectedInstructor","");
-                        }
-                    }
-                } 
-                else {
-                    console.log('error');
+                if(component.get("v.objName") == "Account") {
+                    component.set("v.accountList",result);    
                 }
             } 
             else {
@@ -39,51 +25,56 @@
     },
     
     getData : function(component, helper) {
-        helper.toggleSpinner(component, helper);
-        var action = component.get("c.getClasses");
-        console.log('account..'+component.get("v.selectedAccount"));
-        console.log('instructor..'+component.get("v.selectedInstructor"));
-        console.log('selectedLookUpRecord..'+component.get("v.selectedLookUpRecord"));
-        //alert(JSON.stringify(component.get("v.selectedLookUpRecord")));
-        var startDateFromVar;
-        var startDateToVar;
-        var courseId;
-        if(component.get("v.StartDateFrom") != '')
-            startDateFromVar = component.get("v.StartDateFrom");
-        if(component.get("v.StartDateTo") != '')
-            startDateToVar = component.get("v.StartDateTo");
-        if(component.get("v.selectedLookUpRecord") != '' && component.get("v.selectedLookUpRecord") != null && component.get("v.selectedLookUpRecord") != {})
-            courseId = component.get("v.selectedLookUpRecord").Id;
-        //courseId = "a3r5B00000068C7QAI";
-        action.setParams({
-            "offset"      : component.get("v.offset"),
-            "limitOffset" : component.get("v.limitOffset"),
-            "accId"       : component.get("v.selectedAccount"),
-            "instructorId": component.get("v.selectedInstructor"),
-            "startDateFrom" : startDateFromVar,
-            "startDateTo" : startDateToVar,
-            "courseId" : courseId
-        });
-        
-        action.setCallback(this, function(response) {
+        //For date Validation
+        if(component.get("v.selectedAccount") != '' && component.get("v.selectedAccount") != null && component.get("v.StartDateFrom") != '' && component.get("v.StartDateFrom") != null && component.get("v.StartDateTo") != '' && component.get("v.StartDateTo") != null)
+        {
+            var maxEndDate = new Date(component.get("v.StartDateFrom"));
+            maxEndDate.setDate(maxEndDate.getDate() + 90);
+            if(new Date(component.get("v.StartDateTo")) > maxEndDate)
+            {
+                component.set("v.isError", true);
+                component.set("v.messageType", 'error');
+                component.set("v.message",'Date difference between Start date from and Start date to cannot exceed 90 days.');
+                return;
+            }
+            component.set("v.isError", false);
+            
+            //Actual Logic
             helper.toggleSpinner(component, helper);
-            var state = response.getState();
-            if (state === 'SUCCESS') {
-                var result = response.getReturnValue();
-                
+            var action = component.get("c.getClasses");
+            console.log('selectedLookUpRecord..'+component.get("v.selectedLookUpRecord"));
+            var startDateFromVar;
+            var startDateToVar;
+            var courseId;
+            if(component.get("v.StartDateFrom") != '')
+                startDateFromVar = component.get("v.StartDateFrom");
+            if(component.get("v.StartDateTo") != '')
+                startDateToVar = component.get("v.StartDateTo");
+            if(component.get("v.selectedLookUpRecord") != '' && component.get("v.selectedLookUpRecord") != null && component.get("v.selectedLookUpRecord") != {})
+                courseId = component.get("v.selectedLookUpRecord").Id;
+            action.setParams({
+                "offset"      : component.get("v.offset"),
+                "limitOffset" : component.get("v.limitOffset"),
+                "accId"       : component.get("v.selectedAccount"),
+                "startDateFrom" : startDateFromVar,
+                "startDateTo" : startDateToVar,
+                "courseId" : courseId
+            });
+            
+            action.setCallback(this, function(response) {
+                helper.toggleSpinner(component, helper);
+                var state = response.getState();
                 if (state === 'SUCCESS') {
+                    var result = response.getReturnValue();
                     component.set('v.Classes', result);
-                    this.sortFields(component, 'startDate', 'asc');
+                    //this.sortFields(component, 'startDate', 'asc');
                 } else {
                     console.log('error');
                 }
-                
-            } else {
-                console.log('error');
-            }
-        });
-        
-        $A.enqueueAction(action);
+            });
+            
+            $A.enqueueAction(action);
+        }
     },
     
     sortFields : function(component, field, order) {
@@ -102,5 +93,5 @@
         component.set("v.sortField", field);
         component.set("v.sortOrder", order);
         component.set("v.Classes", resultArray);
-    },
+    }
 })

@@ -30,7 +30,6 @@ public without sharing class StudentListingController
     {      
         User u = [SELECT id, ContactId, Name, Profile.Name, Profile.UserLicense.Name FROM User WHERE id=: UserInfo.getUserId()];
         return u;
-        
     }
     
     @AuraEnabled

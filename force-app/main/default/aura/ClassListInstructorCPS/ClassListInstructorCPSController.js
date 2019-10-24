@@ -14,12 +14,12 @@
         {
             mmStart ='0'+mmStart;
         } 
-        today = yyyyStart+'/'+mmStart+'/'+ddStart;
+        today = yyyyStart+'-'+mmStart+'-'+ddStart;
         component.set("v.StartDateFrom",today);
         
         //Set End Date
         var endDate = new Date(); 
-        endDate.setDate(endDate.getDate() + 30);
+        endDate.setDate(endDate.getDate() + 90);
         var ddEnd = endDate.getDate();
         var mmEnd = endDate.getMonth()+1; 
         var yyyyEnd = endDate.getFullYear();
@@ -32,25 +32,14 @@
         {
             mmEnd ='0'+mmEnd;
         } 
-        endDate = yyyyEnd+'/'+mmEnd+'/'+ddEnd;
+        endDate = yyyyEnd+'-'+mmEnd+'-'+ddEnd;
         component.set("v.StartDateTo",endDate);
         
         component.set("v.objName","Account");
         helper.getValues(component, helper);
     },
     
-    getInstructorValues : function(component, event, helper) {
-        if(component.get("v.selectedAccount") == "") {
-            component.set("v.selectedInstructor","");
-        }    
-        else { 
-            component.set("v.objName","User");
-            helper.getValues(component, helper); 
-        }
-        helper.getData(component, helper);
-    },
-    
-    getInstClasses : function(component, event, helper) {
+    getCPSClasses : function(component, event, helper) {
         helper.getData(component, helper);
     },
     
@@ -59,15 +48,7 @@
     },
     
     getClassesOnChangeLookUp : function(component, event, helper) {
-        if(component.get("v.selectedLookUpRecord") != '' && component.get("v.selectedLookUpRecord") != null && component.get("v.selectedLookUpRecord") != {})
-            helper.getData(component, helper);
-    },
-    
-    goToDetail : function(component, event, helper){
-        var url = location.href;
-        url= url.split('/s/');
-        //window.location.href = url[0] + '/s/ilt-detail?recordId=' + event.target.dataset.id + '&pId=' + (event.target.dataset.pid ? event.target.dataset.pid : 'null'); 
-        window.open('../s/ilt-detail?recordId=' + event.target.dataset.id + '&pId=' + (event.target.dataset.pid ? event.target.dataset.pid : 'null'), '_parent');
+        helper.getData(component, helper);
     },
     
     sortField : function(component, event, helper) {

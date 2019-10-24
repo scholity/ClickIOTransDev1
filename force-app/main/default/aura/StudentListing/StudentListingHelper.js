@@ -1,47 +1,6 @@
 ({
-    onLoad: function(component, event, sortField) {
-        //call apex class method
-        helper.toggleSpinner(component, helper);
-        var action = component.get('c.fetchsortedAccountDetails');
-        
-        // pass the apex method parameters to action 
-        action.setParams({
-            "sortField": sortField,
-            "isAsc": component.get("v.isAsc"),
-            "objName" : component.get("v.objName"),
-            "objInsName":component.get("v.objInsName"),
-            "accId"   : component.get("v.selectedAccount")
-        });
-        action.setCallback(this, function(response) {
-            helper.toggleSpinner(component, helper);
-            //store state of response
-            var state = response.getState();
-            if (state === "SUCCESS") {
-                //set response value in ListOfContact attribute on component.
-                // component.set('v.ListOfContact', response.getReturnValue());
-            }
-        });
-        $A.enqueueAction(action);
-    },
-    
     toggleSpinner:function(component, helper) {
         component.set('v.loadingSpinner', !component.get('v.loadingSpinner')); 
-    },
-    
-    sortHelper: function(component, event, sortFieldName) {
-        var currentDir = component.get("v.arrowDirection");
-        
-        if (currentDir == 'arrowdown') {
-            // set the arrowDirection attribute for conditionally rendred arrow sign  
-            component.set("v.arrowDirection", 'arrowup');
-            // set the isAsc flag to true for sort in Assending order.  
-            component.set("v.isAsc", true);
-        } else {
-            component.set("v.arrowDirection", 'arrowdown');
-            component.set("v.isAsc", false);
-        }
-        // call the onLoad function for call server side method with pass sortFieldName 
-        this.onLoad(component, event, sortFieldName);
     },
     
     getValues : function(component, event, helper) {
@@ -100,66 +59,76 @@
         component.set("v.records", Listss);
     },
     fetchIns : function(component, event, helper) {
-        helper.toggleSpinner(component, helper);
-        var action = component.get("c.fetchAchv");
-        var orgId 	= component.get("v.selectedAccount");
-        var InsId   = component.get("v.selectedInstructor");
-        var orgg = [];
-        var Ins = [];
-        if((orgId!=null && InsId!=undefined && orgId!='' && InsId!=''))
+        //For date Validation
+        if(component.get("v.expirationDateFrom") != '' && component.get("v.expirationDateFrom") != null && component.get("v.expirationDateTo") != '' && component.get("v.expirationDateTo") != null && component.get("v.selectedAccount") != '' && component.get("v.selectedAccount") != undefined && component.get("v.selectedAccount") != null)
         {
-            if(orgId == 'ALL')
+            var maxEndDate = new Date(component.get("v.expirationDateFrom"));
+            maxEndDate.setDate(maxEndDate.getDate() + 90);
+            if(new Date(component.get("v.expirationDateTo")) > maxEndDate)
             {
-                var accountDetailsFromServer = component.get("v.selectedAccount");
-                for(var i in  accountDetailsFromServer)
-                {
-                    orgg.push(accountDetailsFromServer[i].Id);
-                }
+                component.set("v.isError", true);
+                component.set("v.messageType", 'error');
+                component.set("v.message",'Date difference between Expiration date from and Expiration date to cannot exceed 90 days.');
+                return;
             }
-            else
-                orgg.push(orgId);
+            component.set("v.isError", false);
             
-            if(InsId == 'ALL')
+            //Actual Logic
+            helper.toggleSpinner(component, helper);
+            var action = component.get("c.fetchAchv");
+            var orgId 	= component.get("v.selectedAccount");
+            var InsId   = component.get("v.selectedInstructor");
+            var orgg = [];
+            var Ins = [];
+            if((orgId!=null && InsId!=undefined && orgId!='' && InsId!=''))
             {
-                var userDetailsFromServer = component.get("v.instList");
-                for(var i in  userDetailsFromServer)
+                if(orgId == 'ALL')
                 {
-                    if(userDetailsFromServer[i].Id != 'ALL')
-                        Ins.push(userDetailsFromServer[i].Id);
+                    var accountDetailsFromServer = component.get("v.selectedAccount");
+                    for(var i in  accountDetailsFromServer)
+                    {
+                        orgg.push(accountDetailsFromServer[i].Id);
+                    }
                 }
+                else
+                    orgg.push(orgId);
+                
+                if(InsId == 'ALL')
+                {
+                    var userDetailsFromServer = component.get("v.instList");
+                    for(var i in  userDetailsFromServer)
+                    {
+                        if(userDetailsFromServer[i].Id != 'ALL')
+                            Ins.push(userDetailsFromServer[i].Id);
+                    }
+                }
+                else
+                    Ins.push(InsId);
             }
-            else
-                Ins.push(InsId);
-        }
-        
-        var expirationDateFromVar;
-        var expirationDateToVar;
-        var certificateId;
-        if(component.get("v.expirationDateFrom") != '')
-            expirationDateFromVar = component.get("v.expirationDateFrom");
-        if(component.get("v.expirationDateTo") != '')
-            expirationDateToVar = component.get("v.expirationDateTo");
-        if(component.get("v.selectedLookUpRecord") != '' && component.get("v.selectedLookUpRecord") != null && component.get("v.selectedLookUpRecord") != {})
-            certificateId = component.get("v.selectedLookUpRecord").Id;
-        
-        console.log('Accountid>>>>>>>>'+orgg);
-        console.log('Instructor idd>>>>>>>>'+Ins);
-        
-        if((orgId!=null && InsId!=null && orgId!='' && InsId!='' && orgId!= undefined && InsId!=undefined))
-        {
-            action.setParams({accId : JSON.stringify(orgg), instId : JSON.stringify(Ins), expirationDateFrom : expirationDateFromVar, expirationDateTo : expirationDateToVar, certificateId : certificateId});
-            action.setCallback(this, function(response){
-                helper.toggleSpinner(component, helper);
-                var state = response.getState();
-                console.log('Expected State'+state);
-                if (state === "SUCCESS") {
-                    var a = response.getReturnValue();
-                    console.log('success'+a);
-                    console.log('getting inside succes'+JSON.stringify(a));
-                    component.set("v.Listss", response.getReturnValue());
-                }
-            });
-            $A.enqueueAction(action);
+            
+            var expirationDateFromVar;
+            var expirationDateToVar;
+            var certificateId;
+            if(component.get("v.expirationDateFrom") != '')
+                expirationDateFromVar = component.get("v.expirationDateFrom");
+            if(component.get("v.expirationDateTo") != '')
+                expirationDateToVar = component.get("v.expirationDateTo");
+            if(component.get("v.selectedLookUpRecord") != '' && component.get("v.selectedLookUpRecord") != null && component.get("v.selectedLookUpRecord") != {})
+                certificateId = component.get("v.selectedLookUpRecord").Id;
+            
+            if((orgId!=null && InsId!=null && orgId!='' && InsId!='' && orgId!= undefined && InsId!=undefined))
+            {
+                action.setParams({accId : JSON.stringify(orgg), instId : JSON.stringify(Ins), expirationDateFrom : expirationDateFromVar, expirationDateTo : expirationDateToVar, certificateId : certificateId});
+                action.setCallback(this, function(response){
+                    helper.toggleSpinner(component, helper);
+                    var state = response.getState();
+                    if (state === "SUCCESS") {
+                        var a = response.getReturnValue();
+                        component.set("v.Listss", response.getReturnValue());
+                    }
+                });
+                $A.enqueueAction(action);
+            }
         }
     }
 })

@@ -7,6 +7,6 @@ global with sharing class PHSS_ClassBatchServices {
 
     @HttpPost
     global static String doPost() {
-        return null;
+        return 'Hello, World!';
     }
 }

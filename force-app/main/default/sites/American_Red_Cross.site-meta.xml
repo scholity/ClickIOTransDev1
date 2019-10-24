@@ -14,7 +14,7 @@
     <clickjackProtectionLevel>SameOriginOnly</clickjackProtectionLevel>
     <contentSniffingProtection>true</contentSniffingProtection>
     <cspUpgradeInsecureRequests>true</cspUpgradeInsecureRequests>
-    <enableAuraRequests>false</enableAuraRequests>
+    <enableAuraRequests>true</enableAuraRequests>
     <fileNotFoundPage>ccrz__CCFileNotFound</fileNotFoundPage>
     <forgotPasswordPage>ccrz__CCForgotPassword</forgotPasswordPage>
     <genericErrorPage>ccrz__CCException</genericErrorPage>

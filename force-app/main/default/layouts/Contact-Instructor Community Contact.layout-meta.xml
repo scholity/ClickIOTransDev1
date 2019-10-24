@@ -196,19 +196,7 @@
         <fields>ACCOUNT.NAME</fields>
         <fields>ACCCONRELATION.IS_DIRECT</fields>
         <fields>ACCCONRELATION.ROLES</fields>
-        <fields>ACCOUNT.ADDRESS2_CITY</fields>
-        <fields>ACCOUNT.ADDRESS2_STATE</fields>
         <relatedList>RelatedContactAccountRelationList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>MassChangeOwner</excludeButtons>
-        <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
-        <fields>redwing__Achievement__c</fields>
-        <fields>redwing__Expiration_Date__c</fields>
-        <fields>redwing__Status__c</fields>
-        <fields>Create_Cert__c</fields>
-        <relatedList>redwing__Achievement_Assignment__c.redwing__Contact__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>
@@ -217,7 +205,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h5B000000Xwxc</masterLabel>
+        <masterLabel>00h21000000S90S</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
