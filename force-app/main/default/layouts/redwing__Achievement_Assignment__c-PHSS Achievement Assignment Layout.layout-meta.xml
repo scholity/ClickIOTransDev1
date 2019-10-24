@@ -37,6 +37,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>ILT_Class__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Grade_Additional_Info__c</field>
             </layoutItems>
             <layoutItems>
@@ -141,10 +145,6 @@
         <editHeading>true</editHeading>
         <label>Class Information</label>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>PHSS__ILT_Class__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Online_Class__c</field>

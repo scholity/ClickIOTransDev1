@@ -1,13 +1,9 @@
-/**
-* Created by bjarmolinski on 2019-06-28.
-*/
-
 @isTest
-public without sharing class ClassListInstructorCPSControllerTest {
-    
+public without sharing class ClassListInstructorCPSControllerTest 
+{
     @testSetup
-    static void createTestData() {
-        
+    static void createTestData()
+    {
         User u = new User();
         u.FirstName = 'Admin';
         u.LastName = 'User';
@@ -33,8 +29,6 @@ public without sharing class ClassListInstructorCPSControllerTest {
             bas.Default_Bucket_Name__c = 'Bucket Account';
             bas.Maximum_Size_of_Bucket__c = 5000;
             insert bas;
-            
-            
             
             List<BGST_Profiles__c> ProfilesLists = new List<BGST_Profiles__c>();
             BGST_Profiles__c indivl = new BGST_Profiles__c();
@@ -67,17 +61,12 @@ public without sharing class ClassListInstructorCPSControllerTest {
             con.AccountId = acc.Id;
             insert con;
         }
-        
-        
     }
     
     @isTest
-    static void test_getPicklistValues() {
-        
-        
+    static void test_getPicklistValues() 
+    {
         Contact con = [SELECT Id FROM Contact LIMIT 1];
-        // create user to run as in order to make sure the user has a role assigned - essential when creating community users
-        //UserLicense license = [SELECT Id FROM UserLicense WHERE Name = 'Partner Community'];
         
         User u = new User();
         u.FirstName = 'Some';
@@ -86,7 +75,6 @@ public without sharing class ClassListInstructorCPSControllerTest {
         u.Email = 'some@user.usr';
         u.Username = '232343some@user.de';
         u.ProfileId = [SELECT Id FROM Profile WHERE Name = 'Customer Community User' LIMIT 1].Id;
-        //u.UserRoleId = [Select Id From UserRole LIMIT 1].Id;
         u.TimeZoneSidKey = 'America/Los_Angeles';
         u.EmailEncodingKey = 'UTF-8';
         u.LanguageLocaleKey = 'en_US';
@@ -99,21 +87,12 @@ public without sharing class ClassListInstructorCPSControllerTest {
         System.runAs(u) {
             List<Object> objs = ClassListInstructorCPSController.getPicklistValues('Account', accId);
             System.debug(objs);
-            
-            List<Object> objs2 = ClassListInstructorCPSController.getPicklistValues('User', accId);
-            System.debug(objs2);
         }
     }
     
     @isTest
-    static void test_getCountDays() {
-        Integer i = ClassListInstructorCPSController.getCountDays(Date.today(), Date.today() + 10);
-        System.assertEquals(11, i);
-    }
-    
-    @isTest
-    static void test_getClasses() {
-        
+    static void test_getClasses()
+    {
         Id accId = [SELECT Id FROM Account LIMIT 1].Id;
         User u = [SELECT Id FROM User WHERE UserName = '232343admin@user.de' LIMIT 1];
         
@@ -147,14 +126,9 @@ public without sharing class ClassListInstructorCPSControllerTest {
         
         insert clsRecord;
         
-        // create ilt instructor
-        redwing__ILT_Instructor__c instructorrecord = new redwing__ILT_Instructor__c();
-        instructorrecord.redwing__Instructor__c = u.Id;
-        instructorrecord.redwing__ILT_Class__c = clsRecord.id;
-        insert instructorrecord;
-        
-        System.runAs(u) {
-            ClassListInstructorCPSController.getClasses(0, 10, accId, u.Id, '', '', '');
+        System.runAs(u) 
+        {
+            ClassListInstructorCPSController.getClasses(0, 10, accId, '', '', '');
         }
     }
 }

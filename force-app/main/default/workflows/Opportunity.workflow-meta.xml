@@ -235,7 +235,7 @@
             <operation>equals</operation>
             <value>AED</value>
         </criteriaItems>
-        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <triggerType>onAllChanges</triggerType>
     </rules>
     <rules>
         <fullName>Closed Won Date</fullName>
@@ -249,7 +249,7 @@
             <operation>equals</operation>
             <value>Closed Won</value>
         </criteriaItems>
-        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <triggerType>onAllChanges</triggerType>
     </rules>
     <rules>
         <fullName>Email Alert to Create an Order Agreement</fullName>
@@ -264,7 +264,7 @@
             <value>Reservation</value>
         </criteriaItems>
         <description>When a Sales Opportunity reaches the Reservation Stage when there is no Contract Opportunity.</description>
-        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <triggerType>onAllChanges</triggerType>
     </rules>
     <rules>
         <fullName>Multi_Jurisdictional</fullName>
@@ -284,7 +284,7 @@
             <value>Closed Won</value>
         </criteriaItems>
         <description>Used to Alert the MJ Group of an Opp needing their attention</description>
-        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <triggerType>onAllChanges</triggerType>
     </rules>
     <rules>
         <fullName>Opportunity Created From Lead</fullName>
@@ -317,6 +317,6 @@
             <operation>equals</operation>
             <value>Closed Lost,Closed Won</value>
         </criteriaItems>
-        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <triggerType>onAllChanges</triggerType>
     </rules>
 </Workflow>

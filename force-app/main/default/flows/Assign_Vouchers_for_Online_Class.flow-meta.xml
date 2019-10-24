@@ -28,12 +28,12 @@
         <name>Assign_Order_Item_to_Ship</name>
         <label>Assign Order Item to Ship</label>
         <locationX>677</locationX>
-        <locationY>329</locationY>
+        <locationY>328</locationY>
         <assignmentItems>
             <assignToReference>sOrderItem.ccrz__OrderItemStatus__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Shipped</stringValue>
+                <stringValue>In Process</stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -103,6 +103,13 @@
                 <elementReference>sOrderItem.ccrz__Product__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sVoucher.Opportunity__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sOrderItem.Opportunity__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Add_Voucher_to_Output</targetReference>
         </connector>
@@ -150,6 +157,10 @@
                 <rightValue>
                     <stringValue>Order Submitted</stringValue>
                 </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sOrderItem.ccrz__OrderItemStatus__c</leftValueReference>
+                <operator>EqualTo</operator>
             </conditions>
             <connector>
                 <targetReference>Get_Product</targetReference>
@@ -227,7 +238,7 @@
         <name>Get_Order_Item</name>
         <label>Get Order Item</label>
         <locationX>219</locationX>
-        <locationY>51</locationY>
+        <locationY>50</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Ready_to_fulfill</targetReference>
@@ -251,6 +262,7 @@
         <queriedFields>ccrz__Quantity__c</queriedFields>
         <queriedFields>ccrz__Order__c</queriedFields>
         <queriedFields>ccrz__OrderItemStatus__c</queriedFields>
+        <queriedFields>Opportunity__c</queriedFields>
     </recordLookups>
     <recordLookups>
         <name>Get_Product</name>
@@ -292,7 +304,7 @@
         <inputReference>outVoucher</inputReference>
     </recordUpdates>
     <startElementReference>Get_Order_Item</startElementReference>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>colLearning</name>
         <dataType>SObject</dataType>

@@ -808,6 +808,28 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
+            <fullName>Add_Supp_Information-4</fullName>
+            <screens>
+                <fields>
+                    <name>ErrorMessage</name>
+                </fields>
+                <name>Error_Message</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>SupMessage</name>
+                </fields>
+                <fields>
+                    <name>vSuppInfo</name>
+                    <validationRule/>
+                </fields>
+                <name>Supplemental_Information_Entry</name>
+            </screens>
+        </flows>
+        <fullName>Add_Supp_Information</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
             <fullName>Release_Achievement_Assignments-3</fullName>
         </flows>
         <fullName>Release_Achievement_Assignments</fullName>
@@ -844,6 +866,18 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
+            <fullName>ILT_Class_Pass_supp_info_to_FI_and_OI-2</fullName>
+        </flows>
+        <fullName>ILT_Class_Pass_supp_info_to_FI_and_OI</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Account_change_country_to_US-2</fullName>
+        </flows>
+        <fullName>Account_change_country_to_US</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
             <fullName>Update_Remaining_PO_Amount_of_CC_Stored_Payment-1</fullName>
         </flows>
         <fullName>Update_Remaining_PO_Amount_of_CC_Stored_Payment</fullName>
@@ -874,7 +908,7 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Opportunity_Controller-54</fullName>
+            <fullName>Opportunity_Controller-57</fullName>
         </flows>
         <fullName>Opportunity_Controller</fullName>
     </flowDefinitions>
@@ -913,6 +947,12 @@
             <fullName>Update_Contact_Record_from_User-3</fullName>
         </flows>
         <fullName>Update_Contact_Record_from_User</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Disable_Price_Group_Accounts-2</fullName>
+        </flows>
+        <fullName>Disable_Price_Group_Accounts</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -1004,15 +1044,15 @@
     <flowDefinitions>
         <flows>
             <choices>
+                <name>GeneralStore</name>
+            </choices>
+            <choices>
                 <name>CPS</name>
             </choices>
             <choices>
                 <name>CREStore</name>
             </choices>
-            <choices>
-                <name>GeneralStore</name>
-            </choices>
-            <fullName>Create_Contract-44</fullName>
+            <fullName>Create_Contract-46</fullName>
             <screens>
                 <fields>
                     <name>Effective_End_Date</name>
@@ -1100,7 +1140,7 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Order_Item_Status_Controller_Change-25</fullName>
+            <fullName>Order_Item_Status_Controller_Change-26</fullName>
         </flows>
         <fullName>Order_Item_Status_Controller_Change</fullName>
     </flowDefinitions>
@@ -1343,7 +1383,7 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Transaction_Payment_Controller-12</fullName>
+            <fullName>Transaction_Payment_Controller-15</fullName>
         </flows>
         <fullName>Transaction_Payment_Controller</fullName>
     </flowDefinitions>
@@ -1403,6 +1443,12 @@
             <fullName>Community_User_Deactivated-6</fullName>
         </flows>
         <fullName>Community_User_Deactivated</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>TE_Pass_Supp_info_on_Order_Item-4</fullName>
+        </flows>
+        <fullName>TE_Pass_Supp_info_on_Order_Item</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -1481,7 +1527,7 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Schedule_New_Training_Event-2</fullName>
+            <fullName>Schedule_New_Training_Event-3</fullName>
             <screens>
                 <fields>
                     <name>EventCancelled</name>
@@ -1544,13 +1590,41 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
+            <fullName>Add_Student_Name_for_NAT-1</fullName>
+            <screens>
+                <fields>
+                    <name>ErrorMessage</name>
+                </fields>
+                <name>Error_Message</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>NoNATFulfillment</name>
+                </fields>
+                <name>Not_Found</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>SupMessage</name>
+                </fields>
+                <fields>
+                    <name>vSuppInfo</name>
+                    <validationRule/>
+                </fields>
+                <name>Supplemental_Information_Entry</name>
+            </screens>
+        </flows>
+        <fullName>Add_Student_Name_for_NAT</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
             <fullName>Opportunity_to_Order-3</fullName>
         </flows>
         <fullName>Opportunity_to_Order</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Opportunity_to_Contract-8</fullName>
+            <fullName>Opportunity_to_Contract-11</fullName>
         </flows>
         <fullName>Opportunity_to_Contract</fullName>
     </flowDefinitions>
@@ -1598,7 +1672,7 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Manage_Order_Status-73</fullName>
+            <fullName>Manage_Order_Status-74</fullName>
         </flows>
         <fullName>Manage_Order_Status</fullName>
     </flowDefinitions>
@@ -1637,7 +1711,19 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Order_Status_Controller-84</fullName>
+            <fullName>Update_Fulfillment_Item_to_Complete-1</fullName>
+        </flows>
+        <fullName>Update_Fulfillment_Item_to_Complete</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Credit_Balance_Return-1</fullName>
+        </flows>
+        <fullName>Credit_Balance_Return</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Order_Status_Controller-87</fullName>
         </flows>
         <fullName>Order_Status_Controller</fullName>
     </flowDefinitions>
@@ -1646,6 +1732,46 @@
             <fullName>Catalog_Account_Controller-2</fullName>
         </flows>
         <fullName>Catalog_Account_Controller</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <choices>
+                <name>CREStore</name>
+            </choices>
+            <choices>
+                <name>CPS</name>
+            </choices>
+            <choices>
+                <name>GeneralStore</name>
+            </choices>
+            <fullName>Set_Price_Group_Dates-1</fullName>
+            <screens>
+                <fields>
+                    <name>Effective_End_Date</name>
+                    <validationRule/>
+                </fields>
+                <fields>
+                    <name>Effective_Start_Date</name>
+                </fields>
+                <fields>
+                    <name>Enabled</name>
+                </fields>
+                <fields>
+                    <name>Group_Name</name>
+                </fields>
+                <fields>
+                    <name>Storefront</name>
+                </fields>
+                <fields>
+                    <name>dspAccount</name>
+                </fields>
+                <fields>
+                    <name>dspOppurtunityName</name>
+                </fields>
+                <name>Establish_Price_Group</name>
+            </screens>
+        </flows>
+        <fullName>Set_Price_Group_Dates</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>

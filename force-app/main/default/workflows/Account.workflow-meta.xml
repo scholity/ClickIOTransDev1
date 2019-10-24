@@ -49,6 +49,15 @@
         <protected>false</protected>
     </fieldUpdates>
     <fieldUpdates>
+        <fullName>Change_country_to_US</fullName>
+        <field>BillingCountry</field>
+        <formula>&quot;US&quot;</formula>
+        <name>Change country to US</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>Credit_Limit</fullName>
         <field>Credit_Limit__c</field>
         <formula>0</formula>
@@ -243,6 +252,34 @@
         <operation>Literal</operation>
         <protected>false</protected>
     </fieldUpdates>
+    <rules>
+        <fullName>Change Billing Country to US</fullName>
+        <actions>
+            <name>Change_country_to_US</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Account.BillingCountry</field>
+            <operation>equals</operation>
+            <value>United States</value>
+        </criteriaItems>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Change Shipping Country to US</fullName>
+        <actions>
+            <name>Change_country_to_US</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Account.ShippingCountry</field>
+            <operation>equals</operation>
+            <value>United States</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
     <rules>
         <fullName>Copy Billing to Shipping Address</fullName>
         <actions>

@@ -3,11 +3,17 @@ public class GeneratePDFHandlerStudents
     public String PDFData {get; set;}
     public String Downloadtype {get; set;}
     public String todaysDate {get; set;}
+    public String companyName {get; set;}
+    public String expStartDate {get; set;}
+    public String expEndDate {get; set;}
     public List<ClassWrapper> classWrapperContent {get; set;}
     public GeneratePDFHandlerStudents()
     {
         PDFData = '';
         Downloadtype = '';
+        companyName = '';
+        expStartDate = '';
+        expEndDate = '';
         classWrapperContent = new List<ClassWrapper>();
     }
     
@@ -62,7 +68,7 @@ public class GeneratePDFHandlerStudents
         if(Downloadtype == 'PDF')
         {
             System.PageReference pageRef = new System.PageReference('/apex/PDFDownloaderStudents');
-            pageRef.getHeaders().put('content-disposition', 'attachment; filename=Student Certificate-'+System.today().format()+'Download-PDF.pdf');
+            pageRef.getHeaders().put('content-disposition', 'attachment; filename='+companyName+'-Student History Report-'+expStartDate +' to '+expEndDate+'.pdf');
             return pageRef;
         }
         else

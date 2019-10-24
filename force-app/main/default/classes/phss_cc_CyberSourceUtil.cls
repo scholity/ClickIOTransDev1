@@ -19,6 +19,9 @@ public with sharing class phss_cc_CyberSourceUtil {
     // CyberSource transaction types
     private static final String TRANSACTION_TYPE_CAPTURE = 'sale';
 
+    // CyberSource response values
+    private static final String SUCCESS_REASON_CODE = '100';
+
     // Form Data
     private static final String CART_ENCID_KEY = 'cartEncId';
     private static final String UTC_DATE_KEY = 'utcDate';
@@ -61,6 +64,8 @@ public with sharing class phss_cc_CyberSourceUtil {
     public static final String CYBER_SOURCE_REQ_PAYMENT_TOKEN_KEY = 'req_payment_token';
     public static final String CYBER_SOURCE_REQUEST_TOKEN_KEY = 'request_token';
     public static final String CYBER_SOURCE_TRANSACTION_ID_KEY = 'transaction_id';
+    public static final String CYBER_SOURCE_REASON_CODE_KEY = 'reason_code';
+    public static final String CYBER_SOURCE_MESSAGE_KEY = 'message';
 
     // CyberSource Config Keys
     private static final String CYBER_SOURCE_CONFIG_TOKEN_URL_KEY = 'pgcs.urltokencreate';
@@ -82,6 +87,7 @@ public with sharing class phss_cc_CyberSourceUtil {
     private static final String FAILED_TO_CREDIT_TRANSACTION_PAYMENT = 'Failed to credit transaction payment';
     public static final String FAILED_TO_VERIFY_CYBERSOURCE_RESPONSE_SIGNATURE = 'Failed to verify Cybersource response signature.';
     private static final String FAILED_TO_VERIFY_CYBERSOURCE_PAYMENT_CAPTURE_RESPONSE = 'Failed to verify payment capture response';
+    private static final String FAILED_TO_CAPTURE_PAYMENT_WITH_REASON_CODE = 'Failed to capture payment.';
 
     //CyberSource Config Settings.
     @TestVisible private static String ACCESS_KEY;
@@ -118,6 +124,7 @@ public with sharing class phss_cc_CyberSourceUtil {
     @TestVisible private static String BILLING_STATE;
     @TestVisible private static String BILLING_COUNTRY;
     @TestVisible private static String BILLING_POSTAL_CODE;
+    @TestVisible private static Decimal CART_TOTAL_AMOUNT;
 
     // Payment Capture
     public static final String PAYMENT_CAPTURE_RESPONSE = 'payment capture response';
@@ -199,10 +206,19 @@ public with sharing class phss_cc_CyberSourceUtil {
         ACCESS_KEY = (String) configs.get(CYBER_SOURCE_CONFIG_ACCESSKEY_KEY);
         PROFILE_ID = (String) configs.get(CYBER_SOURCE_CONFIG_PROFILE_ID_KEY);
         SECRET = (String) configs.get(CYBER_SOURCE_CONFIG_SECRET_1_KEY) + (String) configs.get(CYBER_SOURCE_CONFIG_SECRET_2_KEY);
-        AUTH_AMOUNT = (String) configs.get(CYBER_SOURCE_CONFIG_AUTH_AMOUNT_KEY);
-        if (AUTH_AMOUNT == null || String.isBlank(AUTH_AMOUNT)) {
-            AUTH_AMOUNT = DEFAULT_AUTH_AMOUNT;
+
+        // Absolute/Percentage amount
+        String amountStr = (String) configs.get(CYBER_SOURCE_CONFIG_AUTH_AMOUNT_KEY);
+        if (String.isBlank(amountStr)) {
+            amountStr = DEFAULT_AUTH_AMOUNT;
+        } else {
+            String percentChar = '%';
+            if (amountStr.endsWith(percentChar) && CART_TOTAL_AMOUNT != null) {
+                Decimal percentage = Decimal.valueOf(amountStr.removeEnd(percentChar)) / 100.0;
+                amountStr = String.valueOf((CART_TOTAL_AMOUNT * percentage).setScale(2));
+            }
         }
+        AUTH_AMOUNT = amountStr;
 
         //Payment Types
         String paymentTypesString = (String) configs.get(CYBER_SOURCE_CONFIG_PAYMENT_TYPES_KEY);
@@ -258,6 +274,7 @@ public with sharing class phss_cc_CyberSourceUtil {
                         ccrz__Account__r.CreatedDate,
                         ccrz__Account__r.LastModifiedDate,
                         ccrz__Storefront__c,
+                        ccrz__TotalAmount__c,
                         ccrz__EncryptedId__c
                 FROM ccrz__E_Cart__c
                 WHERE Opportunity__c = :currOpportunitySfid AND ccrz__ActiveCart__c = true
@@ -277,6 +294,7 @@ public with sharing class phss_cc_CyberSourceUtil {
         BILLING_STATE = currCart.ccrz__Account__r.BillingState;
         BILLING_COUNTRY = currCart.ccrz__Account__r.BillingCountry;
         BILLING_POSTAL_CODE = currCart.ccrz__Account__r.BillingPostalCode;
+        CART_TOTAL_AMOUNT = currCart.ccrz__TotalAmount__c;
 
     }
 
@@ -468,7 +486,18 @@ public with sharing class phss_cc_CyberSourceUtil {
 
                 Boolean isResponseValid = verifyPaymentCaptureResponse(responseMap);
                 if (isResponseValid) {
-                    phss_cc_FulfillmentUtil.finalizePayment(authTxnPmt.Id, captureTxnPmt.Id, fulfillmentId, responseMap);
+                    String reasonCode = responseMap.get(CYBER_SOURCE_REASON_CODE_KEY);
+                    if (reasonCode == SUCCESS_REASON_CODE) {
+                        phss_cc_FulfillmentUtil.finalizePayment(authTxnPmt.Id, captureTxnPmt.Id, fulfillmentId, responseMap);
+                    }
+                    else {
+                        String message = (String) responseMap.get(CYBER_SOURCE_MESSAGE_KEY);
+                        if (message == null) {
+                            message = FAILED_TO_CAPTURE_PAYMENT_WITH_REASON_CODE + ' [reason_code=' + reasonCode + ']';
+                        }
+
+                        throw new phss_cc_Exception(message);
+                    }
                 }
                 else {
                     throw new phss_cc_Exception('Failed to capture payment because of mismatching signatures (fulfillment=' + fulfillmentId + ', AUTH=' + authTransactionPaymentId + ', CAPTURE=' + captureTransactionPaymentId + ')');
@@ -497,11 +526,12 @@ public with sharing class phss_cc_CyberSourceUtil {
     @testVisible
     private static Map<String, Object> buildCaptureData(String paymentToken, String referenceNumber, Decimal amount) {
 
-        String signedFieldNames = 'access_key,amount,currency,ignore_avs,locale,payment_method,payment_token,profile_id,reference_number,signed_date_time,signed_field_names,transaction_type,transaction_uuid';
+        String signedFieldNames = 'access_key,amount,bill_trans_ref_no,currency,ignore_avs,locale,payment_method,payment_token,profile_id,reference_number,signed_date_time,signed_field_names,transaction_type,transaction_uuid';
         String dateStr = Datetime.now().format('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'', 'GMT');
         String millisecondsStr = String.valueOf(System.currentTimeMillis());
         String dataStr = 'access_key=' + ACCESS_KEY
                 + ',amount=' + amount
+                + ',bill_trans_ref_no=' + referenceNumber
                 + ',currency=' + DEFAULT_CURRENCY_CODE
                 + ',ignore_avs=' + BOOLEAN_TRUE
                 + ',locale=' + DEFAULT_LOCALE
@@ -517,6 +547,7 @@ public with sharing class phss_cc_CyberSourceUtil {
 
         Map<String, Object> dataMap = new Map<String, Object>{
                 'access_key' => ACCESS_KEY,
+                'bill_trans_ref_no' => referenceNumber,
                 'amount' => amount,
                 'currency' => DEFAULT_CURRENCY_CODE,
                 'ignore_avs' => BOOLEAN_TRUE,

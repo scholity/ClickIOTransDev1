@@ -36,7 +36,8 @@ public with sharing class phss_cc_ProductListComponentController {
         Map<String, Object> searchResult;
         
         try {
-            searchResult = phss_cc_ProductUtil.productSearch(opportunitySfid,searchString);
+//            searchResult = phss_cc_ProductUtil.productSearch(opportunitySfid,searchString);
+            searchResult = phss_cc_ProductUtil.productSearchExcludingOnlineCommCourses(opportunitySfid,searchString);
         } catch (Exception e) {
             searchResult = phss_cc_Exception.getErrorMessageMap(e.getMessage());
         }

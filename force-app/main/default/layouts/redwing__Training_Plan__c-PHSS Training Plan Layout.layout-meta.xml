@@ -39,7 +39,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>PHSS__Classroom_Setting__c</field>
+                <field>Classroom_Setting__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

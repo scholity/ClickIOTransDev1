@@ -133,6 +133,11 @@
 
                 component.set("v.requestType", storeResponse.RequestType);
                 component.set("v.trainingEventId", storeResponse.TrainingEventId);
+
+                var isCartActive = component.get("v.isCarActive");
+                if (storeResponse.RequestType.indexOf("Full Service") >= 0 || isCartActive) {
+                    component.set("v.eligibleForClose", "true");
+                }
             }
             else if (state === "ERROR") {
                 // Process error returned by server

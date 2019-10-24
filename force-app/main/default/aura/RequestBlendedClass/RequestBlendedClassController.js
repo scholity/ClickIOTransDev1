@@ -646,7 +646,6 @@
             if (cpsWrap.sessionList.length == 1) {
                 errorDivs = [errorDivs];        // convert the single div into an array
             }
-
             if (cpsWrap.sessionList[sessionIndex].timeZone == '') {
                 $A.util.removeClass(errorDivs[sessionIndex], 'hide');
             } else {

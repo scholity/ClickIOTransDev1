@@ -4,6 +4,7 @@ public class StudentListingControllertest{
     static void  StudentListingControllertest(){
         
         Id recordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Bucket Account').getRecordTypeId();
+        
         //Bucket Custom settings
         Bucket_Account_Settings__c bas = Bucket_Account_Settings__c.getOrgDefaults();
         bas.Bucket_Account_Owner_ID__c = UserInfo.getUserID();
@@ -13,9 +14,7 @@ public class StudentListingControllertest{
         insert bas;
         
         // User Credentials:
-        
         Profile profileId = [SELECT Id FROM Profile WHERE Name = 'SB PHSS-Partner-Community Plus Login' LIMIT 1];
-        
         
         Account accRecord=new account();
         accRecord.Name='Test Acc123';
@@ -28,28 +27,19 @@ public class StudentListingControllertest{
         conRecord.Account = accRecord;
         insert conRecord;
         
-        
         User u1 = new User(Alias = 'newUser', Email='newuser@testorg.com',
                            EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
                            LocaleSidKey='en_US', ProfileId = profileId.Id,ContactId = conRecord.Id,
                            TimeZoneSidKey='America/Los_Angeles', UserName='newuser@testorg.com');
         insert u1;
         
-        
-        
         User u3 =[SELECT Name from User Where Id =: u1.Id];
-        
-        AccountContactRelation acr = new AccountContactRelation(); 
-        acr.Accountid = accRecord.id;
-        acr.Contactid = conRecord.id;
-        insert acr;
         
         redwing__Training_Plan__c lPlan = new redwing__Training_Plan__c();
         lPlan.Name = 'Test Plan';
         insert lPlan;
         
         // Create Achievement Assignemnt
-        
         redwing__Achievement_Category__c rac = new redwing__Achievement_Category__c();
         rac.name = 'Skill';
         insert rac;
@@ -75,7 +65,8 @@ public class StudentListingControllertest{
         System.debug('Achievement Assignment acquired'+u3.Name);
         
         test.starttest();
-        System.runAs(u3) {
+        System.runAs(u3) 
+        {
             StudentListingController.getPicklistValues('Account', null);
             StudentListingController.getPicklistValues('User', accRecord.id);
             StudentListingController.fetchUser();
@@ -88,17 +79,17 @@ public class StudentListingControllertest{
             String userString = JSON.serialize(userListFromClient);
             
             //Filtered by both Account and user
-            StudentListingController.fetchAchv(accString,userString);
+            StudentListingController.fetchAchv(accString, userString, '', '', '');
             
             //Filtered by only Account
             List<Id> emptyUserList = new List<Id>();
             String emptyUserString = JSON.serialize(emptyUserList);
-            StudentListingController.fetchAchv(accString,emptyUserString);
+            StudentListingController.fetchAchv(accString, emptyUserString, '', '', '');
             
             //Filtered by only Instructor
             List<Id> emptyAccountList = new List<Id>();
             String emptyAccountString = JSON.serialize(emptyAccountList);
-            StudentListingController.fetchAchv(emptyAccountString, userString);
+            StudentListingController.fetchAchv(emptyAccountString, userString, '', '', '');
             
             System.AssertEquals(u3.id,raa.redwing__User__c);
             System.AssertEquals(u3.id,UserInfo.getUserId());

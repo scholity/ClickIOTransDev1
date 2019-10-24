@@ -1,4 +1,4 @@
-<apex:page controller="GeneratePDFHandlerStudents" contentType="txt/xml#Student Certificate -{!todaysDate}.xls" cache="true">
+<apex:page controller="GeneratePDFHandlerStudents" contentType="txt/xml#{!companyName} -Student History Report-{!expStartDate} to {!expEndDate}.xls" cache="true">
     <apex:outputText value="{!xlsHeader}"/>
     
     <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"

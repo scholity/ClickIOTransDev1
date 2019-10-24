@@ -15,26 +15,19 @@ public class GeneratePDFHandlerCPStest
         locWrapperRef.postalCode = null;
         
         GeneratePDFHandlerCPS.ClassWrapper wrapperRef = new GeneratePDFHandlerCPS.ClassWrapper();
+        wrapperRef.facilityName = null;
+        wrapperRef.courseId = null;
+        wrapperRef.courseName = null;
         wrapperRef.classId = null;
-        wrapperRef.className = null;
+        wrapperRef.accountName = null;
+        wrapperRef.orderNumber = null;
         wrapperRef.classOfferingId = null;
-        wrapperRef.lpName = null;
-        wrapperRef.lplanId = null;
+        wrapperRef.className = null;
         wrapperRef.startDate = null;
         wrapperRef.endDate = null;
         wrapperRef.startTime = null;
-        wrapperRef.endTime = null;
-        wrapperRef.days = null;
-        wrapperRef.instructorName = null;
-        wrapperRef.company = null;
-        wrapperRef.location = locWrapperRef;
-        wrapperRef.classSettings = null;
-        wrapperRef.status = null;
-        wrapperRef.numberOfStudents = null;
-        
-        //Added for CPS request type
-        wrapperRef.accountName = null;
-        wrapperRef.orderNumber = null;
+        wrapperRef.endTime  = null;
+        wrapperRef.location = null;
         wrapperRef.CPSRegistrationURL = null;
         wrapperRef.CPSRegistrationPhone = null;
         wrapperRef.registrationFee = null;

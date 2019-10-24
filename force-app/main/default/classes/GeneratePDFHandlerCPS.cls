@@ -13,24 +13,19 @@ public class GeneratePDFHandlerCPS
     
     public with sharing class ClassWrapper 
     {
+        public String facilityName {get; set;}
+        public String courseId {get; set;}
+        public String courseName {get; set;}
         public String classId {get; set;}
-        public String className {get; set;}
+        public String accountName {get; set;}
+        public String orderNumber {get; set;}
         public String classOfferingId {get; set;}
-        public String lpName {get; set;}
-        public String lplanId {get; set;}
+        public String className {get; set;}
         public Date startDate {get; set;}
         public Date endDate {get; set;}
         public String startTime {get; set;}
-        public String endTime {get; set;}
-        public Integer days {get; set;}
-        public String instructorName {get; set;}
-        public String company {get; set;}
+        public String endTime  {get; set;}
         public locationWrapper location {get; set;}
-        public String classSettings {get; set;}
-        public String status {get; set;}
-        public Integer numberOfStudents {get; set;}
-        public String accountName {get; set;}
-        public String orderNumber {get; set;}
         public String CPSRegistrationURL {get; set;}
         public String CPSRegistrationPhone {get; set;}
         public Decimal registrationFee {get; set;}
@@ -68,7 +63,7 @@ public class GeneratePDFHandlerCPS
         if(Downloadtype == 'PDF')
         {
             System.PageReference pageRef = new System.PageReference('/apex/PDFDownloaderCPS');
-            pageRef.getHeaders().put('content-disposition', 'attachment; filename=Classes CPS-'+System.today().format()+'-PDF.pdf');
+            pageRef.getHeaders().put('content-disposition', 'attachment; filename=CPS CLasses-'+System.today().format()+'-PDF.pdf');
             return pageRef;
         }
         else

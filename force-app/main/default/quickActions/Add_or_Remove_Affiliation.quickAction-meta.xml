@@ -7,7 +7,7 @@
     </fieldOverrides>
     <fieldOverrides>
         <field>Subject</field>
-        <formula>&quot;Add or Remove Instructor Affiliation on a Account&quot;</formula>
+        <formula>&quot;Add or Remove Instructor on a Account&quot;</formula>
     </fieldOverrides>
     <fieldOverrides>
         <field>Tertiary_Sub_Type__c</field>
@@ -25,7 +25,7 @@
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>Subject</field>
-                <uiBehavior>Edit</uiBehavior>
+                <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
@@ -55,7 +55,6 @@
         </quickActionLayoutColumns>
         <quickActionLayoutColumns/>
     </quickActionLayout>
-    <successMessage>Case Submmited</successMessage>
     <targetObject>Case</targetObject>
     <targetRecordType>Case.Service_Cases</targetRecordType>
     <type>Create</type>
