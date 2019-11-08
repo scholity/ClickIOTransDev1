@@ -237,7 +237,15 @@ public with sharing class phss_cc_ProductUtil {
         }
     }
 
-    public static Map<String, Object> productSearchExcludingOnlineCommCourses(String opportunityId, String searchString) {
+    /**
+     * @description Fetches products, excluding non-online community courses
+     *
+     * @param opportunityId
+     * @param searchString
+     *
+     * @return
+     */
+    public static Map<String, Object> productSearchExcludingNonOnlineCommCourses(String opportunityId, String searchString) {
         Map<String, Object> productMap = new Map<String, Object>();
 
         try {
@@ -245,7 +253,7 @@ public with sharing class phss_cc_ProductUtil {
             Set<String> productIDs = doSearch(searchString);
             if (productIDs.size() > 0) {
                 List<Map<String, Object>> productData = getProductDetails(productIDs);
-                productMap = excludeOnlineCommunityCourses(productData);
+                productMap = excludeNonOnlineCommunityCourses(productData);
                 fetchComponentProducts(productMap);
             }
 
@@ -268,7 +276,7 @@ public with sharing class phss_cc_ProductUtil {
      *
      * @return
      */
-    public static Map<String, Object> excludeOnlineCommunityCourses(List<Map<String, Object>> productList) {
+    public static Map<String, Object> excludeNonOnlineCommunityCourses(List<Map<String, Object>> productList) {
         Map<String, Object> productMap = new Map<String, Object>();
 
         for (Map<String, Object> product : productList) {
@@ -276,18 +284,13 @@ public with sharing class phss_cc_ProductUtil {
             if (inventoryType == COMMUNITY_INVENTORY_TYPE) {
                 List<Map<String, Object>> productSpecs = (List<Map<String, Object>>) product.get(PRODUCT_SPECS_KEY);
                 if (productSpecs != null && productSpecs.size() > 0) {
-                    Boolean isOnlineCourse = false;
                     for (Map<String, Object> productSpec : productSpecs) {
                         String specValue = (String) productSpec.get(PRODUCT_SPEC_VALUE_KEY);
                         if (specValue == ONLINE_SPEC_VALUE) {
-                            isOnlineCourse = true;
+                        	String productId = (String) product.get(PRODUCT_SFID_KEY);
+                        	productMap.put(productId, product);
                             break;
                         }
-                    }
-
-                    if (!isOnlineCourse) {
-                        String productId = (String) product.get(PRODUCT_SFID_KEY);
-                        productMap.put(productId, product);
                     }
                 }
 

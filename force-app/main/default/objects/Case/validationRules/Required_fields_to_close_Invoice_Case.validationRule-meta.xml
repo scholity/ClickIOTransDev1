@@ -5,18 +5,18 @@
     <description>When Invoice Case Type =Bad Address, Duplicate Invoice, Customer Service Credit, Misapplied Payment, Missing Payment, Price, Wrong Organization  Roor Case picklist value is required to close the case</description>
     <errorConditionFormula>AND(
 OR(
-ISPICKVAL( Dispute_Issue__c, &#39;Bad Address&#39;), 
-ISPICKVAL( Dispute_Issue__c, &#39;Duplicate Invoice&#39;),  
-ISPICKVAL( Dispute_Issue__c, &#39;Misapplied Payment&#39;), 
-ISPICKVAL( Dispute_Issue__c, &#39;Missing Payment&#39;), 
-ISPICKVAL( Dispute_Issue__c, &#39;Price&#39;), 
+ISPICKVAL( Dispute_Issue__c, &#39;Bad Address&#39;),
+ISPICKVAL( Dispute_Issue__c, &#39;Duplicate Invoice&#39;),
+ISPICKVAL( Dispute_Issue__c, &#39;Misapplied Payment&#39;),
+ISPICKVAL( Dispute_Issue__c, &#39;Missing Payment&#39;),
+ISPICKVAL( Dispute_Issue__c, &#39;Price&#39;),
 ISPICKVAL( Dispute_Issue__c, &#39;Wrong Organization&#39;)
 ),
 RecordType.DeveloperName = &#39;Invoicing&#39;,
 ISPICKVAL(Type,&#39;Invoicing&#39;),
-ISPICKVAL(Status, &#39;Closed - Invoicing&#39;),
-ISPICKVAL(Root_Cause__c, &#39;&#39;)
-
+OR(ISPICKVAL(Status, &#39;Closed - Invoicing&#39;),AND(NOT(ISPICKVAL(Status, &#39;New&#39;) || ISPICKVAL(Status, &#39;New - Assigned&#39;)),BEGINS(PRIORVALUE(OwnerId), &quot;005&quot;),OR(BEGINS(OwnerId, &quot;005&quot;), OwnerId = &#39;00Gd0000000SdP5&#39;))),
+ISPICKVAL(Root_Cause__c, &#39;&#39;),
+$Setup.Validation_Rules__c.Bypass_Rules__c = FALSE
 )</errorConditionFormula>
     <errorDisplayField>Root_Cause__c</errorDisplayField>
     <errorMessage>Provide Root Cause Value</errorMessage>

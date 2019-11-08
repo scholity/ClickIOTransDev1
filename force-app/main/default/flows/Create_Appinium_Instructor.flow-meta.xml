@@ -38,7 +38,6 @@
             <label>Found Record</label>
         </rules>
     </decisions>
-    <interviewLabel>Create Appinium Instructor {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Create Appinium Instructor</label>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>

@@ -34,7 +34,7 @@
         <name>Assign_Account_Info</name>
         <label>Assign Account Info</label>
         <locationX>404</locationX>
-        <locationY>186</locationY>
+        <locationY>187</locationY>
         <assignmentItems>
             <assignToReference>sAccount.Name</assignToReference>
             <operator>Assign</operator>
@@ -86,8 +86,8 @@
     <assignments>
         <name>Set_Contact_Information</name>
         <label>Set Contact Information</label>
-        <locationX>71</locationX>
-        <locationY>370</locationY>
+        <locationX>189</locationX>
+        <locationY>336</locationY>
         <assignmentItems>
             <assignToReference>sContact.NSSCCConnector__Contact_Status__c</assignToReference>
             <operator>Assign</operator>
@@ -159,8 +159,8 @@
     <decisions>
         <name>Check_Contact_Status</name>
         <label>Check Contact Status</label>
-        <locationX>69</locationX>
-        <locationY>208</locationY>
+        <locationX>170</locationX>
+        <locationY>189</locationY>
         <defaultConnector>
             <targetReference>Get_Individual_Record_Type</targetReference>
         </defaultConnector>
@@ -209,7 +209,7 @@
         <name>Create_Account_Contact_Relationship</name>
         <label>Create Account Contact Relationship</label>
         <locationX>659</locationX>
-        <locationY>328</locationY>
+        <locationY>329</locationY>
         <connector>
             <targetReference>Assign_Account_Info</targetReference>
         </connector>
@@ -222,7 +222,7 @@
         <name>Get_Account_Contact_Relationship</name>
         <label>Get Account Contact Relationship</label>
         <locationX>822</locationX>
-        <locationY>58</locationY>
+        <locationY>59</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Account_Contact_Relationship</targetReference>
@@ -253,7 +253,7 @@
     <recordLookups>
         <name>Get_Contact</name>
         <label>Get Contact</label>
-        <locationX>173</locationX>
+        <locationX>171</locationX>
         <locationY>51</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -276,8 +276,8 @@
     <recordLookups>
         <name>Get_Individual_Record_Type</name>
         <label>Get Individual Record Type</label>
-        <locationX>214</locationX>
-        <locationY>297</locationY>
+        <locationX>300</locationX>
+        <locationY>86</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Account_Flow</targetReference>
@@ -324,8 +324,8 @@
     <recordUpdates>
         <name>Update_Contact</name>
         <label>Update Contact</label>
-        <locationX>399</locationX>
-        <locationY>585</locationY>
+        <locationX>401</locationX>
+        <locationY>586</locationY>
         <inputReference>sContact</inputReference>
     </recordUpdates>
     <startElementReference>Get_Contact</startElementReference>

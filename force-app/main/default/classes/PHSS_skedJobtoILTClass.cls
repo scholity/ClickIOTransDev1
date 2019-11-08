@@ -639,8 +639,9 @@ public without sharing class PHSS_skedJobtoILTClass {
         // **** logic to populate Opp Id on Full Service class and Full Service NATraining/Testing
         // query opportunity IDs, Map - dependency Map between job and opp Id
 
-        Map<Id, sked__Job__c> skedJobsMap = new Map<Id, sked__Job__c>([SELECT Id, Training_Event__r.Opportunity__c, Training_Event__r.CC_Order__c,
-                Training_Event__r.CC_Order_Item__c FROM sked__Job__c WHERE Id IN :SetJob AND sked__Type__c IN :fullServiceJobTypes]);
+        Map<Id, sked__Job__c> skedJobsMap = new Map<Id, sked__Job__c>([SELECT Id,
+                Training_Event__r.Opportunity__c, Training_Event__r.CC_Order__c, Training_Event__r.CC_Order_Item__c
+                FROM sked__Job__c WHERE Id IN :SetJob AND sked__Type__c IN :fullServiceJobTypes]);
 
         // *** get order items to populate them with ILT class Id.
         if (!skedJobsMap.isEmpty()) {
@@ -769,12 +770,29 @@ public without sharing class PHSS_skedJobtoILTClass {
                     clsRecord.redwing__Description__c = curJobRecord.sked__Description__c;
                     clsRecord.Request_Type__c = curJobRecord.sked__Type__c;
                     clsRecord.Ready_to_Publish__c = curJobRecord.Ready_to_Publish__c;
-                    clsRecord.redwing__Location__c = (!locationToILTLocationMap.IsEmpty() && locationToILTLocationMap.containsKey(curJobRecord.sked__Location__c)) ? locationToILTLocationMap.get(curJobRecord.sked__Location__c) : null; // added as per DE1443
+                    if (curJobRecord.sked__Type__c != null && !curJobRecord.sked__Type__c.contains('Full Service')) {
+                        if (String.isNotBlank(curJobRecord.sked__Location__c) && locationToILTLocationMap.containsKey(curJobRecord.sked__Location__c)) {
+                            clsRecord.redwing__Location__c = locationToILTLocationMap.get(curJobRecord.sked__Location__c);
+                        } else {
+                            clsRecord.redwing__Location__c = null; // added as per DE1443
+                        }
+                    } else {
+                        // DE1743 - Create location for full service classes (if required)
+                        // Full service jobs do NOT have a location record created in Skedulo; must create one in Appinium
+                        // as an ILTLocation record (locations are specific to an account)
+
+                        if (curJobRecord.sked__Account__c != null && String.isNotBlank(curJobRecord.sked__Address__c)) {
+                            Id fullServiceLocationId = convertSkedLocationToILTLocation(curJobRecord.sked__Account__c, curJobRecord.sked__Address__c);
+                            if (fullServiceLocationId != null) {
+                                clsRecord.redwing__Location__c = fullServiceLocationId;
+                            }
+                        }
+                    }
 
                     clsRecord.Class_Online__c = true;
                     clsRecord.Course_Class_Type__c = curJobRecord.Course_Class_Type__c;
 
-                    if (curJobRecord.sked__Type__c.contains('Full Service')) {
+                    if (curJobRecord.sked__Type__c != null && curJobRecord.sked__Type__c.contains('Full Service')) {
                         if (skedJobsMap.get(curJobRecord.Id) != null && skedJobsMap.get(curJobRecord.Id).Training_Event__c != null) {
                             clsRecord.Opportunity__c = skedJobsMap.get(curJobRecord.Id).Training_Event__r.Opportunity__c;
                         }
@@ -994,10 +1012,34 @@ public without sharing class PHSS_skedJobtoILTClass {
 
                     sessionRecord.Skedulo_Account__c = curJobRecord.sked__Account__c;
                     sessionRecord.redwing__Description__c = curJobRecord.sked__Description__c;
+
+                    if (curJobRecord.sked__Type__c != null && !curJobRecord.sked__Type__c.contains('Full Service')) {
+                        if (String.isNotBlank(curJobRecord.sked__Location__c) && locationToILTLocationMap.containsKey(curJobRecord.sked__Location__c)) {
+                            sessionRecord.redwing__Location__c = locationToILTLocationMap.get(curJobRecord.sked__Location__c);
+                        } else {
+                            sessionRecord.redwing__Location__c = null; // added as per DE1443
+                        }
+                    } else {
+                        // DE1743 - Create location for full service classes (if required)
+                        // Full service jobs do NOT have a location record created in Skedulo; must create one in Appinium
+                        // as an ILTLocation record (locations are specific to an account)
+
+                        if (curJobRecord.sked__Account__c != null && String.isNotBlank(curJobRecord.sked__Address__c)) {
+                            Id fullServiceLocationId = convertSkedLocationToILTLocation(curJobRecord.sked__Account__c, curJobRecord.sked__Address__c);
+                            if (fullServiceLocationId != null) {
+                                sessionRecord.redwing__Location__c = fullServiceLocationId;
+                            }
+                        }
+                    }
+
+                    /*
                     if (curJobRecord.sked__Location__c != null) {
                         sessionRecord.redwing__Location__c = (!locationToILTLocationMap.IsEmpty() && locationToILTLocationMap.containsKey(curJobRecord.sked__Location__c)) ? locationToILTLocationMap.get(curJobRecord.sked__Location__c) : null;
                     } else sessionRecord.redwing__Location__c = null;
+                    */
+
                     sessionRecord.Skedulo_Special_Instructions__c = curJobRecord.Special_Instructions__c;
+
                     // Note the used of the actual job record Id here, not the class job record Id for recurring schedules
                     // Session records are unique for each job record, including those defined for recurring schedules
                     sessionRecord.Skedulo_Job_Id__c = curJobRecord.Id;
@@ -1112,7 +1154,7 @@ public without sharing class PHSS_skedJobtoILTClass {
                     // iterate through order items, populate ILT class, add to the order items List
                     // update order items
 
-                    if (clsRecord.Request_Type__c.contains('Full Service')) {
+                    if (clsRecord.Request_Type__c != null && clsRecord.Request_Type__c.contains('Full Service')) {
                         Set<ccrz__E_OrderItem__c> orderItemSet = jobIdOrderItems.get(clsRecord.Skedulo_Job_Id__c);
                         if (orderItemSet != null && !orderItemSet.isEmpty()) {
                             Id theOrderId;
@@ -1150,7 +1192,7 @@ public without sharing class PHSS_skedJobtoILTClass {
                 // Skip full service classes:  Vouchers for full service-type classes are created using TE process (they
                 // are created in process builder 'Create Voucher From TE' and associate a new voucher to an order, order line, and TE
 
-                if (!theClass.Request_Type__c.contains('Full Service')) {
+                if (theClass.Request_Type__c != null && !theClass.Request_Type__c.contains('Full Service')) {
                     // Insure that the Learning Plan Id will be available if we need to create voucher, otherwise need to skip
                     if (catalogIds.get(jobCatalogMap.get(theClass.Skedulo_Job_Id__c)) != null) {
                         // For new ILT Class records use the previously calculated max seats(number of students) for voucher count
@@ -1496,6 +1538,34 @@ public without sharing class PHSS_skedJobtoILTClass {
                 // Skip CEP class creation if not ready to publish
                 ((jobType == 'Nurse Assistant Testing') && !readyToPublish)) {
             return false; // Take no action on this job
+        } else if (jobType != null && jobType.contains('Full Service')) {
+            if (PHSS_TriggerSettings__c.getOrgDefaults().skedJobtoILTClassFullServiceDisabled__c) {
+                return false; // Ignore full service jobs if this custom setting disabled
+            } else {
+                // Check to see if this full service job has cloud craze order/order item numbers associated to it
+                if (jobRecord.Training_Event__r.CC_Order__c == null || jobRecord.Training_Event__r.CC_Order_Item__c == null) {               
+                    List<User>theUser = [Select Email From User Where Id = :jobRecord.LastModifiedById Limit 1];
+                    String emailToAddress = theUser[0].Email;
+                    if (String.isNotBlank(emailToAddress)) {                    
+                        // Send email to scheduler that full service job is being processed without a cloud craze order associated to it
+                        String emailBody = 'The full service job you have scheduled, Job ' + jobRecord.Name +
+                                ', resulted in a ILT Class which does not have a Cloud Craze order associated to it.';
+                        String emailSubject = 'ILT Class Created Without Cloud Craze Order - Job' + jobRecord.Name;
+                        // Create email
+                        Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+                        email.setSubject(emailSubject);
+                        email.setToAddresses(new String[]{
+                                emailToAddress
+                        });
+                        email.setPlainTextBody(emailBody);
+                        system.debug('=======email:'+email);
+                        if (!Test.isRunningTest()) {
+                            Messaging.SendEmailResult [] r = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{email});
+                        }
+                    }
+                }
+                return true;  // Process this full service job
+            }
         } else {
             return true;  // Process this job
         }
@@ -1590,5 +1660,30 @@ public without sharing class PHSS_skedJobtoILTClass {
         // *****
         // End of US1356
         // *****
+    }
+
+    public static Id convertSkedLocationToILTLocation(Id accountId, String skedAddress) {
+        String theLocName = '';
+        String theAddress1 = '';
+        String theAddress2 = '';
+        String theCity = '';
+        String theState = '';
+        String theZip = '';
+        String theCountry = '';
+        Id theLocationId = null;
+
+        if(String.IsNotBlank(skedAddress) && accountId != null) {
+            List<String> parsedAddress = PHSS_skedLocationToILTLocation.parseAddress(skedAddress);
+            theAddress1 = parsedAddress[0];
+            theAddress2 = parsedAddress[1];
+            theCity = parsedAddress[2];
+            theState = parsedAddress[3];
+            theZip = parsedAddress[4];
+            theCountry = parsedAddress[5];
+
+            theLocName = skedAddress.substring(0, Math.min(skedAddress.length(), 80));
+            theLocationId = ILTInstructorCommunity.createIltLocation((String) accountId, theLocName, theAddress1, theAddress2, theZip, theState, theCity);
+        }
+        return theLocationId;
     }
 }

@@ -23,6 +23,10 @@
         }
     },
     removeAffiliation : function(component, event, helper) {
-        helper.removeAffiliation(component, event, helper);
+        var message ='Remove Affiliation:  The instructor or administrator will be removed from the organization’s approved list of instructors and/or administrators and will no longer be able to view or perform actions associated to this organization.';
+        if (confirm(message)) 
+            helper.removeAffiliation(component, event, helper);
+        else
+            return;
     }
 })

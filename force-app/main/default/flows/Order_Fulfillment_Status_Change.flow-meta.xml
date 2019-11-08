@@ -93,7 +93,6 @@
         </rules>
     </decisions>
     <description>When Order is placed, changes status of Course Item to Reservation</description>
-    <interviewLabel>Order Fulfillment Status Change {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Order Fulfillment Status Change</label>
     <loops>
         <name>ProductLoop</name>

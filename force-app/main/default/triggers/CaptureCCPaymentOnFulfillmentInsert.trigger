@@ -22,7 +22,9 @@ trigger CaptureCCPaymentOnFulfillmentInsert on Fulfillment__c (after insert) {
                             phss_cc_CyberSourceCreditUtil.creditFulfillment(fulfillment.Id);
                         }
                         else if (transactionPayment.ccrz__Amount__c > 0) {
+                            
                             phss_cc_FulfillmentUtil.capturePayment(fulfillment);
+                            phss_cc_CyberSourceCaptureUtil.capturePayment(fulfillment.Id);
                         }
                     }
                 }

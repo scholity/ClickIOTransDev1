@@ -10,6 +10,7 @@ public with sharing class phss_cc_OrderUtil {
     private static final String CYBER_SOURCE_RESPONSE_BILL_TO_POSTAL_CODE_KEY = 'req_bill_to_address_postal_code';
     private static final String CYBER_SOURCE_TRANSACTION_DECISION_KEY = 'decision';
     private static final String CYBER_SOURCE_DECISION_ACCEPT = 'ACCEPT';
+    private static final String CYBER_SOURCE_TRANSACTION_ID_KEY = 'transaction_id';
     @TestVisible private static final String CYBER_SOURCE_AUTH_RESPONSE_CODE_KEY = 'auth_response';
 
     //CyberSource Error Codes
@@ -40,6 +41,7 @@ public with sharing class phss_cc_OrderUtil {
     public static final String ACCOUNT_TYPE_CREDIT_CARD = 'cc';
     public static final String ACCOUNT_TYPE_PURCHASE_ORDER = 'po';
     public static final String REFUND_COMMENT = 'Refund for Stored Payment. Id=';
+    public static final String TRANSACTION_PAYMENT_ID_KEY = 'transactionPaymentId';
     @TestVisible private static final String SUCCESS_KEY = 'success';
 
     // Credit response keys
@@ -127,11 +129,14 @@ public with sharing class phss_cc_OrderUtil {
                     expYear = Decimal.valueOf(cardExpirationSplit[1]);
                 }
 
+                String transactionId = (String) inputData.get(CYBER_SOURCE_TRANSACTION_ID_KEY);
+
                 paymentDataMap = new Map<String, Object>{
                         PAYMENT_TOKEN_KEY => inputData.get(CYBER_SOURCE_RESPONSE_PAYMENT_TOKEN),
                         EXPIRATION_MONTH_KEY => expMonth,
                         EXPIRATION_YEAR_KEY => expYear,
-                        ACCOUNT_TYPE_KEY => ACCOUNT_TYPE_CREDIT_CARD
+                        ACCOUNT_TYPE_KEY => ACCOUNT_TYPE_CREDIT_CARD,
+                        TRANSACTION_PAYMENT_ID_KEY => transactionId
                 };
 
             } else if (inputData.containsKey(ACCOUNT_TYPE_KEY) && inputData.get(ACCOUNT_TYPE_KEY) == ACCOUNT_TYPE_CREDIT_BALANCE) {
@@ -145,7 +150,7 @@ public with sharing class phss_cc_OrderUtil {
                         STORED_PAYMENT_ID_KEY => storedPayment.Id,
                         STORED_PAYMENT_SAVE_AS_STORED_PAYMENT => false,
                         STOREFRONT_KEY => storedPayment.ccrz__Storefront__c,
-                        TRANSACTION_TYPE_KEY => 'BALANCE'
+                        TRANSACTION_TYPE_KEY => phss_cc_TransactionPaymentUtil.BALANCE_TRANSACTION_TYPE
                 };
 
             } else if (inputData.containsKey(CART_AMOUNT_KEY)) {

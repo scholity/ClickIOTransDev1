@@ -1,8 +1,8 @@
 @isTest
 public class AccountAffiliationControllerTest
 {
-  @IsTest(seeAllData=false)
-   public static void testmethod1()
+    @IsTest(seeAllData=false)
+    public static void testmethod1()
     {
         Id recordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Bucket Account').getRecordTypeId();
         
@@ -30,7 +30,7 @@ public class AccountAffiliationControllerTest
         
         User u1 = new User(Alias = 'newUser', Email='newuser@testorg.com',
                            EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
-                           LocaleSidKey='en_US', ProfileId = profileId.Id,ContactId = conRecord.Id,
+                           LocaleSidKey='en_US', ProfileId = profileId.Id, ContactId = conRecord.Id,
                            TimeZoneSidKey='America/Los_Angeles', UserName='newuser@testorg.com');
         insert u1;
         
@@ -40,12 +40,31 @@ public class AccountAffiliationControllerTest
         string values = 'Instructor;Administrator';
         accConRel.Roles = values;
         insert accConRel;
-
+        
+        AccountAffiliationController.locationWrapper loc = new AccountAffiliationController.locationWrapper();
+        loc.city= 'bangalore';
+        loc.address1= 'pp layout';
+        loc.country = 'BSK';
+        loc.province = '';
+        loc.postalCode = '56754';
+        
+        List<AccountAffiliationController.AccountContactRelationWrapper> ACRWrapperContent = new List<AccountAffiliationController.AccountContactRelationWrapper>();
+        AccountAffiliationController.AccountContactRelationWrapper AccountRelationWrapper = new AccountAffiliationController.AccountContactRelationWrapper();
+        AccountRelationWrapper.recordId = accConRel.Id;
+        AccountRelationWrapper.accountName = 'test4332';
+        AccountRelationWrapper.contactRole ='admin';
+        AccountRelationWrapper.accountBillingDetails = loc;
+        AccountRelationWrapper.isChecked = true;
+        ACRWrapperContent.add(AccountRelationWrapper);
+        
+        String Accountwrapdata = JSON.serialize(ACRWrapperContent); 
+        system.debug('wrapdata>>'+Accountwrapdata);
+        
         System.runAs(u1)
         {
             Test.startTest();
             AccountAffiliationController.getAccountContactDetails();
-          //  AccountAffiliationController.removeAccountContactDetails('value');
+            AccountAffiliationController.removeAccountContactDetails(Accountwrapdata);
             Test.stopTest();
         }
     }

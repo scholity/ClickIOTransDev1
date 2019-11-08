@@ -39,7 +39,7 @@ public with sharing class phss_cc_FulfillmentUtil {
                 }
 
                 ccrz__E_TransactionPayment__c captureTxnPmt = phss_cc_TransactionPaymentUtil.createCaptureTransactionPaymentFromAuthTransactionPayment(authTxnPmt.Id);
-                phss_cc_CyberSourceUtil.capturePayment(fulfillment.Id, authTxnPmt.Id, captureTxnPmt.Id);
+//                phss_cc_CyberSourceUtil.capturePayment(fulfillment.Id, authTxnPmt.Id, captureTxnPmt.Id);
             }
 
         } catch (Exception e) {

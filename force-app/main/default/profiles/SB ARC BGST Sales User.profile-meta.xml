@@ -26,6 +26,11 @@
         <visible>false</visible>
     </applicationVisibilities>
     <applicationVisibilities>
+        <application>Grant_Management</application>
+        <default>false</default>
+        <visible>false</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>Grants</application>
         <default>false</default>
         <visible>false</visible>
@@ -424,6 +429,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CustomLookUpController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CustomLookUpController1</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1603,6 +1612,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>cc_phss_ccLogicCartAddToTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>cc_phss_ccLogicPLEntLists</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1632,6 +1645,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>eComm_cc_ServiceCart</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>getFeedbackSurveyController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1703,14 +1720,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>phss_cc_CartUtil_CPS</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>phss_cc_CartUtil_CPSTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>phss_cc_ClassCartUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1743,11 +1752,31 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>phss_cc_CyberSourceCaptureUtil</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>phss_cc_CyberSourceCreditUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>phss_cc_CyberSourceCreditUtilTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>phss_cc_CyberSourceRestApiUtil</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>phss_cc_CyberSourceRestApiUtilTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>phss_cc_CyberSourceRestRequest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>phss_cc_CyberSourceRestRequestTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -3067,6 +3096,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Processing_Notes__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Account.REPORT_AR_0_30_Days__c</field>
         <readable>true</readable>
@@ -3265,6 +3299,11 @@
         <editable>false</editable>
         <field>Account.Salesforce_Auto_Number__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Scheduling_Notes__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -5445,6 +5484,11 @@
         <editable>true</editable>
         <field>Case.Adjustment_Email__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Agreement_Other__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -9022,6 +9066,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Fulfillment_Item__c.CC_Oder_Amount__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Fulfillment_Item__c.CFS_File_Name__c</field>
         <readable>true</readable>
@@ -9043,7 +9092,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Fulfillment_Item__c.ILT_Class_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Fulfillment_Item__c.ILT_Class__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Fulfillment_Item__c.ILT_Request_Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9055,6 +9114,11 @@
         <editable>true</editable>
         <field>Fulfillment_Item__c.Order_Item__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Fulfillment_Item__c.Payment_Category_Formula__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -9075,6 +9139,11 @@
         <editable>true</editable>
         <field>Fulfillment_Item__c.SKU__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Fulfillment_Item__c.State_Formula__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -9108,8 +9177,18 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Fulfillment_Item__c.Unit_Code_Formula__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Fulfillment_Item__c.Unit_Code__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Fulfillment_Item__c.Zip_Formula__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -9168,6 +9247,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Fulfillment__c.transaction_Contact_name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>GL_Unit_Code__c.TS_LOC__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9205,6 +9289,11 @@
         <editable>false</editable>
         <field>Geo_Location__c.State_UC__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Geo_Location__c.TS_Loc__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -10248,6 +10337,41 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Open_Order_Processing__c.CC_Order__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Open_Order_Processing__c.CFS_InvoiceCredit__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Open_Order_Processing__c.Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Open_Order_Processing__c.Invoice_Amount__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Open_Order_Processing__c.Invoice_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Open_Order_Processing__c.SFDC_Account__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Open_Order_Processing__c.Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Opportunity.AED_Device_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10540,6 +10664,11 @@
         <editable>false</editable>
         <field>Opportunity.Estimated_Annual_Enrollees__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Estimated_Annual_Participants__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -13497,6 +13626,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Training_Events__c.Account_Owner__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Training_Events__c.Account__c</field>
         <readable>true</readable>
@@ -13510,6 +13644,11 @@
         <editable>true</editable>
         <field>Training_Events__c.Actual_of_Students__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Training_Events__c.Additional_Videos__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -13535,6 +13674,11 @@
         <editable>false</editable>
         <field>Training_Events__c.BGST_Rep_Email__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Training_Events__c.BL_Info_Sent_to_Customer__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -13634,6 +13778,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Training_Events__c.Course_Record_Processed_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Training_Events__c.Customer_Contact__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -13762,6 +13911,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Training_Events__c.NAT_Types__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Training_Events__c.Number_in_Class__c</field>
         <readable>true</readable>
@@ -13775,6 +13929,11 @@
         <editable>true</editable>
         <field>Training_Events__c.Number_of_Instructors__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Training_Events__c.Pre_Approval__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -13803,6 +13962,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Training_Events__c.Report_Completed__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Training_Events__c.Report_Sent_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -13815,6 +13979,11 @@
         <editable>true</editable>
         <field>Training_Events__c.Rescheduling_Fee__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Training_Events__c.Returned_to_Sales__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -13835,6 +14004,11 @@
         <editable>true</editable>
         <field>Training_Events__c.Scheduling_Complete__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Training_Events__c.Send_Class_Certs_to_POC__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -14754,6 +14928,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Offering__c-Offering Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Open_Order_Processing__c-Open Order Processing Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Opportunity-AED Device</layout>
@@ -16853,6 +17030,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Offering__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Open_Order_Processing__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>

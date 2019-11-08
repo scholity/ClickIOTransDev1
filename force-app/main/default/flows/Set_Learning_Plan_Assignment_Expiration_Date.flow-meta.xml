@@ -3,7 +3,7 @@
     <assignments>
         <name>Set_Learning_Plan_Assignment</name>
         <label>Set Learning Plan Assignment</label>
-        <locationX>738</locationX>
+        <locationX>739</locationX>
         <locationY>54</locationY>
         <assignmentItems>
             <assignToReference>sLearningPlanAssignment.redwing__Due_Date__c</assignToReference>
@@ -130,6 +130,13 @@
             </value>
         </filters>
         <filters>
+            <field>redwing__Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Acquired</stringValue>
+            </value>
+        </filters>
+        <filters>
             <field>redwing__User__c</field>
             <operator>EqualTo</operator>
             <value>
@@ -183,7 +190,7 @@
         <inputReference>sLearningPlanAssignment</inputReference>
     </recordUpdates>
     <startElementReference>Get_Learning_Plan_Assignment</startElementReference>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>frmLearningPlanAssignmentID</name>
         <dataType>String</dataType>

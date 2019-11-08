@@ -132,7 +132,7 @@
         <dataType>Boolean</dataType>
         <expression>true</expression>
     </formulas>
-    <interviewLabel>Learning_Plan_Section_Assignment-2_InterviewLabel</interviewLabel>
+    <interviewLabel>Learning_Plan_Section_Assignment-1_InterviewLabel</interviewLabel>
     <label>Learning Plan Section Assignment</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -328,7 +328,7 @@
             <inputParameters>
                 <name>TimeOffsetUnit</name>
                 <value>
-                    <stringValue>Hours</stringValue>
+                    <stringValue>Days</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>

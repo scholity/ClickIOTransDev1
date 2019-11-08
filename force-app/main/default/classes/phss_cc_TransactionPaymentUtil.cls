@@ -10,6 +10,7 @@ public with sharing class phss_cc_TransactionPaymentUtil {
     // transaction types
     public static final String AUTH_TRANSACTION_TYPE = 'AUTH';
     public static final String CAPTURE_TRANSACTION_TYPE = 'CAPTURE';
+    public static final String BALANCE_TRANSACTION_TYPE= 'BALANCE';
 
     // error messages
     public static final String FAILED_TO_CREATE_CAPTURE_TRANSACTION_PAYMENT_FROM_AUTH_TRANSACTION_PAYMENT = 'Failed to create CAPTURE transaction payment from AUTH transaction payment.';
@@ -158,7 +159,7 @@ public with sharing class phss_cc_TransactionPaymentUtil {
      */
     public static void designateContactForTransactionPayment(ccrz__E_TransactionPayment__c transactionPayment) {
         try {
-            AccountContactRelation relation = [
+            List<AccountContactRelation> relations = [
                     SELECT
                             ContactId
                     FROM
@@ -168,11 +169,13 @@ public with sharing class phss_cc_TransactionPaymentUtil {
                             AND IsDirect = true
                     ORDER BY
                             CreatedDate DESC
-                    LIMIT 1
             ];
-            if (relation != null && relation.ContactId != null) {
-                transactionPayment.ccrz__Contact__c = relation.ContactId;
-                update transactionPayment;
+            if (relations != null && relations.size() > 0) {
+                AccountContactRelation relation = relations[0];
+                if (relation.ContactId != null) {
+                    transactionPayment.ccrz__Contact__c = relation.ContactId;
+                    update transactionPayment;
+                }
             }
 
         } catch (Exception e) {

@@ -13,71 +13,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>myPreWaitDecision_myWait_myRule_6</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>myWaitAssignment_myWait_myRule_1</name>
-        <label>myWaitAssignment_myWait_myRule_1</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>cancelWaits</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <stringValue>myWait_myRule_1</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
             <targetReference>myDecision</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>myWaitAssignment_myWait_myRule_6</name>
-        <label>myWaitAssignment_myWait_myRule_6</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>cancelWaits</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <stringValue>myWait_myRule_6</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>myPreWaitDecision_myWait_myRule_1</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>myWaitEvent_myWait_myRule_1_event_0_postWaitExecutionAssignment</name>
-        <label>myWaitEvent_myWait_myRule_1_event_0_postWaitExecutionAssignment</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>myWaitEvent_myWait_myRule_1_event_0_postActionExecutionVariable</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>myWait_myRule_1</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>myWaitEvent_myWait_myRule_6_event_0_postWaitExecutionAssignment</name>
-        <label>myWaitEvent_myWait_myRule_6_event_0_postWaitExecutionAssignment</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>myWaitEvent_myWait_myRule_6_event_0_postActionExecutionVariable</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>myWait_myRule_6</targetReference>
         </connector>
     </assignments>
     <decisions>
@@ -92,7 +28,7 @@
         <locationX>50</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>myDecision5</targetReference>
+            <targetReference>myDecision3</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>default</defaultConnectorLabel>
         <rules>
@@ -161,7 +97,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>myWait_myRule_1</targetReference>
+                <targetReference>myRule_1_A1</targetReference>
             </connector>
             <label>Social Timestamps</label>
         </rules>
@@ -173,13 +109,13 @@
                 <numberValue>1.0</numberValue>
             </value>
         </processMetadataValues>
-        <name>myDecision5</name>
-        <label>myDecision5</label>
+        <name>myDecision3</name>
+        <label>myDecision3</label>
         <locationX>50</locationX>
         <locationY>0</locationY>
         <defaultConnectorLabel>default</defaultConnectorLabel>
         <rules>
-            <name>myRule_6</name>
+            <name>myRule_4</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <processMetadataValues>
@@ -213,190 +149,11 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>myWait_myRule_6</targetReference>
+                <targetReference>myRule_4_A1</targetReference>
             </connector>
             <label>Social Timestamps- Inbound</label>
         </rules>
     </decisions>
-    <decisions>
-        <name>myPostWaitDecision_myWaitEvent_myWait_myRule_1_event_0</name>
-        <label>myPostWaitDecision_myWaitEvent_myWait_myRule_1_event_0</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnector>
-            <targetReference>myWaitEvent_myWait_myRule_1_event_0_postWaitExecutionAssignment</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>default</defaultConnectorLabel>
-        <rules>
-            <name>myPostWaitRule_myWaitEvent_myWait_myRule_1_event_0</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>myVariable_current.LastModifiedDate</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>myWaitEvent_myWait_myRule_1_event_0_SA1</targetReference>
-            </connector>
-            <label>myPostWaitRule_myWaitEvent_myWait_myRule_1_event_0</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>myPostWaitDecision_myWaitEvent_myWait_myRule_6_event_0</name>
-        <label>myPostWaitDecision_myWaitEvent_myWait_myRule_6_event_0</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnector>
-            <targetReference>myWaitEvent_myWait_myRule_6_event_0_postWaitExecutionAssignment</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>default</defaultConnectorLabel>
-        <rules>
-            <name>myPostWaitRule_myWaitEvent_myWait_myRule_6_event_0</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>myVariable_current.LastModifiedDate</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>myWaitEvent_myWait_myRule_6_event_0_SA1</targetReference>
-            </connector>
-            <label>myPostWaitRule_myWaitEvent_myWait_myRule_6_event_0</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>myPreWaitDecision_myWait_myRule_1</name>
-        <label>myPreWaitDecision_myWait_myRule_1</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnector>
-            <targetReference>myWaitAssignment_myWait_myRule_1</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>default</defaultConnectorLabel>
-        <rules>
-            <name>myPreWaitRule_myWait_myRule_1</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>Boolean</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
-                        <stringValue>Boolean</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>Boolean</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>Boolean</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>myVariable_current.IsOutbound</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>myVariable_current.Status</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>SENT</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>myDecision</targetReference>
-            </connector>
-            <label>myPreWaitRule_myWait_myRule_1</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>myPreWaitDecision_myWait_myRule_6</name>
-        <label>myPreWaitDecision_myWait_myRule_6</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnector>
-            <targetReference>myWaitAssignment_myWait_myRule_6</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>default</defaultConnectorLabel>
-        <rules>
-            <name>myPreWaitRule_myWait_myRule_6</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>Boolean</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
-                        <stringValue>Boolean</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>Boolean</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>Boolean</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>myVariable_current.IsOutbound</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>myPreWaitDecision_myWait_myRule_1</targetReference>
-            </connector>
-            <label>myPreWaitRule_myWait_myRule_6</label>
-        </rules>
-    </decisions>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
@@ -404,7 +161,7 @@
                 <stringValue>NOW()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_2_myWaitEvent_myWait_myRule_1_event_0_SA3_3181955273</name>
+        <name>formula_2_myRule_1_A1_8289999929</name>
         <dataType>DateTime</dataType>
         <expression>NOW()</expression>
     </formulas>
@@ -415,44 +172,11 @@
                 <stringValue>NOW()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_3_myWaitEvent_myWait_myRule_1_event_0_SA2_7476407430</name>
+        <name>formula_5_myRule_4_A1_6494083617</name>
         <dataType>DateTime</dataType>
         <expression>NOW()</expression>
     </formulas>
-    <formulas>
-        <processMetadataValues>
-            <name>originalFormula</name>
-            <value>
-                <stringValue>NOW()</stringValue>
-            </value>
-        </processMetadataValues>
-        <name>formula_4_myWaitEvent_myWait_myRule_1_event_0_SA1_0170541775</name>
-        <dataType>DateTime</dataType>
-        <expression>NOW()</expression>
-    </formulas>
-    <formulas>
-        <processMetadataValues>
-            <name>originalFormula</name>
-            <value>
-                <stringValue>NOW()</stringValue>
-            </value>
-        </processMetadataValues>
-        <name>formula_7_myWaitEvent_myWait_myRule_6_event_0_SA2_3042846247</name>
-        <dataType>DateTime</dataType>
-        <expression>NOW()</expression>
-    </formulas>
-    <formulas>
-        <processMetadataValues>
-            <name>originalFormula</name>
-            <value>
-                <stringValue>NOW()</stringValue>
-            </value>
-        </processMetadataValues>
-        <name>formula_8_myWaitEvent_myWait_myRule_6_event_0_SA1_3883384253</name>
-        <dataType>DateTime</dataType>
-        <expression>NOW()</expression>
-    </formulas>
-    <interviewLabel>Social_timestamps-1_InterviewLabel</interviewLabel>
+    <interviewLabel>Social_timestamps-2_InterviewLabel</interviewLabel>
     <label>Social timestamps</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -475,7 +199,7 @@
     <processMetadataValues>
         <name>TriggerType</name>
         <value>
-            <stringValue>onCreateOnly</stringValue>
+            <stringValue>onAllChanges</stringValue>
         </value>
     </processMetadataValues>
     <processType>Workflow</processType>
@@ -498,13 +222,10 @@
                 <stringValue>[SocialPost].Parent ID (Case)</stringValue>
             </value>
         </processMetadataValues>
-        <name>myWaitEvent_myWait_myRule_1_event_0_SA1</name>
-        <label>Social- First ARC Response</label>
+        <name>myRule_1_A1</name>
+        <label>First Response Time</label>
         <locationX>100</locationX>
         <locationY>200</locationY>
-        <connector>
-            <targetReference>myWaitEvent_myWait_myRule_1_event_0_SA2</targetReference>
-        </connector>
         <filters>
             <processMetadataValues>
                 <name>implicit</name>
@@ -600,7 +321,7 @@
             </processMetadataValues>
             <field>First_ARC_Response_Date_Time__c</field>
             <value>
-                <elementReference>formula_4_myWaitEvent_myWait_myRule_1_event_0_SA1_0170541775</elementReference>
+                <elementReference>formula_2_myRule_1_A1_8289999929</elementReference>
             </value>
         </inputAssignments>
         <object>Case</object>
@@ -624,363 +345,10 @@
                 <stringValue>[SocialPost].Parent ID (Case)</stringValue>
             </value>
         </processMetadataValues>
-        <name>myWaitEvent_myWait_myRule_1_event_0_SA2</name>
-        <label>Social-  Second ARC Response</label>
-        <locationX>100</locationX>
-        <locationY>300</locationY>
-        <connector>
-            <targetReference>myWaitEvent_myWait_myRule_1_event_0_SA3</targetReference>
-        </connector>
-        <filters>
-            <processMetadataValues>
-                <name>implicit</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>inputDataType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>First ARC Response Date/Time</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideReferenceTo</name>
-                <value>
-                    <stringValue/>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>operatorDataType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>First_ARC_Response_Date_Time__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <processMetadataValues>
-                <name>implicit</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </processMetadataValues>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>myVariable_current.ParentId</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <processMetadataValues>
-                <name>implicit</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>inputDataType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>Second ARC Response Date/Time</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideReferenceTo</name>
-                <value>
-                    <stringValue/>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>operatorDataType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>Second_ARC_Response_Date_Time__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <inputAssignments>
-            <processMetadataValues>
-                <name>dataType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>isRequired</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>Second ARC Response Date/Time</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideReferenceTo</name>
-                <value>
-                    <stringValue/>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>Formula</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>Second_ARC_Response_Date_Time__c</field>
-            <value>
-                <elementReference>formula_3_myWaitEvent_myWait_myRule_1_event_0_SA2_7476407430</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Case</object>
-    </recordUpdates>
-    <recordUpdates>
-        <processMetadataValues>
-            <name>evaluationType</name>
-            <value>
-                <stringValue>criteria</stringValue>
-            </value>
-        </processMetadataValues>
-        <processMetadataValues>
-            <name>isChildRelationship</name>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </processMetadataValues>
-        <processMetadataValues>
-            <name>reference</name>
-            <value>
-                <stringValue>[SocialPost].Parent ID (Case)</stringValue>
-            </value>
-        </processMetadataValues>
-        <name>myWaitEvent_myWait_myRule_1_event_0_SA3</name>
-        <label>Social- Third ARC Response</label>
-        <locationX>100</locationX>
-        <locationY>400</locationY>
-        <connector>
-            <targetReference>myWaitEvent_myWait_myRule_1_event_0_postWaitExecutionAssignment</targetReference>
-        </connector>
-        <filters>
-            <processMetadataValues>
-                <name>implicit</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </processMetadataValues>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>myVariable_current.ParentId</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <processMetadataValues>
-                <name>implicit</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>inputDataType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>Second ARC Response Date/Time</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideReferenceTo</name>
-                <value>
-                    <stringValue/>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>operatorDataType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>Second_ARC_Response_Date_Time__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <processMetadataValues>
-                <name>implicit</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>inputDataType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>Third ARC Response Date/Time</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideReferenceTo</name>
-                <value>
-                    <stringValue/>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>operatorDataType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>Third_ARC_Response_Date_Time__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <inputAssignments>
-            <processMetadataValues>
-                <name>dataType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>isRequired</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>Third ARC Response Date/Time</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideReferenceTo</name>
-                <value>
-                    <stringValue/>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>Formula</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>Third_ARC_Response_Date_Time__c</field>
-            <value>
-                <elementReference>formula_2_myWaitEvent_myWait_myRule_1_event_0_SA3_3181955273</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Case</object>
-    </recordUpdates>
-    <recordUpdates>
-        <processMetadataValues>
-            <name>evaluationType</name>
-            <value>
-                <stringValue>criteria</stringValue>
-            </value>
-        </processMetadataValues>
-        <processMetadataValues>
-            <name>isChildRelationship</name>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </processMetadataValues>
-        <processMetadataValues>
-            <name>reference</name>
-            <value>
-                <stringValue>[SocialPost].Parent ID (Case)</stringValue>
-            </value>
-        </processMetadataValues>
-        <name>myWaitEvent_myWait_myRule_6_event_0_SA1</name>
-        <label>Social- Second Customer Post</label>
-        <locationX>600</locationX>
+        <name>myRule_4_A1</name>
+        <label>Second Customer Response</label>
+        <locationX>400</locationX>
         <locationY>200</locationY>
-        <connector>
-            <targetReference>myWaitEvent_myWait_myRule_6_event_0_SA2</targetReference>
-        </connector>
         <filters>
             <processMetadataValues>
                 <name>implicit</name>
@@ -1125,195 +493,13 @@
             </processMetadataValues>
             <field>Second_Customer_Post_Date_Time__c</field>
             <value>
-                <elementReference>formula_8_myWaitEvent_myWait_myRule_6_event_0_SA1_3883384253</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Case</object>
-    </recordUpdates>
-    <recordUpdates>
-        <processMetadataValues>
-            <name>evaluationType</name>
-            <value>
-                <stringValue>criteria</stringValue>
-            </value>
-        </processMetadataValues>
-        <processMetadataValues>
-            <name>isChildRelationship</name>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </processMetadataValues>
-        <processMetadataValues>
-            <name>reference</name>
-            <value>
-                <stringValue>[SocialPost].Parent ID (Case)</stringValue>
-            </value>
-        </processMetadataValues>
-        <name>myWaitEvent_myWait_myRule_6_event_0_SA2</name>
-        <label>Social- Third Customer Post</label>
-        <locationX>600</locationX>
-        <locationY>300</locationY>
-        <connector>
-            <targetReference>myWaitEvent_myWait_myRule_6_event_0_postWaitExecutionAssignment</targetReference>
-        </connector>
-        <filters>
-            <processMetadataValues>
-                <name>implicit</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </processMetadataValues>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>myVariable_current.ParentId</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <processMetadataValues>
-                <name>implicit</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>inputDataType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>Second ARC Response Date/Time</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideReferenceTo</name>
-                <value>
-                    <stringValue/>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>operatorDataType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>Second_ARC_Response_Date_Time__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <processMetadataValues>
-                <name>implicit</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>inputDataType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>Third Customer Post Date/Time</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideReferenceTo</name>
-                <value>
-                    <stringValue/>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>operatorDataType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>Boolean</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>Third_Customer_Post_Date_Time__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <inputAssignments>
-            <processMetadataValues>
-                <name>dataType</name>
-                <value>
-                    <stringValue>DateTime</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>isRequired</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>Third Customer Post Date/Time</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideReferenceTo</name>
-                <value>
-                    <stringValue/>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>Formula</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>Third_Customer_Post_Date_Time__c</field>
-            <value>
-                <elementReference>formula_7_myWaitEvent_myWait_myRule_6_event_0_SA2_3042846247</elementReference>
+                <elementReference>formula_5_myRule_4_A1_6494083617</elementReference>
             </value>
         </inputAssignments>
         <object>Case</object>
     </recordUpdates>
     <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
     <status>Active</status>
-    <variables>
-        <name>cancelWaits</name>
-        <dataType>String</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>true</isOutput>
-    </variables>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>
@@ -1340,142 +526,4 @@
             <elementReference>$Flow.CurrentDateTime</elementReference>
         </value>
     </variables>
-    <variables>
-        <name>myWaitEvent_myWait_myRule_1_event_0_postActionExecutionVariable</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <booleanValue>false</booleanValue>
-        </value>
-    </variables>
-    <variables>
-        <name>myWaitEvent_myWait_myRule_6_event_0_postActionExecutionVariable</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <booleanValue>false</booleanValue>
-        </value>
-    </variables>
-    <waits>
-        <name>myWait_myRule_1</name>
-        <label>myWait_myRule_1</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnectorLabel>defaultLabel</defaultConnectorLabel>
-        <waitEvents>
-            <processMetadataValues>
-                <name>inputParameterType</name>
-                <value>
-                    <stringValue>referenced</stringValue>
-                </value>
-            </processMetadataValues>
-            <name>myWaitEvent_myWait_myRule_1_event_0</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>myWaitEvent_myWait_myRule_1_event_0_postActionExecutionVariable</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>myPostWaitDecision_myWaitEvent_myWait_myRule_1_event_0</targetReference>
-            </connector>
-            <eventType>DateRefAlarmEvent</eventType>
-            <inputParameters>
-                <name>TimeTableColumnEnumOrId</name>
-                <value>
-                    <stringValue>SocialPost</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>EntityObjectId</name>
-                <value>
-                    <elementReference>myVariable_current.Id</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>TimeOffsetUnit</name>
-                <value>
-                    <stringValue>Hours</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>TimeOffset</name>
-                <value>
-                    <numberValue>0.0</numberValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>TimeFieldColumnEnumOrId</name>
-                <value>
-                    <stringValue>LastModifiedDate</stringValue>
-                </value>
-            </inputParameters>
-            <label>myWaitEvent_myWait_myRule_1_event_0</label>
-        </waitEvents>
-    </waits>
-    <waits>
-        <name>myWait_myRule_6</name>
-        <label>myWait_myRule_6</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnectorLabel>defaultLabel</defaultConnectorLabel>
-        <waitEvents>
-            <processMetadataValues>
-                <name>inputParameterType</name>
-                <value>
-                    <stringValue>referenced</stringValue>
-                </value>
-            </processMetadataValues>
-            <name>myWaitEvent_myWait_myRule_6_event_0</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>myWaitEvent_myWait_myRule_6_event_0_postActionExecutionVariable</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>myPostWaitDecision_myWaitEvent_myWait_myRule_6_event_0</targetReference>
-            </connector>
-            <eventType>DateRefAlarmEvent</eventType>
-            <inputParameters>
-                <name>TimeTableColumnEnumOrId</name>
-                <value>
-                    <stringValue>SocialPost</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>EntityObjectId</name>
-                <value>
-                    <elementReference>myVariable_current.Id</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>TimeOffsetUnit</name>
-                <value>
-                    <stringValue>Hours</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>TimeOffset</name>
-                <value>
-                    <numberValue>0.0</numberValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>TimeFieldColumnEnumOrId</name>
-                <value>
-                    <stringValue>LastModifiedDate</stringValue>
-                </value>
-            </inputParameters>
-            <label>myWaitEvent_myWait_myRule_6_event_0</label>
-        </waitEvents>
-    </waits>
 </Flow>

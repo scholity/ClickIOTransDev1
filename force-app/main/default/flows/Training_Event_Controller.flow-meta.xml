@@ -108,22 +108,6 @@
         </inputParameters>
     </actionCalls>
     <assignments>
-        <name>myVariable_waitStartTimeAssignment</name>
-        <label>myVariable_waitStartTimeAssignment</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>myVariable_waitStartTimeVariable</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Flow.CurrentDateTime</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>myPreWaitDecision_myWait_myRule_1</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>myWaitAssignment_myWait_myRule_1</name>
         <label>myWaitAssignment_myWait_myRule_1</label>
         <locationX>0</locationX>
@@ -205,31 +189,6 @@
                 <targetReference>myRule_1_pmetdec</targetReference>
             </connector>
             <label>TE is Completed</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>myPostWaitDecision_myWaitEvent_myWait_myRule_1_event_0</name>
-        <label>myPostWaitDecision_myWaitEvent_myWait_myRule_1_event_0</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnector>
-            <targetReference>myWaitEvent_myWait_myRule_1_event_0_postWaitExecutionAssignment</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>default</defaultConnectorLabel>
-        <rules>
-            <name>myPostWaitRule_myWaitEvent_myWait_myRule_1_event_0</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>myVariable_current.CreatedDate</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>myWaitEvent_myWait_myRule_1_event_0_SA1</targetReference>
-            </connector>
-            <label>myPostWaitRule_myWaitEvent_myWait_myRule_1_event_0</label>
         </rules>
     </decisions>
     <decisions>
@@ -343,7 +302,7 @@
         </rules>
     </decisions>
     <description>Training Event Status Changes Controller</description>
-    <interviewLabel>Training_Event_Controller-4_InterviewLabel</interviewLabel>
+    <interviewLabel>Training_Event_Controller-9_InterviewLabel</interviewLabel>
     <label>Training Event Controller</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -370,7 +329,7 @@
         </value>
     </processMetadataValues>
     <processType>Workflow</processType>
-    <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
+    <startElementReference>myPreWaitDecision_myWait_myRule_1</startElementReference>
     <status>Active</status>
     <variables>
         <name>cancelWaits</name>
@@ -396,16 +355,6 @@
         <objectType>Training_Events__c</objectType>
     </variables>
     <variables>
-        <name>myVariable_waitStartTimeVariable</name>
-        <dataType>DateTime</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <elementReference>$Flow.CurrentDateTime</elementReference>
-        </value>
-    </variables>
-    <variables>
         <name>myWaitEvent_myWait_myRule_1_event_0_postActionExecutionVariable</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
@@ -425,7 +374,7 @@
             <processMetadataValues>
                 <name>inputParameterType</name>
                 <value>
-                    <stringValue>referenced</stringValue>
+                    <stringValue>now</stringValue>
                 </value>
             </processMetadataValues>
             <name>myWaitEvent_myWait_myRule_1_event_0</name>
@@ -438,19 +387,13 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>myPostWaitDecision_myWaitEvent_myWait_myRule_1_event_0</targetReference>
+                <targetReference>myWaitEvent_myWait_myRule_1_event_0_SA1</targetReference>
             </connector>
-            <eventType>DateRefAlarmEvent</eventType>
+            <eventType>AlarmEvent</eventType>
             <inputParameters>
-                <name>TimeTableColumnEnumOrId</name>
+                <name>AlarmTime</name>
                 <value>
-                    <stringValue>Training_Events__c</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>EntityObjectId</name>
-                <value>
-                    <elementReference>myVariable_current.Id</elementReference>
+                    <elementReference>$Flow.InterviewStartTime</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -463,12 +406,6 @@
                 <name>TimeOffset</name>
                 <value>
                     <numberValue>0.0</numberValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>TimeFieldColumnEnumOrId</name>
-                <value>
-                    <stringValue>CreatedDate</stringValue>
                 </value>
             </inputParameters>
             <label>myWaitEvent_myWait_myRule_1_event_0</label>

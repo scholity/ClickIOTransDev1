@@ -368,7 +368,7 @@
         <dataType>Boolean</dataType>
         <expression>IsNew()</expression>
     </formulas>
-    <interviewLabel>Learning_Assignment-4_InterviewLabel</interviewLabel>
+    <interviewLabel>Learning_Assignment-3_InterviewLabel</interviewLabel>
     <label>Learning Assignment Controller</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -564,7 +564,7 @@
             <inputParameters>
                 <name>TimeOffsetUnit</name>
                 <value>
-                    <stringValue>Hours</stringValue>
+                    <stringValue>Days</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>

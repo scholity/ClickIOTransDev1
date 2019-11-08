@@ -3,8 +3,8 @@
     <assignments>
         <name>Add_to_Case_Output</name>
         <label>Add to Case Output</label>
-        <locationX>489</locationX>
-        <locationY>491</locationY>
+        <locationX>493</locationX>
+        <locationY>398</locationY>
         <assignmentItems>
             <assignToReference>outCase</assignToReference>
             <operator>Add</operator>
@@ -19,8 +19,8 @@
     <assignments>
         <name>Assign_Case_Values</name>
         <label>Assign Case Values</label>
-        <locationX>490</locationX>
-        <locationY>669</locationY>
+        <locationX>493</locationX>
+        <locationY>665</locationY>
         <assignmentItems>
             <assignToReference>sCase.RecordTypeId</assignToReference>
             <operator>Assign</operator>
@@ -182,8 +182,8 @@
     <assignments>
         <name>Matched_Set_with_Voucher_Info</name>
         <label>Matched Set with Voucher Info</label>
-        <locationX>746</locationX>
-        <locationY>665</locationY>
+        <locationX>727</locationX>
+        <locationY>668</locationY>
         <assignmentItems>
             <assignToReference>lastOrderNumber</assignToReference>
             <operator>Assign</operator>
@@ -222,7 +222,7 @@
         <name>Set_CEP_Queue</name>
         <label>Set CEP Queue</label>
         <locationX>903</locationX>
-        <locationY>107</locationY>
+        <locationY>119</locationY>
         <assignmentItems>
             <assignToReference>cCaseQueue</assignToReference>
             <operator>Assign</operator>
@@ -231,7 +231,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Unclaimed_Vouchers</targetReference>
+            <targetReference>Get_Claimed_Vouchers</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -269,8 +269,8 @@
     <assignments>
         <name>Set_NAT_Queue</name>
         <label>Set NAT Queue</label>
-        <locationX>1009</locationX>
-        <locationY>57</locationY>
+        <locationX>1082</locationX>
+        <locationY>68</locationY>
         <assignmentItems>
             <assignToReference>cCaseQueue</assignToReference>
             <operator>Assign</operator>
@@ -279,7 +279,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Unclaimed_Vouchers</targetReference>
+            <targetReference>Get_Claimed_Vouchers</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -308,8 +308,8 @@
     <decisions>
         <name>Is_Voucher_Match</name>
         <label>Is Voucher Match</label>
-        <locationX>734</locationX>
-        <locationY>487</locationY>
+        <locationX>729</locationX>
+        <locationY>512</locationY>
         <defaultConnector>
             <targetReference>Voucher_loop</targetReference>
         </defaultConnector>
@@ -398,7 +398,7 @@
         <locationX>760</locationX>
         <locationY>49</locationY>
         <defaultConnector>
-            <targetReference>Get_Unclaimed_Vouchers</targetReference>
+            <targetReference>Get_Claimed_Vouchers</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -442,7 +442,7 @@
         <name>fDescriptio</name>
         <dataType>String</dataType>
         <expression>&quot;Order: &quot; &amp; {!sVoucher.CC_Order__r.Name} &amp;&quot; Course: &quot; &amp; {!sILT_Class.Learning_Plan__r.Name} &amp; &quot; has been cancelled.  Class Details: &quot; &amp; &quot; Date Range: &quot; &amp; TEXT({!sILT_Class.redwing__Start_Date__c}) &amp; &quot;-&quot; &amp;  TEXT({!sILT_Class.redwing__End_Date__c})  &amp; &quot; Time:&quot; &amp; ({!sILT_Class.redwing__Start_Time__c}) &amp; &quot;-&quot; &amp; ({!sILT_Class.redwing__End_Time__c}) 
-  &amp; &quot; Location: &quot; &amp;  {!sILT_Class.redwing__Location__c} &amp; &quot; Zip: &quot; &amp; ({!sILT_Class.Location_ZIP_Code__c})</expression>
+  &amp; &quot; Location: &quot; &amp;  {!sILT_Class.redwing__Location__r.Name} &amp; &quot; Zip: &quot; &amp; ({!sILT_Class.Location_ZIP_Code__c})</expression>
     </formulas>
     <interviewLabel>Create Mass Cancellation Cases {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Create Mass Cancellation Cases</label>
@@ -464,8 +464,8 @@
     <loops>
         <name>Voucher_loop</name>
         <label>Voucher loop</label>
-        <locationX>621</locationX>
-        <locationY>398</locationY>
+        <locationX>623</locationX>
+        <locationY>396</locationY>
         <assignNextValueToReference>sVoucher</assignNextValueToReference>
         <collectionReference>colVoucher</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -527,7 +527,7 @@
         <name>Get_Claimed_Vouchers</name>
         <label>Get Claimed Vouchers</label>
         <locationX>618</locationX>
-        <locationY>263</locationY>
+        <locationY>262</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Voucher_loop</targetReference>
@@ -541,9 +541,16 @@
         </filters>
         <filters>
             <field>Status__c</field>
-            <operator>EqualTo</operator>
+            <operator>NotEqualTo</operator>
             <value>
-                <stringValue>Pending Cancellation</stringValue>
+                <stringValue>Void</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Issued</stringValue>
             </value>
         </filters>
         <filters>
@@ -625,8 +632,8 @@
     <recordLookups>
         <name>Get_Unclaimed_Vouchers</name>
         <label>Get Unclaimed Vouchers</label>
-        <locationX>771</locationX>
-        <locationY>262</locationY>
+        <locationX>1173</locationX>
+        <locationY>236</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Claimed_Vouchers</targetReference>
