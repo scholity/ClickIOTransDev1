@@ -3,10 +3,12 @@
     <fullName>Require_Check_Cleared_Date</fullName>
     <active>true</active>
     <description>When the Invoice Case Sub Type Is &quot;Missing Payment&quot; you must provide further information; Check Cleared Date</description>
-    <errorConditionFormula>AND( 
-ISPICKVAL( Dispute_Issue__c, &#39;Missing Payment&#39;), 
-ISBLANK(  Check_Cleared_Date__c ),
-$Setup.Validation_Rules__c.Bypass_Rules__c = FALSE  
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &#39;Invoicing&#39;,
+OR(NOT(ISPICKVAL(Status, &#39;New&#39;) || ISPICKVAL(Status, &#39;New - Assigned&#39;)),AND(ISCHANGED(OwnerId),BEGINS(PRIORVALUE(OwnerId), &quot;005&quot;),OR(BEGINS(OwnerId, &quot;005&quot;), OwnerId = &#39;00Gd0000000SdP5&#39;))),
+ISPICKVAL( Dispute_Issue__c, &#39;Missing Payment&#39;),
+ISBLANK( Check_Cleared_Date__c ),
+$Setup.Validation_Rules__c.Bypass_Rules__c = FALSE
 )</errorConditionFormula>
     <errorDisplayField>Check_Cleared_Date__c</errorDisplayField>
     <errorMessage>When the Invoice Case Sub Type is &quot;Missing Payment&quot; you must complete Check Cleared Date</errorMessage>

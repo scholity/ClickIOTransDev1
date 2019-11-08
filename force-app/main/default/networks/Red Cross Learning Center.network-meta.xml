@@ -102,6 +102,13 @@
                     <target>/students-list</target>
                     <type>InternalLink</type>
                 </navigationMenuItem>
+                <navigationMenuItem>
+                    <label>Survey</label>
+                    <position>10</position>
+                    <publiclyAvailable>false</publiclyAvailable>
+                    <target>/getfeedbacksurvey</target>
+                    <type>InternalLink</type>
+                </navigationMenuItem>
             </subMenu>
             <type>MenuLabel</type>
         </navigationMenuItem>

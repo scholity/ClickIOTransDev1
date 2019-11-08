@@ -170,6 +170,25 @@ public with sharing class phss_cc_CyberSourceUtil {
     public static void getCyberSourceConfigSettings(String storefront) {
         final Map<String, Object> configs = getConfigurations('pgcs', storefront);
 
+        /*
+            SAMPLE DATA for 'configs'
+
+            pgcs.urltransaction = https://testsecureacceptance.cybersource.com/silent/pay
+            pgcs.bridgepost     = CybersourcePostback
+            pgcs.bridgeform     = CyberSourceiFrameForm
+            pgcs.paymenttypes   = 001,002,003,004
+            pgcs.authcapture    = FALSE
+            pgcs.authamount     = 100%
+            pgcs.authamounttype = percentage
+            pgcs.secret2        = a0b1c2d3e4f5g6h7i8j9...
+            pgcs.secret1        = ...q0r1s2t3u4v5w6x7y8z9
+            pgcs.accesskey      = 7b96d38...
+            pgcs.urltokencreate = https://testsecureacceptance.cybersource.com/silent/pay
+            pgcs.urlsoap1       = ccpgcs_soap_test
+            pgcs.profile        = 3F011C2F-952A-4135-A43D-B7562CB686FA
+
+         */
+
         // URL to POST the form data to.
         POST_URL = (String) configs.get(CYBER_SOURCE_CONFIG_TOKEN_URL_KEY);
         if (String.isBlank(POST_URL)) {
@@ -679,6 +698,7 @@ public with sharing class phss_cc_CyberSourceUtil {
 
             if (obj instanceof Decimal) {
                 body = body + EncodingUtil.urlEncode(String.valueOf((Decimal) obj), 'UTF-8');
+//                System.debug(key + '=' + EncodingUtil.urlEncode(String.valueOf((Decimal) obj), 'UTF-8'));
             } else if (obj instanceof Boolean) {
                 Boolean b = (Boolean) obj;
                 String boolStr = 'false';
@@ -686,10 +706,13 @@ public with sharing class phss_cc_CyberSourceUtil {
                     boolStr = 'false';
                 }
                 body = body + boolStr;
+//                System.debug(key + '=' + boolStr);
             } else if (obj instanceof String) {
                 body = body + EncodingUtil.urlEncode((String) obj, 'UTF-8');
+//                System.debug(key + '=' + EncodingUtil.urlEncode((String) obj, 'UTF-8'));
             } else {
                 body = body + EncodingUtil.urlDecode(String.valueOf(obj), 'UTF-8');
+//                System.debug(key + '=' + EncodingUtil.urlDecode(String.valueOf(obj), 'UTF-8'));
             }
         }
 
@@ -708,7 +731,7 @@ public with sharing class phss_cc_CyberSourceUtil {
         return signableString;
     }
 
-
+    @TestVisible
     private static Map<String, String> getFormDataFromHTML(Dom.XmlNode html) {
         Map<String, String> formData = new Map<String, String>();
 
@@ -753,43 +776,6 @@ public with sharing class phss_cc_CyberSourceUtil {
         }
     }
 
-
-    /******* *
-     *
-     * Credit-related functions
-     */
-    /******* */
-
-
-    /**
-     * @description Creates a credit transaction in CyberSource for a capture payment transaction payment
-     *
-     * @param transactionPaymentId
-     */
-    @testVisible
-    public static void creditTransactionPayment(String transactionPaymentId) {
-
-        if (String.isBlank(transactionPaymentId)) {
-            return;
-        }
-
-        try {
-            ccrz__E_TransactionPayment__c transactionPayment = phss_cc_TransactionPaymentUtil.fetchTransactionPayment(transactionPaymentId);
-            if (phss_cc_TransactionPaymentUtil.isCaptureTransaction(transactionPayment)) {
-                String creditRequst = buildCreditRequestBody(transactionPayment);
-            }
-
-        } catch (Exception e) {
-            throw new phss_cc_Exception(FAILED_TO_CREDIT_TRANSACTION_PAYMENT, e);
-        }
-    }
-
-	@testVisible
-    private static String buildCreditRequestBody(Object obj) {
-
-        return null;
-    }
-	
     @testVisible
     private static void getUserIPAddress() {
         try {

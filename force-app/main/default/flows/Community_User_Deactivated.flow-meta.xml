@@ -691,7 +691,6 @@
         <dataType>Date</dataType>
         <expression>TODAY()</expression>
     </formulas>
-    <interviewLabel>Community_User_Deactivated-6_InterviewLabel</interviewLabel>
     <label>Community User Deactivated</label>
     <processMetadataValues>
         <name>ObjectType</name>

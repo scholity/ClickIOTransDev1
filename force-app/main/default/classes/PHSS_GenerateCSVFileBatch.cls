@@ -524,8 +524,10 @@ global class PHSS_GenerateCSVFileBatch implements Database.Batchable<sOBject>, D
             // CRS Comments - No more than 50 characters, check for special characters
             String crsComments = '""';
             
-            if(fi.Supplemental_Information__c!=null)
+            if(fi.Supplemental_Information__c!=null && fi.CC_Category_Name__c != 'NAT Training' && fi.CC_Category_Name__c != 'NAT Testing')
             {
+                system.debug('***Inside CRS Commnets***');
+                
                 crsComments 	= fi.Supplemental_Information__c.replaceAll(regExp, '');
                 
                 if(crsComments.length()>50)
@@ -722,37 +724,69 @@ global class PHSS_GenerateCSVFileBatch implements Database.Batchable<sOBject>, D
             if (('"6243"'.equals(apCode) || '"6244"'.equals(apCode)) && '"41"'.equals(focis))
             {
                 List<redwing__ILT_Roster__c > rosters = new List<redwing__ILT_Roster__c >();
-                
-                if (fi.ILT_Class__c != null &&
-                    ('COURSE'.equals(fi.CC_Product__r.ccrz__InventoryType__c) || 'COMMUNITY'.equals(fi.CC_Product__r.ccrz__InventoryType__c)))
+
+                List<String> inventoryTypes = new List<String>{'COMMUNITY', 'COURSE'};
+                if ((fi.ILT_Class__c == null && fi.CC_Product__r.ccrz__InventoryType__c == 'FEE')
+                        || (fi.ILT_Class__c != null && inventoryTypes.contains(fi.CC_Product__r.ccrz__InventoryType__c)))
                 {
-                    rosters = new List<redwing__ILT_Roster__c>([SELECT redwing__User__r.Name
-                    											  FROM redwing__ILT_Roster__c
-                    											 WHERE redwing__ILT_Class__c =:fi.ILT_Class__c]);
-                    if (rosters.size()> 0)
+                    //DE1854
+                    if(fi.CC_Category_Name__c == 'NAT Training' || fi.CC_Category_Name__c == 'NAT Testing')
                     {
-                    	instructorName = '"' + rosters[0].redwing__User__r.Name.replaceAll(regExp, '') + '"';
-                		fullName 	   = instructorName;
+                        if(String.isNotBlank(fi.Supplemental_Information__c))
+                        {
+                            instructorName 	= '"' + fi.Supplemental_Information__c.replaceAll(regExp, '') + '"';
+                            fullName	 	= instructorName;
+                        }
+                        else
+                        {
+                            isError = true;
+                            
+                            if(errString!='')
+                            {
+                                errString=errString+';';
+                            }
+                            errString = errString + 'NAT Student Name';
+                        }
                     }
                     else
                     {
-                        isError = true;
-                        if(errString!='')
-                        {
-                            errString=errString+';';
+                        // DE1932
+                        if (fi.ILT_Class__c != null) {
+                            instructorName = getNameOfInstructor(iltCIMap.get(fi.ILT_Class__c));
+                            fullName = instructorName;
                         }
-                		errString = errString + 'ILT Class-Roster User Name';
+
+                        /*  // removed per DE1932
+
+                    	rosters = new List<redwing__ILT_Roster__c>([SELECT redwing__User__r.Name
+                    											  FROM redwing__ILT_Roster__c
+                    											 WHERE redwing__ILT_Class__c =:fi.ILT_Class__c]);
+                        if (rosters.size()> 0)
+                        {
+                            instructorName = '"' + rosters[0].redwing__User__r.Name.replaceAll(regExp, '') + '"';
+                            fullName 	   = instructorName;
+                        }
+                        else
+                        {
+                            isError = true;
+                            if(errString!='')
+                            {
+                                errString=errString+';';
+                            }
+                            errString = errString + 'ILT Class-Roster User Name';
+                        }
+
+                         */
                     }
                 }
-                
-                
             }
             //DE1854 
             else if(fi.CC_Category_Name__c == 'NAT Training' || fi.CC_Category_Name__c == 'NAT Testing')
             {
                 if(String.isNotBlank(fi.Supplemental_Information__c))
                 {
-                    fullName = '"' + fi.Supplemental_Information__c.replaceAll(regExp, '') + '"';
+                    instructorName 	= '"' + fi.Supplemental_Information__c.replaceAll(regExp, '') + '"';
+                    fullName		= instructorName;
                 }
                 else
                 {
@@ -768,16 +802,7 @@ global class PHSS_GenerateCSVFileBatch implements Database.Batchable<sOBject>, D
             }
             else if (fi.ILT_Class__c!=null && iltCIMap.containsKey(fi.ILT_Class__c) && iltCIMap.get(fi.ILT_Class__c).redwing__Instructor__c!=null)
             {
-                instructorName = '"';
-                if(iltCIMap.get(fi.ILT_Class__c).redwing__Instructor__r.FirstName!=null)
-                {
-                    instructorName = instructorName + iltCIMap.get(fi.ILT_Class__c).redwing__Instructor__r.FirstName.replaceAll(regExp, '') + ' ';
-                }
-                if(iltCIMap.get(fi.ILT_Class__c).redwing__Instructor__r.LastName!=null)
-                {
-                    instructorName = instructorName + iltCIMap.get(fi.ILT_Class__c).redwing__Instructor__r.LastName.replaceAll(regExp, '');
-                }
-                instructorName = instructorName + '"';
+                instructorName = getNameOfInstructor(iltCIMap.get(fi.ILT_Class__c));
             }
             if ('COURSE'.equals(fi.CC_Product__r.ccrz__InventoryType__c) && 'KIT'.equals(fi.CC_Product__r.ccrz__ProductType__c))
             {
@@ -858,6 +883,20 @@ global class PHSS_GenerateCSVFileBatch implements Database.Batchable<sOBject>, D
         {
           
         }         
+    }
+
+    global String getNameOfInstructor(redwing__ILT_Instructor__c trainingInstructor) {
+        String firstName;
+        String lastName;
+
+        if (trainingInstructor != null) {
+            firstName = trainingInstructor.redwing__Instructor__r.FirstName;
+            lastName = trainingInstructor.redwing__Instructor__r.LastName;
+        }
+
+        firstName = firstName == null ? '' : firstName.replaceAll(regExp, '');
+        lastName = lastName == null ? '' : lastName.replaceAll(regExp, '');
+        return '"' + (firstName + ' ' + lastName).trim() + '"';
     }
     
     global void finish(Database.BatchableContext BC)

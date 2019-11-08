@@ -213,7 +213,7 @@
             <connector>
                 <targetReference>myRule_4_A1</targetReference>
             </connector>
-            <label>Update Case resolution</label>
+            <label>Update Case Resolution</label>
         </rules>
     </decisions>
     <formulas>
@@ -223,7 +223,7 @@
                 <stringValue>NOW()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_2_myRule_1_A1_1795862114</name>
+        <name>formula_2_myRule_1_A1_6453077426</name>
         <dataType>DateTime</dataType>
         <expression>NOW()</expression>
     </formulas>
@@ -234,12 +234,12 @@
                 <stringValue>NOW()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_5_myRule_4_A1_5274759193</name>
+        <name>formula_5_myRule_4_A1_6115559081</name>
         <dataType>DateTime</dataType>
         <expression>NOW()</expression>
     </formulas>
-    <interviewLabel>Update_Case_Resolution-1_InterviewLabel</interviewLabel>
-    <label>Update Case Resolution</label>
+    <interviewLabel>Update_Case_Resolution-2_InterviewLabel</interviewLabel>
+    <label>Update Case Milestone</label>
     <processMetadataValues>
         <name>ObjectType</name>
         <value>
@@ -347,7 +347,7 @@
             <field>MilestoneTypeId</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>5572F00000000fY</stringValue>
+                <stringValue>5570V00000158LL</stringValue>
             </value>
         </filters>
         <inputAssignments>
@@ -383,7 +383,7 @@
             </processMetadataValues>
             <field>CompletionDate</field>
             <value>
-                <elementReference>formula_2_myRule_1_A1_1795862114</elementReference>
+                <elementReference>formula_2_myRule_1_A1_6453077426</elementReference>
             </value>
         </inputAssignments>
         <object>CaseMilestone</object>
@@ -408,7 +408,7 @@
             </value>
         </processMetadataValues>
         <name>myRule_4_A1</name>
-        <label>Update Case Resolution</label>
+        <label>Update Milestone</label>
         <locationX>400</locationX>
         <locationY>200</locationY>
         <filters>
@@ -470,7 +470,7 @@
             <field>MilestoneTypeId</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>5572F00000000fO</stringValue>
+                <stringValue>5570V00000158LG</stringValue>
             </value>
         </filters>
         <inputAssignments>
@@ -506,7 +506,7 @@
             </processMetadataValues>
             <field>CompletionDate</field>
             <value>
-                <elementReference>formula_5_myRule_4_A1_5274759193</elementReference>
+                <elementReference>formula_5_myRule_4_A1_6115559081</elementReference>
             </value>
         </inputAssignments>
         <object>CaseMilestone</object>

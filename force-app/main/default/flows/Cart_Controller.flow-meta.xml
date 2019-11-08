@@ -266,7 +266,7 @@
         </rules>
     </decisions>
     <description>Manages updates on cart</description>
-    <interviewLabel>Cart_Controller-13_InterviewLabel</interviewLabel>
+    <interviewLabel>Cart_Controller-9_InterviewLabel</interviewLabel>
     <label>Cart Controller</label>
     <processMetadataValues>
         <name>ObjectType</name>

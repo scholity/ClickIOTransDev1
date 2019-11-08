@@ -5,18 +5,22 @@
     <description>Require &quot;LMS Order Number&quot; on &quot;Invoice Case Sub Type&quot;:  Duplicate Invoice, Grants, Price, Why Bill to Chapter, Wrong Organization, and Other</description>
     <errorConditionFormula>AND(
 OR(
-   ISPICKVAL( Dispute_Issue__c , &quot;Duplicate Invoice&quot;),
-   ISPICKVAL( Dispute_Issue__c , &#39;Customer Service Credit&#39;), 
-   ISPICKVAL( Dispute_Issue__c , &quot;Grants&quot;),
-   ISPICKVAL( Dispute_Issue__c , &quot;Price&quot;),
-   ISPICKVAL( Dispute_Issue__c , &quot;Why Bill to Chapter&quot;),
-   ISPICKVAL( Dispute_Issue__c , &quot;Wrong Organization&quot;),
-   ISPICKVAL( Dispute_Issue__c , &quot;Other&quot;)
-   ),
- ( Order_Number__c = &quot;&quot;),
- (RecordTypeId  &lt;&gt; &quot;012d000000097TB&quot;),
- (RecordTypeId  &lt;&gt; &quot;012d000000097TC&quot;),
-  $Setup.Validation_Rules__c.Bypass_Rules__c = false
+ISPICKVAL( Dispute_Issue__c , &quot;Duplicate Invoice&quot;),
+ISPICKVAL( Dispute_Issue__c , &quot;Price&quot;),
+ISPICKVAL( Dispute_Issue__c , &quot;Wrong Organization&quot;),
+ISPICKVAL(Dispute_Issue__c, &quot;Customer Service Credit&quot;),
+AND(
+ISPICKVAL(Dispute_Issue__c, &quot;Customer Account Maintenance&quot;),
+ISPICKVAL(Type_of_Price_Dispute__c, &quot;Missing Data&quot;)
+)
+),
+OR(NOT(ISPICKVAL(Status, &#39;New&#39;) || ISPICKVAL(Status, &#39;New - Assigned&#39;)),AND(ISCHANGED(OwnerId),BEGINS(PRIORVALUE(OwnerId), &quot;005&quot;),OR(BEGINS(OwnerId, &quot;005&quot;), OwnerId = &#39;00Gd0000000SdP5&#39;))),
+ISBLANK(Order_Number__c),
+RecordType.DeveloperName = &#39;Invoicing&#39;,
+ISPICKVAL(Type, &#39;Invoicing&#39;),
+(RecordTypeId &lt;&gt; &quot;012d000000097TB&quot;),
+(RecordTypeId &lt;&gt; &quot;012d000000097TC&quot;),
+$Setup.Validation_Rules__c.Bypass_Rules__c = false
 )</errorConditionFormula>
     <errorDisplayField>Order_Number__c</errorDisplayField>
     <errorMessage>Please provide the Order Number</errorMessage>

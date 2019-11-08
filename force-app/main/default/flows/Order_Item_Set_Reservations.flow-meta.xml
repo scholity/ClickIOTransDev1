@@ -93,7 +93,6 @@
             <label>Is Course or Kit</label>
         </rules>
     </decisions>
-    <interviewLabel>Order Item Set Reservations {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Order Item Set Reservations</label>
     <loops>
         <name>Loop_Through_Order_Items</name>

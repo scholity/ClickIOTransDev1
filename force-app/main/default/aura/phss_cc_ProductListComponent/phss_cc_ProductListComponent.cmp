@@ -119,7 +119,7 @@
 
         <aura:set attribute="else">
             <div class="slds-border--top slds-border--bottom">
-                <lightning:formattedText class="slds-align_absolute-center slds-text-heading--small"
+                <lightning:formattedText class="slds-align_absolute-center slds-text-heading--small slds-p-vertical_large"
                                          value="{!$Label.c.ProductSearch_OnLoad_Message}"/>
             </div>
         </aura:set>

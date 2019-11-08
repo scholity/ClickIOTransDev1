@@ -179,32 +179,29 @@
                 <processMetadataValues>
                     <name>inputDataType</name>
                     <value>
-                        <stringValue>Boolean</stringValue>
+                        <stringValue>DateTime</stringValue>
                     </value>
                 </processMetadataValues>
                 <processMetadataValues>
                     <name>leftHandSideType</name>
                     <value>
-                        <stringValue>Boolean</stringValue>
+                        <stringValue>DateTime</stringValue>
                     </value>
                 </processMetadataValues>
                 <processMetadataValues>
                     <name>operatorDataType</name>
                     <value>
-                        <stringValue>Boolean</stringValue>
+                        <stringValue>DateTime</stringValue>
                     </value>
                 </processMetadataValues>
                 <processMetadataValues>
                     <name>rightHandSideType</name>
                     <value>
-                        <stringValue>Boolean</stringValue>
+                        <stringValue>GlobalConstant</stringValue>
                     </value>
                 </processMetadataValues>
-                <leftValueReference>myVariable_current.Is_Completed_Date_Updated__c</leftValueReference>
+                <leftValueReference>myVariable_current.Completed_Date__c</leftValueReference>
                 <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
             </conditions>
             <connector>
                 <targetReference>myRule_15_A1</targetReference>
@@ -437,7 +434,7 @@
                 <stringValue>NOW ()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_10_myRule_9_A1_6648161871</name>
+        <name>formula_10_myRule_9_A1_6535262917</name>
         <dataType>DateTime</dataType>
         <expression>NOW ()</expression>
     </formulas>
@@ -448,7 +445,7 @@
                 <stringValue>NOW ()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_13_myRule_12_A1_5558003798</name>
+        <name>formula_13_myRule_12_A1_6822907473</name>
         <dataType>DateTime</dataType>
         <expression>NOW ()</expression>
     </formulas>
@@ -459,7 +456,7 @@
                 <stringValue>Now()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_16_myRule_15_A1_1533954469</name>
+        <name>formula_16_myRule_15_A1_1868978515</name>
         <dataType>DateTime</dataType>
         <expression>Now()</expression>
     </formulas>
@@ -470,7 +467,7 @@
                 <stringValue>NOW ()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_19_myRule_18_A1_2298381709</name>
+        <name>formula_19_myRule_18_A1_1455401857</name>
         <dataType>DateTime</dataType>
         <expression>NOW ()</expression>
     </formulas>
@@ -481,7 +478,7 @@
                 <stringValue>NOW ()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_4_myRule_3_A1_6695326853</name>
+        <name>formula_4_myRule_3_A1_3756462065</name>
         <dataType>DateTime</dataType>
         <expression>NOW ()</expression>
     </formulas>
@@ -492,12 +489,12 @@
                 <stringValue>NOW ()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_7_myRule_6_A1_8035386120</name>
+        <name>formula_7_myRule_6_A1_7550252726</name>
         <dataType>DateTime</dataType>
         <expression>NOW ()</expression>
     </formulas>
-    <interviewLabel>Training_Event_Time_Stamps-2_InterviewLabel</interviewLabel>
-    <label>Training Event Time Stamps Updated</label>
+    <interviewLabel>Training_Event_Time_Stamps-4_InterviewLabel</interviewLabel>
+    <label>Training Event Time Stamps Updated V2</label>
     <processMetadataValues>
         <name>ObjectType</name>
         <value>
@@ -613,7 +610,7 @@
             </processMetadataValues>
             <field>Rescheduling_Date__c</field>
             <value>
-                <elementReference>formula_13_myRule_12_A1_5558003798</elementReference>
+                <elementReference>formula_13_myRule_12_A1_6822907473</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -708,7 +705,7 @@
             </processMetadataValues>
             <field>Completed_Date__c</field>
             <value>
-                <elementReference>formula_16_myRule_15_A1_1533954469</elementReference>
+                <elementReference>formula_16_myRule_15_A1_1868978515</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -839,7 +836,7 @@
             </processMetadataValues>
             <field>Void_Date__c</field>
             <value>
-                <elementReference>formula_19_myRule_18_A1_2298381709</elementReference>
+                <elementReference>formula_19_myRule_18_A1_1455401857</elementReference>
             </value>
         </inputAssignments>
         <object>Training_Events__c</object>
@@ -1107,7 +1104,7 @@
             </processMetadataValues>
             <field>In_Discussion_Customer_Hold_Date__c</field>
             <value>
-                <elementReference>formula_4_myRule_3_A1_6695326853</elementReference>
+                <elementReference>formula_4_myRule_3_A1_3756462065</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1283,7 +1280,7 @@
             </processMetadataValues>
             <field>In_Discussion_Scheduling_Date__c</field>
             <value>
-                <elementReference>formula_7_myRule_6_A1_8035386120</elementReference>
+                <elementReference>formula_7_myRule_6_A1_7550252726</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1432,7 +1429,7 @@
             </processMetadataValues>
             <field>Sent_Addendum_Date__c</field>
             <value>
-                <elementReference>formula_10_myRule_9_A1_6648161871</elementReference>
+                <elementReference>formula_10_myRule_9_A1_6535262917</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>

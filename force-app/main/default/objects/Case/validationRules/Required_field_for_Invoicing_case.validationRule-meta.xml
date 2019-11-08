@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Required_field_for_Invoicing_case</fullName>
-    <active>false</active>
+    <active>true</active>
     <description>When PHSS Channel on Account (Delivery Channel on Invoice Case) = RCS Retail or RCS Distributor, this field is available.  Not available when Delivery Channel is anything else.</description>
     <errorConditionFormula>AND(OR( 
 INCLUDES(Account.PHSS_Channel__c, &#39;AED&#39;), 
@@ -14,7 +14,8 @@ INCLUDES(Account.PHSS_Channel__c, &#39;NAT Agency&#39;),
 INCLUDES(Account.PHSS_Channel__c, &#39;National Account Network&#39;) 
 ), 
 RecordType.DeveloperName = &quot;Invoicing&quot;, 
-NOT(External_LOGIN_EMAIL__c == null))</errorConditionFormula>
+NOT(External_LOGIN_EMAIL__c == null),
+$Setup.Validation_Rules__c.Bypass_Rules__c = FALSE)</errorConditionFormula>
     <errorDisplayField>External_LOGIN_EMAIL__c</errorDisplayField>
     <errorMessage>This field is only Available for RCS Retail and RCS Distributor Accounts</errorMessage>
 </ValidationRule>

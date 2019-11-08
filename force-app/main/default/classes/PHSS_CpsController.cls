@@ -61,7 +61,6 @@ public without sharing class PHSS_CpsController {
         try {
             
             List<ccrz__E_CartItem__c> updatedCartItems = new list<ccrz__E_CartItem__c>();
-        	List<ccrz__E_OrderItem__c> updatedOrderItems = new list<ccrz__E_OrderItem__c>();
             List<ccrz__E_Order__c> updatedOrders = new List<ccrz__E_Order__c>();
             
             //System.debug('JSON:'+jsonStr);
@@ -166,6 +165,22 @@ public without sharing class PHSS_CpsController {
                 newClass.Class_Online_To__c = rco_post_endTime.dateGmt();
             }
             newClass.Class_Searchable__c = true;
+            
+            //Get Order Item information
+            if (cpsWrap.oppId != null && cpsWrap.ccProductId != null) {
+                for (ccrz__E_OrderItem__c theOrderItem : [Select Id, ccrz__Product__c, ccrz__Order__c From ccrz__E_OrderItem__c
+                                                          Where ccrz__Order__r.ccrz__OriginatedCart__r.Opportunity__c = :cpsWrap.oppId And ccrz__E_OrderItem__c.ccrz__Product__c = :cpsWrap.ccProductId]) {
+                            newClass.CPS_Order__c = theOrderItem.ccrz__Order__c;
+                            newClass.CPS_Order_Item__c = theOrderItem.Id;
+
+                            ccrz__E_Order__c newOrder = new ccrz__E_Order__c();
+                            newOrder.Id = theOrderItem.ccrz__Order__c;
+                            newOrder.CRE_Request_Processed__c = true;
+                            updatedOrders.add(newOrder);                                            
+                }
+            }
+
+            
             insert newClass;
             
             Integer sessionIndex = 0;
@@ -224,38 +239,6 @@ public without sharing class PHSS_CpsController {
                                                             newCartItem.ILT_Class__c = classID;
                                                             updatedCartItems.add(newCartItem);                		
                                                         }
-                // US1521 - If this is CRE, Order Lines will already be created
-                // In this case, we need to write ILT Class Id on Order Item record(s)
-                
-                for (ccrz__E_OrderItem__c theOrderItem : [Select Id, ccrz__Product__c, ILT_Class__c, ccrz__Order__c From ccrz__E_OrderItem__c
-                                                          Where ccrz__Order__r.ccrz__OriginatedCart__r.Opportunity__c = :cpsWrap.oppId And ccrz__E_OrderItem__c.ccrz__Product__c = :cpsWrap.ccProductId]) {
-                                                              
-                                                              ccrz__E_OrderItem__c newOrderItem = new ccrz__E_OrderItem__c();
-                                                              
-                                                              newOrderItem.Id = theOrderItem.Id;	
-                                                              newOrderItem.ILT_Class__c = classID;
-                                                              updatedOrderItems.add(newOrderItem);
-                                                          }
-                
-                /*
-                // US1521 - If this is CRE, Order Lines will already be created
-                // In this case, we need to write ILT Class Id on Order Item record(s)
-                
-                for (ccrz__E_OrderItem__c theOrderItem : [Select Id, ccrz__Product__c, ILT_Class__c, ccrz__Order__c From ccrz__E_OrderItem__c
-                                                          Where ccrz__Order__r.ccrz__OriginatedCart__r.Opportunity__c = :cpsWrap.oppId]) {
-                                                              
-                                                              ccrz__E_OrderItem__c newOrderItem = new ccrz__E_OrderItem__c();
-                                                              newOrderItem.Id = theOrderItem.Id;	
-                                                              newOrderItem.ILT_Class__c = classID;
-                                                              updatedOrderItems.add(newOrderItem);
-                                                              
-                                                              ccrz__E_Order__c newOrder = new ccrz__E_Order__c();
-                                                              newOrder.Id = theOrderItem.ccrz__Order__c;
-                                                              newOrder.CRE_Request_Processed__c = true;
-                                                              updatedOrders.add(newOrder);
-
-                                                          }
-				*/
             } 
             
             
@@ -263,14 +246,10 @@ public without sharing class PHSS_CpsController {
                 update updatedCartItems;
             }
             
-            if (updatedOrderItems.size() > 0) {
-                update updatedOrderItems;
-            }	
-            
-
             if (updatedOrders.size() > 0) {
                 update updatedOrders;
             }
+            
 
         }
         catch(Exception e) {
@@ -405,7 +384,7 @@ public without sharing class PHSS_CpsController {
                                                 }
         
         try {
-            addToCartResult = phss_cc_CartUtil_CPS.addProductsToCart(opportunitySfid,productQuantityMap,true);
+            addToCartResult = phss_cc_CartUtil.addProductsToCart(opportunitySfid,productQuantityMap,true);
         } catch (Exception e) {
             addToCartResult = phss_cc_Exception.getErrorMessageMap(e.getMessage());
         }
@@ -428,7 +407,7 @@ public without sharing class PHSS_CpsController {
         
         return addToCartResult;
 	}
-
+	/*
     @AuraEnabled 
     public static Boolean checkURL(String url) { 
     
@@ -445,6 +424,6 @@ public without sharing class PHSS_CpsController {
         
 			return false;
     }
-
+	*/
 
 }

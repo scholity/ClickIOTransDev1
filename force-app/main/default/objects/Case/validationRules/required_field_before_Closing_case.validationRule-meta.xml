@@ -4,11 +4,11 @@
     <active>true</active>
     <description>required_field_before_Closing_case when invoice case subtype = Customer Service Credit or Price and Issue = Store.</description>
     <errorConditionFormula>AND
-(OR(ISPICKVAL(  Dispute_Issue__c, &#39;Customer Service Credit&#39;),
-ISPICKVAL(  Dispute_Issue__c, &#39;Price&#39;)
+(OR(ISPICKVAL( Dispute_Issue__c, &#39;Customer Service Credit&#39;),
+ISPICKVAL( Dispute_Issue__c, &#39;Price&#39;)
 ),
 ISPICKVAL( Type, &#39;Invoicing&#39;),
-ISPICKVAL( Status, &#39;Closed - Invoicing&#39;),
+Requested_Amount_of_Change__c &gt; 50,
 ISPICKVAL( BOS_Approval__c, &quot;&quot;)
 
 )</errorConditionFormula>

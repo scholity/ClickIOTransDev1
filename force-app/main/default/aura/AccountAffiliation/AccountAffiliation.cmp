@@ -8,15 +8,22 @@
     <!-- Message components -->
     <aura:attribute name = "messageType"              type = "String"     default = "" />
     <aura:attribute name = "message"              type = "String"     default = "" /> 
-    <aura:attribute name = "isError"              type = "Boolean"     default = "false" />  
+    <aura:attribute name = "isError"              type = "Boolean"     default = "false" /> 
     
-    <div class="slds-float_right slds-p-around_small slds-size_1-of-5">
-        <lightning:button label="Remove Affiliation" onclick="{!c.removeAffiliation}" />  
-    </div>
-    
-    <aura:if isTrue="{!v.isError}">
-        <c:MessageComponent type="{!v.messageType}" message="{!v.message}"/>
-    </aura:if>
+    <br/>
+    <div class="slds-grid">
+        <div class="slds-col">
+            <lightning:layout >
+                <aura:if isTrue="{!v.isError}">
+                    <c:MessageComponent type="{!v.messageType}" message="{!v.message}"/>
+                </aura:if>
+            </lightning:layout>
+        </div>
+        <div class="slds-col slds-text-align_right">
+            <lightning:button label="Remove Affiliation" onclick="{!c.removeAffiliation}" />  
+        </div>        
+    </div>  
+    <br/>
     
     <aura:if isTrue="{!v.loadingSpinner }">
         <lightning:spinner alternativeText="Loading" variant="brand" size="large"/>
@@ -37,19 +44,19 @@
                         </div>
                     </div>
                 </th>
-                <th aria-label="Account Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                <th aria-label="Organization " aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
                     <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
-                        <span class="slds-truncate" title="Account Name">Account Name</span>
+                        <span class="slds-truncate" title="Organization ">Organization</span>
                     </div>
                 </th>
-                <th aria-label="Account Address" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                <th aria-label="Organization Address" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
                     <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
-                        <span class="slds-truncate" title="Account Address">Account Address</span>
+                        <span class="slds-truncate" title="Organization Address">Organization Address</span>
                     </div>
                 </th>
-                <th aria-label="Account Contact Relations" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                <th aria-label="Role" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
                     <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
-                        <span class="slds-truncate" title="Account Contact Relations">Account Contact Relations</span>
+                        <span class="slds-truncate" title="Role">Role</span>
                     </div>
                 </th>
             </tr>

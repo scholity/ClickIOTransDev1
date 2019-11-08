@@ -32,16 +32,15 @@ public with sharing class phss_cc_ProductListComponentController {
      */
     @AuraEnabled
     public static Map<String, Object> searchProducts(String opportunitySfid,String searchString) {
-        System.debug('JASON: searchProducts(' + opportunitySfid + ', ' + searchString + ')');
-        Map<String, Object> searchResult;
         
+        Map<String, Object> searchResult;
         try {
-//            searchResult = phss_cc_ProductUtil.productSearch(opportunitySfid,searchString);
-            searchResult = phss_cc_ProductUtil.productSearchExcludingOnlineCommCourses(opportunitySfid,searchString);
+            searchResult = phss_cc_ProductUtil.productSearchExcludingNonOnlineCommCourses(opportunitySfid,searchString);
+        
         } catch (Exception e) {
             searchResult = phss_cc_Exception.getErrorMessageMap(e.getMessage());
         }
-        System.debug('JASON: searchResult: ' + searchResult);
+        
         return searchResult;
     }
 

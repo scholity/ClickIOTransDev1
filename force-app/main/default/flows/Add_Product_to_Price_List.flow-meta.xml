@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <assignments>
         <name>Add_to_Price_Group_Price_List</name>
         <label>Add to Price Group Price List</label>
-        <locationX>615</locationX>
-        <locationY>383</locationY>
+        <locationX>499</locationX>
+        <locationY>390</locationY>
         <assignmentItems>
             <assignToReference>outPriceListItems</assignToReference>
             <operator>Add</operator>
@@ -19,8 +19,8 @@
     <assignments>
         <name>Assign_Price_Lists</name>
         <label>Assign Price Lists</label>
-        <locationX>753</locationX>
-        <locationY>383</locationY>
+        <locationX>698</locationX>
+        <locationY>391</locationY>
         <assignmentItems>
             <assignToReference>sPriceListItem.ccrz__EndDate__c</assignToReference>
             <operator>Assign</operator>
@@ -63,8 +63,8 @@
     <assignments>
         <name>Null_Discount_Value</name>
         <label>Null Discount Value</label>
-        <locationX>959</locationX>
-        <locationY>390</locationY>
+        <locationX>895</locationX>
+        <locationY>389</locationY>
         <assignmentItems>
             <assignToReference>sPriceLists.Discount__c</assignToReference>
             <operator>Assign</operator>
@@ -76,46 +76,6 @@
             <targetReference>Assign_Price_Lists</targetReference>
         </connector>
     </assignments>
-    <choices>
-        <name>chAPLTP</name>
-        <choiceText>AP/LTP</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>AP/LTP</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>chCommunity</name>
-        <choiceText>Community</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Community</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>chFullService</name>
-        <choiceText>Full Service</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Full Service</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>chOnline</name>
-        <choiceText>Online</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Online</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>chOther</name>
-        <choiceText>Other</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Other</stringValue>
-        </value>
-    </choices>
     <choices>
         <name>CPS</name>
         <choiceText>CPS</choiceText>
@@ -157,7 +117,7 @@
     <decisions>
         <name>Check_Discount_Value</name>
         <label>Check Discount Value</label>
-        <locationX>948</locationX>
+        <locationX>895</locationX>
         <locationY>254</locationY>
         <defaultConnector>
             <targetReference>Assign_Price_Lists</targetReference>
@@ -182,8 +142,8 @@
     <decisions>
         <name>Include_Price_List</name>
         <label>Include Price List</label>
-        <locationX>762</locationX>
-        <locationY>229</locationY>
+        <locationX>700</locationX>
+        <locationY>254</locationY>
         <defaultConnector>
             <targetReference>Loop_through_Price_Lists_to_Add</targetReference>
         </defaultConnector>
@@ -192,7 +152,7 @@
             <name>Include</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Price_List_Selection</leftValueReference>
+                <leftValueReference>Select_Price_Lists</leftValueReference>
                 <operator>Contains</operator>
                 <rightValue>
                     <elementReference>sPriceLists.Id</elementReference>
@@ -204,7 +164,6 @@
             <label>Include</label>
         </rules>
     </decisions>
-    <description>Added price listed second page selection</description>
     <dynamicChoiceSets>
         <name>AvailablePriceLists</name>
         <dataType>String</dataType>
@@ -217,20 +176,6 @@
             </value>
         </filters>
         <filters>
-            <field>Price_Channel__c</field>
-            <operator>Contains</operator>
-            <value>
-                <elementReference>Pricing_Channel</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Product_Catagory__c</field>
-            <operator>Contains</operator>
-            <value>
-                <elementReference>Product_Catagory</elementReference>
-            </value>
-        </filters>
-        <filters>
             <field>ccrz__EndDate__c</field>
             <operator>GreaterThan</operator>
             <value>
@@ -239,16 +184,12 @@
         </filters>
         <filters>
             <field>ccrz__Storefront__c</field>
-            <operator>Contains</operator>
+            <operator>EqualTo</operator>
             <value>
-                <elementReference>Storefront_1</elementReference>
+                <elementReference>GeneralStore</elementReference>
             </value>
         </filters>
         <object>ccrz__E_PriceList__c</object>
-        <outputAssignments>
-            <assignToReference>sPriceLists.Discount__c</assignToReference>
-            <field>Discount__c</field>
-        </outputAssignments>
         <outputAssignments>
             <assignToReference>sPriceLists.Id</assignToReference>
             <field>Id</field>
@@ -257,54 +198,14 @@
             <assignToReference>sPriceLists.Name</assignToReference>
             <field>Name</field>
         </outputAssignments>
-        <outputAssignments>
-            <assignToReference>sPriceLists.Price_Channel__c</assignToReference>
-            <field>Price_Channel__c</field>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>sPriceLists.Product_Catagory__c</assignToReference>
-            <field>Product_Catagory__c</field>
-        </outputAssignments>
         <sortField>Name</sortField>
         <sortOrder>Asc</sortOrder>
         <valueField>Id</valueField>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
-        <name>Catagory</name>
-        <dataType>Multipicklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Product_Catagory__c</picklistField>
-        <picklistObject>ccrz__E_PriceList__c</picklistObject>
-        <sortOrder>Asc</sortOrder>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>Channels</name>
-        <dataType>Multipicklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Price_Channel__c</picklistField>
-        <picklistObject>ccrz__E_PriceList__c</picklistObject>
-        <sortOrder>Asc</sortOrder>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
         <name>SelectedPriceLists</name>
         <dataType>String</dataType>
         <displayField>Name</displayField>
-        <filters>
-            <field>Price_Channel__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Pricing_Channel</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Product_Catagory__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Product_Catagory</elementReference>
-            </value>
-        </filters>
         <filters>
             <field>ccrz__Enabled__c</field>
             <operator>EqualTo</operator>
@@ -319,20 +220,11 @@
                 <elementReference>$Flow.CurrentDate</elementReference>
             </value>
         </filters>
-        <filters>
-            <field>ccrz__Storefront__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Storefront_1</elementReference>
-            </value>
-        </filters>
         <object>ccrz__E_PriceList__c</object>
         <outputAssignments>
             <assignToReference>sPriceLists.Id</assignToReference>
             <field>Id</field>
         </outputAssignments>
-        <sortField>Name</sortField>
-        <sortOrder>Asc</sortOrder>
         <valueField>Id</valueField>
     </dynamicChoiceSets>
     <formulas>
@@ -346,8 +238,8 @@
     <loops>
         <name>Loop_through_Price_Lists_to_Add</name>
         <label>Loop through Price Lists to Add</label>
-        <locationX>615</locationX>
-        <locationY>137</locationY>
+        <locationX>499</locationX>
+        <locationY>136</locationY>
         <assignNextValueToReference>sPriceLists</assignNextValueToReference>
         <collectionReference>colAvailablePriceLists</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -358,43 +250,23 @@
             <targetReference>Create_Price_List_Item</targetReference>
         </noMoreValuesConnector>
     </loops>
-    <processMetadataValues>
-        <name>BuilderType</name>
-        <value>
-            <stringValue>LightningFlowBuilder</stringValue>
-        </value>
-    </processMetadataValues>
     <processType>Flow</processType>
     <recordCreates>
         <name>Create_Price_List_Item</name>
         <label>Create Price List Item</label>
-        <locationX>955</locationX>
-        <locationY>124</locationY>
+        <locationX>845</locationX>
+        <locationY>97</locationY>
         <inputReference>outPriceListItems</inputReference>
     </recordCreates>
     <recordLookups>
         <name>Get_Available_Price_Lists</name>
         <label>Get Available Price Lists</label>
-        <locationX>449</locationX>
-        <locationY>21</locationY>
+        <locationX>127</locationX>
+        <locationY>130</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Select_Price_Lists_2</targetReference>
+            <targetReference>Establish_Base_Price</targetReference>
         </connector>
-        <filters>
-            <field>Price_Channel__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Pricing_Channel</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Product_Catagory__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Product_Catagory</elementReference>
-            </value>
-        </filters>
         <filters>
             <field>ccrz__Enabled__c</field>
             <operator>EqualTo</operator>
@@ -409,31 +281,22 @@
                 <elementReference>$Flow.CurrentDate</elementReference>
             </value>
         </filters>
-        <filters>
-            <field>ccrz__Storefront__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Storefront_1</elementReference>
-            </value>
-        </filters>
         <object>ccrz__E_PriceList__c</object>
         <outputReference>colAvailablePriceLists</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>Name</queriedFields>
         <queriedFields>Discount__c</queriedFields>
-        <queriedFields>Product_Catagory__c</queriedFields>
-        <queriedFields>Price_Channel__c</queriedFields>
         <sortField>Name</sortField>
         <sortOrder>Asc</sortOrder>
     </recordLookups>
     <recordLookups>
         <name>Get_Product_Information</name>
         <label>Get Product Information</label>
-        <locationX>180</locationX>
+        <locationX>127</locationX>
         <locationY>17</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Establish_Base_Price</targetReference>
+            <targetReference>Get_Available_Price_Lists</targetReference>
         </connector>
         <filters>
             <field>Id</field>
@@ -450,13 +313,13 @@
     <screens>
         <name>Establish_Base_Price</name>
         <label>Establish Base Price</label>
-        <locationX>313</locationX>
-        <locationY>18</locationY>
+        <locationX>306</locationX>
+        <locationY>132</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Get_Available_Price_Lists</targetReference>
+            <targetReference>Loop_through_Price_Lists_to_Add</targetReference>
         </connector>
         <fields>
             <name>Product</name>
@@ -516,45 +379,10 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
-            <name>Pricing_Channel</name>
-            <choiceReferences>chAPLTP</choiceReferences>
-            <choiceReferences>chCommunity</choiceReferences>
-            <choiceReferences>chFullService</choiceReferences>
-            <choiceReferences>chOnline</choiceReferences>
-            <choiceReferences>chOther</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Pricing Channel</fieldText>
-            <fieldType>MultiSelectPicklist</fieldType>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>Product_Catagory</name>
-            <choiceReferences>Catagory</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Product Catagory</fieldText>
-            <fieldType>MultiSelectPicklist</fieldType>
-            <isRequired>false</isRequired>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <description>List of price lists to be used</description>
-        <name>Select_Price_Lists_2</name>
-        <label>Select Price Lists</label>
-        <locationX>455</locationX>
-        <locationY>136</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>Loop_through_Price_Lists_to_Add</targetReference>
-        </connector>
-        <fields>
-            <name>Price_List_Selection</name>
+            <name>Select_Price_Lists</name>
             <choiceReferences>SelectedPriceLists</choiceReferences>
             <dataType>String</dataType>
-            <fieldText>Price List Selection</fieldText>
+            <fieldText>Select Price Lists</fieldText>
             <fieldType>MultiSelectCheckboxes</fieldType>
             <isRequired>false</isRequired>
         </fields>
@@ -562,7 +390,7 @@
         <showHeader>true</showHeader>
     </screens>
     <startElementReference>Get_Product_Information</startElementReference>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>cCPS</name>
         <dataType>String</dataType>

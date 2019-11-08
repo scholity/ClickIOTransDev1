@@ -12,13 +12,13 @@
     <assignments>
         <name>Assign_Case_Values</name>
         <label>Assign Case Values</label>
-        <locationX>676</locationX>
-        <locationY>204</locationY>
+        <locationX>677</locationX>
+        <locationY>202</locationY>
         <assignmentItems>
             <assignToReference>sCase.RecordTypeId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>ServiceRecordTypeID</elementReference>
+                <elementReference>rtServiceCaseID</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -124,7 +124,7 @@
     <formulas>
         <name>fDescription</name>
         <dataType>String</dataType>
-        <expression>{!sLearningAssignment.redwing__Contact__c}&amp;&quot;,&quot; &amp; {!sLearningAssignment.redwing__Training_Plan__c} &amp; &quot;-Learning Assignment: &quot; &amp; {!sLearningAssignment.Name} &amp; &quot; for&quot; &amp; &quot; has been submitted for approval.&quot;</expression>
+        <expression>&quot;Learning Assignment: &quot; &amp; {!sLearningAssignment.Name} &amp; &quot; has been submitted for approval.&quot;</expression>
     </formulas>
     <interviewLabel>Create Learning Assignment Approver Case {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Create Learning Assignment Approver Case</label>
@@ -153,7 +153,7 @@
         <name>Check_if_Case_Exists</name>
         <label>Check if Case Exists</label>
         <locationX>177</locationX>
-        <locationY>46</locationY>
+        <locationY>45</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Found_Existing_Case_Record</targetReference>
@@ -204,11 +204,11 @@
     <recordLookups>
         <name>Get_Contact_from_User</name>
         <label>Get Contact from User</label>
-        <locationX>676</locationX>
+        <locationX>677</locationX>
         <locationY>45</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Case_Values</targetReference>
+            <targetReference>Get_Service_Case_Record_Type_ID</targetReference>
         </connector>
         <filters>
             <field>Id</field>
@@ -255,6 +255,36 @@
         <queriedFields>redwing__User__c</queriedFields>
         <queriedFields>redwing__Progress_Percentage__c</queriedFields>
     </recordLookups>
+    <recordLookups>
+        <description>Get the Service Case Record Type Record ID</description>
+        <name>Get_Service_Case_Record_Type_ID</name>
+        <label>Get Service Case Record Type ID</label>
+        <locationX>857</locationX>
+        <locationY>114</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Case_Values</targetReference>
+        </connector>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Service_Cases</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Case</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>rtServiceCaseID</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
     <startElementReference>Check_if_Case_Exists</startElementReference>
     <status>Active</status>
     <variables>
@@ -266,6 +296,13 @@
         <value>
             <stringValue/>
         </value>
+    </variables>
+    <variables>
+        <name>rtServiceCaseID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <description>Case Record</description>
